@@ -59,12 +59,19 @@ _자세한 UI는 오른쪽 링크를 통해 확인하실 수 있습니다._
 
 ![](plan/main.jpg)
 
+## 프로젝트 계획
+
+![](plan/mileston.jpg)
+
 ## 기술 스택
+
 ### Frontend
+
 - HTML, CSS, JavaScript
 - webpack, sass
 
 ### Backend
+
 - Express
 - MongoDB
 - bcrypt
