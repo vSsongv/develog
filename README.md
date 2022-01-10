@@ -2,7 +2,7 @@
 
 ## 조원
 
-김민성 송진영 안현서 원종빈
+김민성, 송진영, 안현서, 원종빈
 
 ## 프로젝트 기간
 
@@ -36,7 +36,8 @@ DB 연동을 통해 데이터 관리
 
 ## UI / 스토리보드
 
-(!develog UI design)[]
+_자세한 UI는 오른쪽 링크를 통해 확인하실 수 있습니다._
+[Figma UI Link](https://www.figma.com/file/EtaoLOngEQHhQa84e2qY3n/Untitled)
 
 - 로그인 페이지
 - 회원가입 페이지
@@ -59,11 +60,11 @@ DB 연동을 통해 데이터 관리
 ![](plan/main.jpg)
 
 ## 기술 스택
-
-- Frontend
+### Frontend
 - HTML, CSS, JavaScript
 - webpack, sass
-- Backend
+
+### Backend
 - Express
 - MongoDB
 - bcrypt
