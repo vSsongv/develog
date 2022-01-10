@@ -5,10 +5,6 @@ const path = require('path');
 const cookieParser = require('cookie-parser');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
-const session = require('express-session');
-const MongoStore = require('connect-mongo');
-
-const db = require('./db');
 
 const app = express();
 const PORT = 9000;
