@@ -8,7 +8,7 @@ const PRODUCTION = 'production';
 const ENVIRONMENT = process.env.NODE_ENV || DEVELOPMENT;
 
 // const urls = ['index', 'mypage', 'mypageEdit', 'signin', 'signup', 'findUser', 'uploadPost', 'editPost', 'detail'];
-const urls = ['index'];
+const urls = ['index', 'develog'];
 const htmlWebpackPlugins = () =>
   urls.map(
     url =>
@@ -25,6 +25,7 @@ module.exports = {
   plugins: [...htmlWebpackPlugins(), new MiniCssExtractPlugin(), new CleanWebpackPlugin()],
   entry: {
     main: ['@babel/polyfill', './src/js/index.js', './src/scss/index.scss'],
+    develog: ['@babel/polyfill', './src/js/develog.js', './src/scss/index.scss'],
     // mypage: ['@babel/polyfill', './src/js/mypage.js'],
     // mypageEdit: ['@babel/polyfill', './src/js/mypageEdit.js'],
     // signin: ['@babel/polyfill', './src/js/signin.js'],

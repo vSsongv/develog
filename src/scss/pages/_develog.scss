@@ -1,0 +1,34 @@
+@use '../utils' as *;
+
+.container {
+  min-width: rem(1000px);
+}
+
+.popular-posts,
+.all-posts {
+  display: flex;
+  border: 1px solid $gray;
+  padding: rem(20px);
+  margin: rem(10px) 0;
+}
+
+.popular-posts {
+  height: rem(180%);
+}
+
+.all-posts {
+  display: grid;
+  padding: rem(20px) rem(20px) 0;
+  //한번에 4개씩 뿌려줄것. 글 개수가 40개라면 세로는 포스트 세로 * 10만큼.
+  // height: calc(rem(150%) * --num);
+  height: 600px;
+  grid-template-areas:
+    'post post post post'
+    'post post post post'
+    'post post post post'
+    'post post post post';
+}
+
+.post {
+  grid-area: post;
+}
