@@ -1,24 +1,24 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const {
+  CleanWebpackPlugin
+} = require('clean-webpack-plugin');
 
 const DEVELOPMENT = 'development';
 const PRODUCTION = 'production';
 const ENVIRONMENT = process.env.NODE_ENV || DEVELOPMENT;
 
 // const urls = ['index', 'mypage', 'mypageEdit', 'signin', 'signup', 'findUser', 'uploadPost', 'editPost', 'detail'];
-const urls = ['index'];
-const htmlWebpackPlugins = () =>
-  urls.map(
-    url =>
-      new HtmlWebpackPlugin({
-        title: 'develog',
-        filename: `${url}.html`,
-        template: `src/${url}.html`,
-        chunks: [url === 'index' ? 'main' : url],
-      })
-  );
+const urls = ['index', 'signin', 'signup'];
+const htmlWebpackPlugins = () => urls.map(
+  url => new HtmlWebpackPlugin({
+    title: 'develog',
+    filename: `${url}.html`,
+    template: `src/${url}.html`,
+    chunks: [url === 'index' ? 'main' : url],
+  })
+);
 
 module.exports = {
   mode: ENVIRONMENT,
@@ -27,8 +27,8 @@ module.exports = {
     main: ['@babel/polyfill', './src/js/index.js', './src/scss/index.scss'],
     // mypage: ['@babel/polyfill', './src/js/mypage.js'],
     // mypageEdit: ['@babel/polyfill', './src/js/mypageEdit.js'],
-    // signin: ['@babel/polyfill', './src/js/signin.js'],
-    // signup: ['@babel/polyfill', './src/js/signup.js'],
+    signin: ['@babel/polyfill', './src/js/signin.js', './src/scss/index.scss'],
+    signup: ['@babel/polyfill', './src/js/signup.js', './src/scss/index.scss'],
     // findUser: ['@babel/polyfill', './src/js/findUser.js'],
     // uploadPost: ['@babel/polyfill', './src/js/uploadPost.js'],
     // detail: ['@babel/polyfill', './src/js/detail.js'],
@@ -37,8 +37,7 @@ module.exports = {
     path: path.resolve(__dirname, `${ENVIRONMENT === DEVELOPMENT ? 'build' : 'dist'}`),
   },
   module: {
-    rules: [
-      {
+    rules: [{
         test: /\.(png|jpe?g|gif)$/i,
         type: 'asset/resource',
         generator: {
@@ -47,12 +46,12 @@ module.exports = {
       },
       {
         test: /\.html$/,
-        use: [
-          {
-            loader: 'html-loader',
-            options: { minimize: true },
+        use: [{
+          loader: 'html-loader',
+          options: {
+            minimize: true
           },
-        ],
+        }, ],
         include: [path.resolve(__dirname, 'src')],
       },
       {
@@ -80,7 +79,9 @@ module.exports = {
                       features: {
                         'nesting-rules': true,
                       },
-                      autoprefixer: { grid: true },
+                      autoprefixer: {
+                        grid: true
+                      },
                     },
                   ],
                 ],
