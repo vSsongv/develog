@@ -9,7 +9,7 @@ const ENVIRONMENT = process.env.NODE_ENV || DEVELOPMENT;
 
 // const urls = ['index', 'mypage', 'mypageEdit', 'signin', 'signup', 'findUser', 'uploadPost', 'editPost', 'detail'];
 
-const urls = ['index', 'signin', 'signup'];
+const urls = ['index', 'detail', 'signin', 'signup'];
 const htmlWebpackPlugins = () =>
   urls.map(
     url =>
