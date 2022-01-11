@@ -1,16 +1,17 @@
 @use '../utils' as *;
 
 .develog-container {
-  min-width: rem(1000px);
+  min-width: rem(1100px);
   width: 70%;
   margin: 0 auto;
+  li {
+    cursor: pointer;
+  }
 }
 
 .post {
-  height: rem(150%);
-  width: rem(150%);
+  height: rem(250%);
   padding: rem(10px);
-  margin: 0 rem(20px);
   line-height: 200%;
   border-radius: rem(5px);
   word-break: break-all;
@@ -19,7 +20,7 @@
 
   &__title {
     display: block;
-    font-size: rem(20px);
+    font-size: rem(25px);
     font-weight: 700px;
     margin-bottom: rem(20px);
   }
@@ -38,34 +39,39 @@
 
 .popular-posts,
 .all-posts {
-  display: flex;
   border: 1px solid $gray;
   border-radius: rem(5px);
   padding: rem(20px);
 
   &__title {
-    font-size: rem(20px);
+    font-size: rem(23px);
     font-weight: 700;
   }
 }
 
-li {
-  cursor: pointer;
-}
-
 .popular-posts {
-  height: rem(180%);
-  margin: rem(15px) 0;
+  height: rem(300%);
+  margin: rem(30px) 0 rem(15px);
+  display: flex;
+  justify-content: center;
+
+  .post {
+    width: rem(250%);
+    margin: rem(5%) rem(20px) 0;
+  }
 }
 
 .all-posts {
-  display: grid;
-  padding: rem(20px) rem(20px) 0;
-  //한번에 4개씩 뿌려줄것. 글 개수가 40개라면 세로는 포스트 세로 * 10만큼.
-  // height: calc(rem(150%) * --num);
-  height: 300px;
-  grid-template-areas: 'post post post post';
-
+  width: 100%;
+  .post-sizer,
+  .post {
+    margin-bottom: rem(25px);
+    background: aquamarine;
+    width: 22%;
+    @media all and (min-width: 1000px) and (max-width: 1520px) {
+      // width: 30%;
+    }
+  }
   &__title {
     display: block;
     margin-top: rem(30px);
