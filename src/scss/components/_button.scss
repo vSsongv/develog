@@ -32,3 +32,9 @@ button.double-check{
     margin: rem(10px);
   }
 }
+
+.avatar-button {
+  all: unset;
+  cursor: pointer;
+  border-radius: rem(50%);
+}
