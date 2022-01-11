@@ -107,13 +107,12 @@ button.double-check {
 .see-more {
   all: unset;
   cursor: pointer;
-  border-radius: rem(7px);
-  width: rem(80px);
-  height: rem(30px);
-  color: $white;
-  background: $blue;
+  border-radius: rem(10px);
+  width: rem(90%);
+  height: rem(30%);
   text-align: center;
-  margin-top: rem(50%);
+  background: $blue;
+  color: $white;
   position: absolute;
   bottom: 0;
   left: 50%;
