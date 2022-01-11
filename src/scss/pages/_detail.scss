@@ -1,0 +1,185 @@
+@use '../layout/layout' as *;
+@use '../utils/unit' as *;
+@use '../utils/colors' as *;
+@use '../components' as *;
+
+.header {
+  width: 300px;
+  height: 150px;
+  margin: 0 auto;
+  margin-bottom: rem(40px);
+  background-color: yellow;
+}
+
+.btn {
+  appearance: none;
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+}
+
+// post part
+.post {
+  margin-bottom: rem(100px);
+
+  &__title {
+    font-size: rem(40px);
+    margin-bottom: rem(30px);
+  }
+
+  &__info {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+
+    position: relative;
+    margin-bottom: rem(100px);
+
+    :nth-child(n) {
+      margin-right: rem(15px);
+    }
+
+    .avatar-button {
+      width: rem(60px);
+      height: rem(60px);
+    }
+
+    // 동적데이터
+    .author {
+      font-size: rem(20px);
+    }
+
+    i {
+      font-size: rem(25px);
+    }
+
+    .fullheart {
+      color: $fullheart;
+    }
+
+    .edit {
+      position: absolute;
+      right: 0;
+    }
+
+    .pencil-btn {
+      right: rem(50px);
+    }
+  }
+
+  &__content {
+    height: 50%;
+    margin-bottom: rem(100px);
+  }
+}
+
+.comments-title {
+  display: block;
+  font-size: rem(25px);
+  margin-bottom: rem(40px);
+}
+
+// comment-input part
+.comments-input-box {
+  display: flex;
+  position: relative;
+  align-items: center;
+
+  margin-bottom: rem(50px);
+
+  .input-box {
+    dispay: inline-block;
+    padding: 0 rem(40px) 0 rem(10px);
+    border: none;
+    border-bottom: 2px solid #5c5a5a;
+    opacity: 0.5;
+    width: 100%;
+    height: rem(40px);
+
+    // word-break: break-all;
+    // white-space: pre-wrap;
+    outline: none;
+    transition: all 0.3s ease-in-out;
+
+    &-container {
+      position: relative;
+      display: flex;
+      align-items: center;
+      width: 75%;
+
+      .input-comment {
+        position: absolute;
+        color: #bababa;
+        margin-left: rem(10px);
+      }
+    }
+
+    &__cancel {
+      position: absolute;
+      right: rem(10px);
+    }
+
+    &:hover {
+      opacity: 1;
+    }
+    &:focus {
+      opacity: 1;
+      border-bottom: 2px solid lightblue;
+    }
+  }
+
+  &__upload {
+    border: 1px solid #3333;
+    display: inline;
+    width: rem(60px);
+    height: rem(40px);
+  }
+}
+
+//  comment part
+.comment {
+  margin-bottom: 30%;
+  border: 1px solid black;
+  margin: rem(20px) rem(20px) rem(20px) 0;
+
+  display: flex;
+  align-items: center;
+
+  position: relative;
+
+  &__user-info {
+    display: flex;
+    align-items: center;
+    padding: rem(15px);
+
+    .avatar-button--size {
+      width: rem(40px);
+      height: rem(40px);
+
+      margin-right: rem(10px);
+    }
+    .user-id {
+      margin-right: rem(10px);
+      font-size: rem(20px);
+    }
+  }
+
+  &__text {
+    white-space: pre-wrap;
+    word-break: break-all;
+
+    display: block;
+    border-left: 1px solid black;
+    width: 75%;
+
+    padding: rem(30px);
+  }
+  .edit {
+    position: absolute;
+    right: rem(10px);
+    font-size: rem(25px);
+  }
+  .pencil-btn {
+    right: rem(50px);
+  }
+}
