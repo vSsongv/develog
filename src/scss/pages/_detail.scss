@@ -3,14 +3,6 @@
 @use '../utils/colors' as *;
 @use '../components' as *;
 
-.header {
-  width: 300px;
-  height: 150px;
-  margin: 0 auto;
-  margin-bottom: rem(40px);
-  background-color: yellow;
-}
-
 .btn {
   appearance: none;
   border: none;
