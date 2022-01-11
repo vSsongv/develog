@@ -4,11 +4,51 @@
 .button {
   all: unset;
   cursor: pointer;
-  border-radius: rem(5px);
+  border-radius: rem(10px);
   width: rem(150px);
   height: rem(50px);
   text-align: center;
   color: $white;
   font-size: rem(16px);
   background: $blue;
+  border: 2px solid;
+  box-sizing: border-box;
+
+  &--login {
+    margin-left: rem(30px);
+    width: rem(120px);
+    height: rem(40px);
+    background-color: $black;
+    border: 2px solid $black;
+    transition: all 0.3s;
+
+    &:hover {
+      background-color: $white;
+      border: 2px solid $black;
+      color: $black;
+      box-sizing: border-box;
+    }
+  }
+
+  &--edit {
+    background-color: $blue;
+    transition: all 0.3s;
+    &:hover {
+      background-color: $white;
+      border: 2px solid $blue;
+      color: $blue;
+      font-weight: 700;
+    }
+  }
+  &--withdrawal {
+    border: 2px solid $red;
+    background-color: $red;
+    transition: all 0.3s;
+    &:hover {
+      background-color: $white;
+      border: 2px solid $red;
+      color: $red;
+      font-weight: 700;
+    }
+  }
 }
