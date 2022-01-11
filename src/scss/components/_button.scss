@@ -103,3 +103,18 @@ button.double-check {
   cursor: pointer;
   border-radius: rem(50%);
 }
+
+.see-more {
+  all: unset;
+  cursor: pointer;
+  border-radius: rem(10px);
+  width: rem(100px);
+  height: rem(30px);
+  text-align: center;
+  background: $blue;
+  color: $white;
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+}
