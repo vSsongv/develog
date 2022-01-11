@@ -1,6 +1,6 @@
 const msnry = new Masonry('.posts-container', {
   itemSelector: '.main-post',
-  columnWidth: '.post-sizer',
+  columnWidth: '.main-post-sizer',
   percentPosition: true,
   gutter: 20,
 });

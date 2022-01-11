@@ -3,7 +3,7 @@
 @use '../utils/colors' as *;
 @use '../components' as *;
 
-.container {
+.detail-container {
   width: 50%;
   margin: 0 auto;
 }
@@ -16,8 +16,8 @@
 }
 
 // post part
-.post {
-  margin-bottom: rem(100px);
+.detail {
+  // margin-bottom: rem(100px);
 
   &__title {
     font-size: rem(40px);
@@ -89,12 +89,16 @@
 
   .textarea {
     dispay: inline-block;
+    resize: none;
+    appearance: none;
+    overflow: hidden;
+    font-size: rem(20px);
     padding: 0 rem(40px) 0 rem(10px);
     border: none;
-    border-bottom: 2px solid #5c5a5a;
+    border: 2px solid #5c5a5a;
     opacity: 0.3;
     width: 100%;
-    height: rem(40px);
+    height: rem(60px);
 
     // word-break: break-all;
     // white-space: pre-wrap;
@@ -124,7 +128,6 @@
     }
     &:focus {
       opacity: 1;
-      border: 2px solid black;
     }
   }
 
@@ -132,7 +135,7 @@
     border: 1px solid #3333;
     display: inline;
     width: rem(60px);
-    height: rem(40px);
+    height: rem(60px);
   }
 }
 
@@ -140,11 +143,11 @@
 .comment {
   margin-bottom: 0;
   border: 1px solid black;
-  margin: rem(20px) rem(20px) rem(20px) 0;
+  margin: 0 0 rem(100px) 0;
 
   display: flex;
   align-items: center;
-
+  widht: 100%;
   position: relative;
 
   &__user-info {
@@ -170,7 +173,7 @@
 
     display: block;
     border-left: 1px solid black;
-    width: 75%;
+    width: 60%;
 
     padding: rem(30px);
   }
