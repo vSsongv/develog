@@ -1,0 +1,14 @@
+@use '../layout' as *;
+@use '../utils' as *;
+
+.logo{
+  text-align: center;
+  margin-top: rem(50px);
+  font-size: rem(40px);
+}
+
+.sign-form{
+  margin: rem(70px) auto;
+  width: rem(60%);
+  min-width: rem(320px);
+}
