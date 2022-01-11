@@ -8,8 +8,12 @@ const PRODUCTION = 'production';
 const ENVIRONMENT = process.env.NODE_ENV || DEVELOPMENT;
 
 // const urls = ['index', 'mypage', 'mypageEdit', 'signin', 'signup', 'findUser', 'uploadPost', 'editPost', 'detail'];
+<<<<<<< HEAD
+const urls = ['index', 'header', 'mypage'];
+=======
 
 const urls = ['index', 'signin', 'signup'];
+>>>>>>> 94d017d7ae811e452a3bb6418c0389e24d2152b5
 const htmlWebpackPlugins = () =>
   urls.map(
     url =>
@@ -26,7 +30,8 @@ module.exports = {
   plugins: [...htmlWebpackPlugins(), new MiniCssExtractPlugin(), new CleanWebpackPlugin()],
   entry: {
     main: ['@babel/polyfill', './src/js/index.js', './src/scss/index.scss'],
-    // mypage: ['@babel/polyfill', './src/js/mypage.js'],
+    header: ['@babel/polyfill', './src/js/index.js', './src/scss/index.scss'],
+    mypage: ['@babel/polyfill', './src/js/mypage.js', './src/scss/index.scss'],
     // mypageEdit: ['@babel/polyfill', './src/js/mypageEdit.js'],
     signin: ['@babel/polyfill', './src/js/signin.js', './src/scss/index.scss'],
     signup: ['@babel/polyfill', './src/js/signup.js', './src/scss/index.scss'],
