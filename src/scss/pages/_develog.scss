@@ -20,8 +20,8 @@
   &__title {
     display: block;
     font-size: rem(20px);
-    font-weight: rem(800px);
-    margin-bottom: rem(10px);
+    font-weight: 700px;
+    margin-bottom: rem(20px);
   }
 
   &__desc {
@@ -45,7 +45,7 @@
 
   &__title {
     font-size: rem(20px);
-    font-weight: rem(30px);
+    font-weight: 700;
   }
 }
 
@@ -63,12 +63,12 @@ li {
   padding: rem(20px) rem(20px) 0;
   //한번에 4개씩 뿌려줄것. 글 개수가 40개라면 세로는 포스트 세로 * 10만큼.
   // height: calc(rem(150%) * --num);
-  height: 600px;
+  height: 300px;
   grid-template-areas: 'post post post post';
 
   &__title {
     display: block;
     margin-top: rem(30px);
-    margin-bottom: rem(10px);
+    margin-bottom: rem(20px);
   }
 }
