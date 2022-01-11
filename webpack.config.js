@@ -7,7 +7,7 @@ const DEVELOPMENT = 'development';
 const PRODUCTION = 'production';
 const ENVIRONMENT = process.env.NODE_ENV || DEVELOPMENT;
 
-const urls = ['index', 'detail', 'signin', 'signup', 'header', 'mypage', 'develog'];
+const urls = ['index', 'detail', 'signin', 'signup', 'header', 'mypage', 'develog', 'uploadPost', 'mypage_edit'];
 
 const htmlWebpackPlugins = () =>
   urls.map(
@@ -29,11 +29,11 @@ module.exports = {
     mypage: ['@babel/polyfill', './src/js/mypage.js', './src/js/header.js', './src/scss/index.scss'],
     develog: ['@babel/polyfill', './src/js/develog.js', './src/js/header.js', './src/scss/index.scss'],
     // mypage: ['@babel/polyfill', './src/js/mypage.js'],
-    // mypageEdit: ['@babel/polyfill', './src/js/mypageEdit.js'],
+    mypage_edit: ['@babel/polyfill', './src/js/mypageEdit.js', './src/scss/index.scss'],
     signin: ['@babel/polyfill', './src/js/signin.js', './src/scss/index.scss'],
     signup: ['@babel/polyfill', './src/js/signup.js', './src/scss/index.scss'],
     // findUser: ['@babel/polyfill', './src/js/findUser.js'],
-    // uploadPost: ['@babel/polyfill', './src/js/uploadPost.js'],
+    uploadPost: ['@babel/polyfill', './src/js/uploadPost.js', './src/scss/index.scss', './src/js/header.js'],
     detail: ['@babel/polyfill', './src/js/detail.js', './src/js/header.js', './src/scss/index.scss'],
   },
   output: {
