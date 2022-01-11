@@ -1,4 +1,4 @@
-@use '../utils/unit' as *;
+@use '../utils' as *;
 
 .header {
   width: 100%;
@@ -21,22 +21,40 @@
 .search--form {
   display: flex;
   align-items: center;
+  position: relative;
   #search {
     height: rem(35px);
-    width: rem(300px);
-    border-radius: rem(5px);
-    border-width: rem(1px);
+    width: rem(250px);
+    border: none;
+    border-bottom: 1px solid $black;
+    border-width: rem(2px);
+    font-size: rem(16px);
     box-sizing: border-box;
     padding: 0 rem(10px);
+    transition: all 0.5s;
 
     &:focus {
       outline: none;
     }
   }
+
+  .search--hidden {
+    width: 0 !important;
+    padding: 0 !important;
+    border-width: 0px;
+    caret-color: transparent;
+  }
+
   .fa-search {
+    position: absolute;
+    right: 0px;
+    top: -2px;
+    z-index: 10;
     margin-left: rem(10px);
     font-size: rem(25px);
     cursor: pointer;
+    padding: rem(5px);
+    background-color: $white;
   }
 }
 
