@@ -1,4 +1,6 @@
-// const mockData = require('../../mockData.js');
-
-// console.log(mockData.default.users);
-// console.log(mockData.default.posts);
+const msnry = new Masonry('.posts-container', {
+  itemSelector: '.main-post',
+  columnWidth: '.main-post-sizer',
+  percentPosition: true,
+  gutter: 20,
+});

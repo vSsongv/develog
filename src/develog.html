@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ssong-develog</title>
+    <script src="https://unpkg.com/masonry-layout@4/dist/masonry.pkgd.min.js"></script>
+
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.12.0/css/all.css" />
+  </head>
+  <body>
+    <header class="header">
+      <h1 class="header--logo">develog</h1>
+
+      <form class="search--form" action="">
+        <input id="search" class="hidden" type="text" />
+        <label for="search" class="fas fa-search"></label>
+      </form>
+
+      <button class="button button--login">Login</button>
+
+      <div class="user hidden">
+        <img class="avatar" src="./assets/avatar.png" alt="avatar image" />
+      </div>
+
+      <nav class="nav-box hidden">
+        <ul>
+          <li>내 블로그</li>
+          <li>마이페이지</li>
+          <li>로그아웃</li>
+        </ul>
+      </nav>
+    </header>
+    <section class="develog-container">
+      <span class="popular-posts__title">인기 포스트 TOP 3</span>
+      <i class="fas fa-heart"></i>
+      <ul class="popular-posts">
+        <li class="post">
+          <span class="post__title">title</span>
+          <span class="post__desc">내용내용내용내용내용내용내용내용</span>
+        </li>
+        <li class="post">
+          <span class="post__title">title</span>
+          <span class="post__desc">내용내용내용내용내용내용내용내용</span>
+        </li>
+        <li class="post">
+          <span class="post__title">title</span>
+          <span class="post__desc">내용내용내용내용내용내용내용내용</span>
+        </li>
+      </ul>
+      <span class="all-posts__title">전체 포스트</span>
+      <ul class="all-posts">
+        <li class="post-sizer"></li>
+        <li class="post">
+          <span class="post__title">title</span>
+          <span class="post__desc">내용내용내용내용내용내용내용내용</span>
+        </li>
+        <li class="post">
+          <span class="post__title">title</span>
+          <span class="post__desc">내용내용내용내용내용내용내용내용</span>
+        </li>
+        <li class="post">
+          <span class="post__title">title</span>
+          <span class="post__desc">내용내용내용내용내용내용내용내용</span>
+        </li>
+        <li class="post">
+          <span class="post__title">title</span>
+          <span class="post__desc">내용내용내용내용내용내용내용내용</span>
+        </li>
+        <li class="post">
+          <span class="post__title">title</span>
+          <span class="post__desc">내용내용내용내용내용내용내용내용</span>
+        </li>
+      </ul>
+    </section>
+  </body>
+</html>

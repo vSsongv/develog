@@ -9,11 +9,54 @@
   height: rem(50px);
   text-align: center;
   color: $white;
+  font-size: rem(16px);
+  background: $blue;
+  border: 2px solid;
+  box-sizing: border-box;
+
+  &--login {
+    margin-left: rem(30px);
+    width: rem(120px);
+    height: rem(40px);
+    background-color: $black;
+    border: 2px solid $black;
+    transition: all 0.3s;
+
+    &:hover {
+      background-color: $white;
+      border: 2px solid $black;
+      color: $black;
+      box-sizing: border-box;
+    }
+  }
+
+  &--edit {
+    background-color: $blue;
+    transition: all 0.3s;
+    &:hover {
+      background-color: $white;
+      border: 2px solid $blue;
+      color: $blue;
+      font-weight: 700;
+    }
+  }
+  &--withdrawal {
+    border: 2px solid $red;
+    background-color: $red;
+    transition: all 0.3s;
+    &:hover {
+      background-color: $white;
+      border: 2px solid $red;
+      color: $red;
+      font-weight: 700;
+    }
+  }
+
   font-size: rem(20px);
   background: #333;
-}                                                                                                                                                                                                     
+}
 
-button.double-check{
+button.double-check {
   position: absolute;
   right: -100px;
   top: 51%;
@@ -25,10 +68,16 @@ button.double-check{
   // background-color: rgb(199, 199, 199);
 }
 
-.sign-buttons{
+.sign-buttons {
   margin-top: rem(50px);
   text-align: center;
-  & .button{
+  & .button {
     margin: rem(10px);
   }
+}
+
+.avatar-button {
+  all: unset;
+  cursor: pointer;
+  border-radius: rem(50%);
 }

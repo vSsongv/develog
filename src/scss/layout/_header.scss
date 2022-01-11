@@ -1,0 +1,110 @@
+@use '../utils' as *;
+
+.header {
+  width: 100%;
+  padding: 0 rem(50px);
+  height: rem(150px);
+  display: flex;
+  align-items: center;
+  box-sizing: border-box;
+  &--logo {
+    justify-items: start;
+    margin-right: auto;
+    cursor: pointer;
+    font-size: rem(40px);
+    img {
+      height: rem(50px);
+    }
+  }
+}
+
+.search--form {
+  display: flex;
+  align-items: center;
+  position: relative;
+  #search {
+    height: rem(35px);
+    width: rem(250px);
+    border: none;
+    border-bottom: 1px solid $black;
+    border-width: rem(2px);
+    font-size: rem(16px);
+    box-sizing: border-box;
+    padding: 0 rem(10px);
+    transition: all 0.5s;
+
+    &:focus {
+      outline: none;
+    }
+  }
+
+  .search--hidden {
+    width: 0 !important;
+    padding: 0 !important;
+    border-width: 0px;
+    caret-color: transparent;
+  }
+
+  .fa-search {
+    position: absolute;
+    right: 0px;
+    top: -2px;
+    z-index: 10;
+    margin-left: rem(10px);
+    font-size: rem(25px);
+    cursor: pointer;
+    padding: rem(5px);
+    background-color: $white;
+  }
+}
+
+.user {
+  display: flex;
+  align-items: center;
+  margin-left: rem(30px);
+
+  img {
+    height: rem(45px);
+    cursor: pointer;
+  }
+}
+
+.nav-box {
+  position: absolute;
+  right: rem(20px);
+  top: rem(130px);
+  border-radius: rem(10px);
+  background-color: aliceblue;
+
+  ul {
+    li {
+      padding: rem(15px) rem(35px);
+      cursor: pointer;
+      text-align: center;
+
+      &:first-child:hover {
+        border-radius: rem(10px) rem(10px) 0 0;
+        background-color: antiquewhite;
+      }
+
+      &:hover {
+        background-color: antiquewhite;
+      }
+
+      &:last-child:hover {
+        border-radius: 0 0 rem(10px) rem(10px);
+        background-color: antiquewhite;
+      }
+    }
+  }
+  &::after {
+    content: '';
+    position: absolute;
+    top: rem(-15px);
+    right: rem(40px);
+    border-top: 0px solid transparent;
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    border-bottom: 15px solid aliceblue;
+  }
+}
