@@ -39,6 +39,7 @@
 
 .popular-posts,
 .all-posts {
+  position: relative;
   border: 1px solid $gray;
   border-radius: rem(5px);
   padding: rem(20px);

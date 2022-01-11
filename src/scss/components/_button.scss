@@ -81,3 +81,19 @@ button.double-check {
   cursor: pointer;
   border-radius: rem(50%);
 }
+
+.see-more {
+  all: unset;
+  cursor: pointer;
+  border-radius: rem(7px);
+  width: rem(80px);
+  height: rem(30px);
+  color: $white;
+  background: $blue;
+  text-align: center;
+  margin-top: rem(50%);
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+}
