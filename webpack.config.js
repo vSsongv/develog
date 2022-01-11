@@ -7,7 +7,7 @@ const DEVELOPMENT = 'development';
 const PRODUCTION = 'production';
 const ENVIRONMENT = process.env.NODE_ENV || DEVELOPMENT;
 
-const urls = ['index', 'detail', 'signin', 'signup', 'header', 'mypage'];
+const urls = ['index', 'detail', 'signin', 'signup', 'header', 'mypage', 'develog'];
 
 const htmlWebpackPlugins = () =>
   urls.map(
