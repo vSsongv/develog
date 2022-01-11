@@ -12,3 +12,9 @@
   font-size: rem(16px);
   background: $blue;
 }
+
+.avatar-button {
+  all: unset;
+  cursor: pointer;
+  border-radius: rem(50%);
+}
