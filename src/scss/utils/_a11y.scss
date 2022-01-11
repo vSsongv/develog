@@ -13,3 +13,7 @@
 .a11yHidden {
     @include a11yHidden();
 }
+
+.hidden {
+    display: none !important;
+  }
