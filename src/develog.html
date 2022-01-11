@@ -7,6 +7,28 @@
     <title>ssong-develog</title>
   </head>
   <body>
+    <header class="header">
+      <h1 class="header--logo">develog</h1>
+
+      <form class="search--form" action="">
+        <input id="search" class="hidden" type="text" />
+        <label for="search" class="fas fa-search"></label>
+      </form>
+
+      <button class="button button--login">Login</button>
+
+      <div class="user hidden">
+        <img class="avatar" src="./assets/avatar.png" alt="avatar image" />
+      </div>
+
+      <nav class="nav-box hidden">
+        <ul>
+          <li>내 블로그</li>
+          <li>마이페이지</li>
+          <li>로그아웃</li>
+        </ul>
+      </nav>
+    </header>
     <section class="develog-container">
       <span class="popular-posts__title">인기있는 포스트</span>
       <ul class="popular-posts">
