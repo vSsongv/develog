@@ -5,6 +5,13 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>develog Upload page</title>
+    <link
+      rel="stylesheet"
+      href="https://use.fontawesome.com/releases/v5.15.4/css/all.css"
+      integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm"
+      crossorigin="anonymous"
+    />
+    <link href="https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css" rel="stylesheet" />
   </head>
   <body>
     <header class="header">
@@ -29,5 +36,18 @@
         </ul>
       </nav>
     </header>
+
+    <h1 class="upload-post a11yHidden">포스트 제목 입력</h1>
+    <main class="upload-container">
+      <section class="upload">
+        <form class="upload__form" method="post">
+          <label for="upload-title"></label>
+          <input id="upload-title" type="text" placeholder="제목을 입력하세요" />
+          <textarea class="upload__form__textarea"> </textarea>
+
+          <button type="submit" class="upload__form__submit button">작성완료</button>
+        </form>
+      </section>
+    </main>
   </body>
 </html>

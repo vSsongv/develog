@@ -33,7 +33,7 @@ module.exports = {
     signin: ['@babel/polyfill', './src/js/signin.js', './src/scss/index.scss'],
     signup: ['@babel/polyfill', './src/js/signup.js', './src/scss/index.scss'],
     // findUser: ['@babel/polyfill', './src/js/findUser.js'],
-    uploadPost: ['@babel/polyfill', './src/js/uploadPost.js', './src/scss/index.scss'],
+    uploadPost: ['@babel/polyfill', './src/js/uploadPost.js', './src/scss/index.scss', './src/js/header.js'],
     detail: ['@babel/polyfill', './src/js/detail.js', './src/js/header.js', './src/scss/index.scss'],
   },
   output: {
