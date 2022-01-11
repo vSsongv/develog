@@ -8,7 +8,7 @@ const PRODUCTION = 'production';
 const ENVIRONMENT = process.env.NODE_ENV || DEVELOPMENT;
 
 // const urls = ['index', 'mypage', 'mypageEdit', 'signin', 'signup', 'findUser', 'uploadPost', 'editPost', 'detail'];
-const urls = ['index'];
+const urls = ['index', 'detail'];
 const htmlWebpackPlugins = () =>
   urls.map(
     url =>
@@ -31,7 +31,7 @@ module.exports = {
     // signup: ['@babel/polyfill', './src/js/signup.js'],
     // findUser: ['@babel/polyfill', './src/js/findUser.js'],
     // uploadPost: ['@babel/polyfill', './src/js/uploadPost.js'],
-    // detail: ['@babel/polyfill', './src/js/detail.js'],
+    detail: ['@babel/polyfill', './src/js/detail.js', './src/scss/index.scss'],
   },
   output: {
     path: path.resolve(__dirname, `${ENVIRONMENT === DEVELOPMENT ? 'build' : 'dist'}`),
