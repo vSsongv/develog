@@ -7,15 +7,14 @@
   display: flex;
   align-items: center;
   box-sizing: border-box;
-}
-
-.logo {
-  justify-items: start;
-  margin-right: auto;
-  cursor: pointer;
-  font-size: rem(40px);
-  img {
-    height: rem(50px);
+  &--logo {
+    justify-items: start;
+    margin-right: auto;
+    cursor: pointer;
+    font-size: rem(40px);
+    img {
+      height: rem(50px);
+    }
   }
 }
 
