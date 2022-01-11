@@ -1,14 +1,133 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://unpkg.com/masonry-layout@4/dist/masonry.pkgd.min.js"></script>
+    <title>Document</title>
+  </head>
 
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
-</head>
+  <body>
+    <header class="header">
+      <h1 class="header--logo">develog</h1>
 
-<body>
-  <h1>whdqlsWkd</h1>
-</body>
+      <form class="search--form" action="">
+        <input id="search" class="hidden" type="text" />
+        <label for="search" class="fas fa-search"></label>
+      </form>
 
+      <button class="button button--login">Login</button>
+
+      <div class="user hidden">
+        <img class="avatar" src="./assets/avatar.png" alt="avatar image" />
+      </div>
+
+      <nav class="nav-box hidden">
+        <ul>
+          <li>내 블로그</li>
+          <li>마이페이지</li>
+          <li>로그아웃</li>
+        </ul>
+      </nav>
+    </header>
+    <section class="main-container">
+      <ul class="posts-container">
+        <li class="post-sizer"></li>
+        <li class="main-post">
+          <div class="user-info">
+            <button class="avatar-button avatar-button--main"></button><a class="user-id">user</a>
+          </div>
+          <span class="main-post__title">title1</span
+          ><span class="main-post__desc">놀라지놀라지마달라진달라진너heylitsen</span>
+        </li>
+        <li class="main-post">
+          <div class="user-info">
+            <button class="avatar-button avatar-button--main"></button><a class="user-id">user</a>
+          </div>
+          <span class="main-post__title">title2</span
+          ><span class="main-post__desc"
+            >놀라지놀라지마달라진달라진너heylitsen지금넌differentweapon`~~aimittotheworld~~rollthisgame빈틈을노려~</span
+          >
+        </li>
+        <li class="main-post">
+          <div class="user-info">
+            <button class="avatar-button avatar-button--main"></button><a class="user-id">user</a>
+          </div>
+          <span class="main-post__title">title3</span><img src="https://i.postimg.cc/gkQkrcf3/4.png" />
+          <span class="main-post__desc">놀라지놀라지마달라진달라진너heylitsen</span>
+        </li>
+        <li class="main-post">
+          <div class="user-info">
+            <button class="avatar-button avatar-button--main"></button><a class="user-id">user</a>
+          </div>
+          <span class="main-post__title">title4</span><img src="https://i.postimg.cc/vHc0VhBL/cisco3.jpg" />
+          <span class="main-post__desc">놀라지놀라지마달라진달라진너heylitsen</span>
+        </li>
+        <li class="main-post">
+          <div class="user-info">
+            <button class="avatar-button avatar-button--main"></button><a class="user-id">user</a>
+          </div>
+          <span class="main-post__title">title</span
+          ><span class="main-post__desc">놀라지놀라지마달라진달라진너heylitsen지금넌differentweapon~~</span>
+        </li>
+        <li class="main-post">
+          <div class="user-info">
+            <button class="avatar-button avatar-button--main"></button><a class="user-id">user</a>
+          </div>
+          <span class="main-post__title">title5</span><img src="https://i.postimg.cc/gkQkrcf3/4.png" /><span
+            class="main-post__desc"
+            >놀라지놀라지마달라진달라진너heylitsen</span
+          >
+        </li>
+        <li class="main-post">
+          <div class="user-info">
+            <button class="avatar-button avatar-button--main"></button><a class="user-id">user</a>
+          </div>
+          <span class="main-post__title">title6</span><img src="https://i.postimg.cc/vHc0VhBL/cisco3.jpg" /><span
+            class="main-post__desc"
+            >놀라지놀라지마달라진달라진너heylitsen</span
+          >
+        </li>
+        <li class="main-post">
+          <a class="user-info">
+            <button class="avatar-button avatar-button--main"></button><a class="user-id">user</a> </a
+          ><span class="main-post__title">title7</span
+          ><span class="main-post__desc">놀라지놀라지마달라진달라진너heylitsen</span>
+        </li>
+        <li class="main-post">
+          <div class="user-info">
+            <button class="avatar-button avatar-button--main"></button><a class="user-id">user</a>
+          </div>
+          <span class="main-post__title">title8</span><img src="https://i.postimg.cc/gkQkrcf3/4.png" /><span
+            class="main-post__desc"
+            >놀라지놀라지마달라진달라진너heylitsen</span
+          >
+        </li>
+        <li class="main-post">
+          <div class="user-info">
+            <button class="avatar-button avatar-button--main"></button><a class="user-id">user</a>
+          </div>
+          <span class="main-post__title">title9</span
+          ><span class="main-post__desc">놀라지놀라지마달라진달라진너heylitsen</span>
+        </li>
+        <li class="main-post">
+          <div class="user-info">
+            <button class="avatar-button avatar-button--main"></button><a class="user-id">user</a>
+          </div>
+          <span class="main-post__title">title10</span
+          ><span class="main-post__desc">놀라지놀라지마달라진달라진너heylitsen</span>
+        </li>
+        <li class="main-post">
+          <div class="user-info">
+            <button class="avatar-button avatar-button--main"></button><a class="user-id">user</a>
+          </div>
+          <span class="main-post__title">title11</span><img src="https://i.postimg.cc/vHc0VhBL/cisco3.jpg" /><span
+            class="main-post__desc"
+            >놀라지놀라지마달라진달라진너heylitsen</span
+          >
+        </li>
+      </ul>
+    </section>
+  </body>
 </html>

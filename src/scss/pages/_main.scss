@@ -1,0 +1,87 @@
+@use '../utils' as *;
+
+li {
+  cursor: pointer;
+}
+
+a {
+  text-decoration: none;
+}
+a:visited {
+  color: black;
+  text-decoration: none;
+}
+
+.main-container {
+  width: 70%;
+  min-width: rem(1000px);
+  margin: rem(20px) auto;
+  border-radius: rem(5px);
+}
+
+.posts-container {
+  width: 100%;
+  margin: rem(20px);
+}
+
+.test {
+  margin: rem(10px);
+  height: 100px;
+  width: 100px;
+}
+
+.post-sizer,
+.main-post {
+  width: 23%;
+}
+.main-post {
+  border: 2px solid $gray;
+  margin-bottom: 15px;
+  word-break: break-all;
+  border-radius: rem(5px);
+  box-sizing: border-box;
+  padding: rem(20px);
+  line-height: 200%;
+
+  &__title {
+    display: block;
+    font-size: rem(30px);
+    font-weight: rem(800px);
+    margin: rem(20px) 0;
+  }
+
+  &__desc {
+    font-size: rem(20px);
+  }
+  img {
+    display: block;
+    margin: rem(20px) auto;
+    width: 70%;
+    height: 70%;
+  }
+
+  .user-info {
+    display: flex;
+    align-items: center;
+  }
+
+  .avatar-button--main {
+    background: url('../assets/doctorStrange_profile.jpg') no-repeat;
+    background-size: cover;
+    height: rem(50%);
+    width: rem(50%);
+    object-fit: contain;
+  }
+
+  .user-id {
+    margin-left: rem(10px);
+    font-size: rem(25px);
+  }
+}
+
+.main-post:hover {
+  transition: all 0.5s;
+  transition-timing-function: ease;
+  position: relative;
+  transform: translateY(-10px);
+}

@@ -7,9 +7,7 @@ const DEVELOPMENT = 'development';
 const PRODUCTION = 'production';
 const ENVIRONMENT = process.env.NODE_ENV || DEVELOPMENT;
 
-// const urls = ['index', 'mypage', 'mypageEdit', 'signin', 'signup', 'findUser', 'uploadPost', 'editPost', 'detail'];
-
-const urls = ['index', 'detail', 'signin', 'signup', 'header', 'mypage'];
+const urls = ['index', 'detail', 'signin', 'signup', 'header', 'mypage', 'develog'];
 
 const htmlWebpackPlugins = () =>
   urls.map(
@@ -26,15 +24,17 @@ module.exports = {
   mode: ENVIRONMENT,
   plugins: [...htmlWebpackPlugins(), new MiniCssExtractPlugin(), new CleanWebpackPlugin()],
   entry: {
-    main: ['@babel/polyfill', './src/js/index.js', './src/scss/index.scss'],
+    main: ['@babel/polyfill', './src/js/index.js', './src/js/header.js', './src/scss/index.scss'],
     header: ['@babel/polyfill', './src/js/index.js', './src/scss/index.scss'],
-    mypage: ['@babel/polyfill', './src/js/mypage.js', './src/scss/index.scss'],
+    mypage: ['@babel/polyfill', './src/js/mypage.js', './src/js/header.js', './src/scss/index.scss'],
+    develog: ['@babel/polyfill', './src/js/develog.js', './src/js/header.js', './src/scss/index.scss'],
+    // mypage: ['@babel/polyfill', './src/js/mypage.js'],
     // mypageEdit: ['@babel/polyfill', './src/js/mypageEdit.js'],
     signin: ['@babel/polyfill', './src/js/signin.js', './src/scss/index.scss'],
     signup: ['@babel/polyfill', './src/js/signup.js', './src/scss/index.scss'],
     // findUser: ['@babel/polyfill', './src/js/findUser.js'],
     // uploadPost: ['@babel/polyfill', './src/js/uploadPost.js'],
-    detail: ['@babel/polyfill', './src/js/detail.js', './src/scss/index.scss'],
+    detail: ['@babel/polyfill', './src/js/detail.js', './src/js/header.js', './src/scss/index.scss'],
   },
   output: {
     path: path.resolve(__dirname, `${ENVIRONMENT === DEVELOPMENT ? 'build' : 'dist'}`),
