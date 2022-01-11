@@ -8,12 +8,9 @@ const PRODUCTION = 'production';
 const ENVIRONMENT = process.env.NODE_ENV || DEVELOPMENT;
 
 // const urls = ['index', 'mypage', 'mypageEdit', 'signin', 'signup', 'findUser', 'uploadPost', 'editPost', 'detail'];
-<<<<<<< HEAD
-const urls = ['index', 'header', 'mypage'];
-=======
 
-const urls = ['index', 'signin', 'signup'];
->>>>>>> 94d017d7ae811e452a3bb6418c0389e24d2152b5
+const urls = ['index', 'detail', 'signin', 'signup', 'header', 'mypage'];
+
 const htmlWebpackPlugins = () =>
   urls.map(
     url =>
