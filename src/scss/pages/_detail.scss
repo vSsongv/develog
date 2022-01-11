@@ -3,6 +3,11 @@
 @use '../utils/colors' as *;
 @use '../components' as *;
 
+.container {
+  width: 50%;
+  margin: 0 auto;
+}
+
 .btn {
   appearance: none;
   border: none;
@@ -25,7 +30,7 @@
     align-items: center;
 
     position: relative;
-    margin-bottom: rem(100px);
+    margin-bottom: rem(60px);
 
     :nth-child(n) {
       margin-right: rem(15px);
@@ -60,31 +65,34 @@
   }
 
   &__content {
-    height: 50%;
+    height: 100%;
     margin-bottom: rem(100px);
+    font-size: rem(29px);
+    // word-break: break-all;
+    white-space: pre-wrap;
   }
 }
 
 .comments-title {
   display: block;
   font-size: rem(25px);
-  margin-bottom: rem(40px);
+  margin-bottom: rem(20px);
 }
 
 // comment-input part
-.comments-input-box {
+.user-comment {
   display: flex;
   position: relative;
   align-items: center;
 
   margin-bottom: rem(50px);
 
-  .input-box {
+  .textarea {
     dispay: inline-block;
     padding: 0 rem(40px) 0 rem(10px);
     border: none;
     border-bottom: 2px solid #5c5a5a;
-    opacity: 0.5;
+    opacity: 0.3;
     width: 100%;
     height: rem(40px);
 
@@ -116,7 +124,7 @@
     }
     &:focus {
       opacity: 1;
-      border-bottom: 2px solid lightblue;
+      border: 2px solid black;
     }
   }
 
@@ -130,7 +138,7 @@
 
 //  comment part
 .comment {
-  margin-bottom: 30%;
+  margin-bottom: 0;
   border: 1px solid black;
   margin: rem(20px) rem(20px) rem(20px) 0;
 
@@ -145,8 +153,8 @@
     padding: rem(15px);
 
     .avatar-button--size {
-      width: rem(40px);
-      height: rem(40px);
+      width: rem(60px);
+      height: rem(60px);
 
       margin-right: rem(10px);
     }
