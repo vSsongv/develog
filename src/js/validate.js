@@ -47,5 +47,17 @@ const reg = [
 export default {
   validate(inputValue, index, button) {
     return checkIsCorrectForm(index === 2 ? inputValue : !reg[index].test(inputValue), index, button);
-  }
+  },
+
+  validateEdit(inputValue, index, button) {
+    const reg = [
+      /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/,
+      /^[^\s]{1,}$/,
+      /^[^\s]{1,}$/,
+      /^01([0|1|6|7|8|9])-?([0-9]{3,4})-?([0-9]{4})$/,
+      /^[A-Za-z0-9]{6,12}$/,
+      /^[A-Za-z0-9]{6,12}$/,
+    ];
+    return checkIsCorrectForm(index === 5 ? inputValue : !reg[index].test(inputValue), index, button);
+  },
 };
