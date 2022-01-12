@@ -83,8 +83,21 @@ button.double-check {
   text-align: center;
   background: $blue;
   color: $white;
-  position: absolute;
   bottom: 0;
   left: 50%;
   transform: translateX(-50%);
+}
+
+.see-more:hover {
+  background: $white;
+  color: $blue;
+  border: 1px solid $blue;
+}
+
+.see-more--develog {
+  position: absolute;
+}
+
+.see-more--main {
+  position: relative;
 }
