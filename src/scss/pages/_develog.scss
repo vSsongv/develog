@@ -28,6 +28,8 @@
   &__desc {
     font-size: rem(15px);
   }
+  transition: all 0.5s;
+  transition-timing-function: ease;
 }
 
 .post:hover {
@@ -39,7 +41,6 @@
 
 .popular-posts,
 .all-posts {
-  position: relative;
   border: 1px solid $gray;
   border-radius: rem(5px);
   padding: rem(20px);
@@ -64,10 +65,10 @@
 
 .all-posts {
   width: 100%;
+  position: relative;
   .post-sizer,
   .post {
     margin-bottom: rem(25px);
-    background: aquamarine;
     width: 22%;
     @media all and (min-width: 1000px) and (max-width: 1520px) {
       // width: 30%;
