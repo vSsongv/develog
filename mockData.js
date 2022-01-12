@@ -7,7 +7,7 @@ export default {
       nickname: 'User1',
       name: '송진영',
       phone: '010-1234-5678',
-      avartarUrl: 'src/assets/doctorStrange_profile',
+      avartarUrl: 'src/assets/doctorStrange_profile.jpg',
     },
     {
       userId: 2,
@@ -16,7 +16,7 @@ export default {
       nickname: 'User2',
       name: '김민성',
       phone: '010-2345-6789',
-      avartarUrl: 'src/assets/ironman_profile',
+      avartarUrl: 'src/assets/ironman_profile.jpg',
     },
     {
       userId: 3,
@@ -25,7 +25,7 @@ export default {
       nickname: 'User3',
       name: '안현서',
       phone: '010-3456-7890',
-      avartarUrl: 'src/assets/spider_profile',
+      avartarUrl: 'src/assets/spider_profile.jpg',
     },
     {
       userId: 4,
@@ -43,7 +43,7 @@ export default {
       nickname: 'User5',
       name: '앤트맨',
       phone: '010-4362-1156',
-      avartarUrl: 'src/assets/antman_profile.png',
+      avartarUrl: 'src/assets/antman_profile.jpg',
     },
     {
       userId: 6,
