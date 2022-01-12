@@ -1,107 +1,16 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const { CleanWebpackPlugin } = require('clean-webpack-plugin');
-
-const DEVELOPMENT = 'development';
-const PRODUCTION = 'production';
-const ENVIRONMENT = process.env.NODE_ENV || DEVELOPMENT;
-
-const urls = ['index', 'detail', 'signin', 'signup', 'header', 'mypage', 'develog', 'uploadPost', 'mypage_edit'];
-
-const htmlWebpackPlugins = () =>
-  urls.map(
-    url =>
-      new HtmlWebpackPlugin({
-        title: 'develog',
-        filename: `${url}.html`,
-        template: `src/${url}.html`,
-        chunks: [url === 'index' ? 'main' : url],
-      })
-  );
 
 module.exports = {
-  mode: ENVIRONMENT,
-  plugins: [...htmlWebpackPlugins(), new MiniCssExtractPlugin(), new CleanWebpackPlugin()],
-  entry: {
-    main: ['@babel/polyfill', './src/js/index.js', './src/js/header.js', './src/scss/index.scss'],
-    header: ['@babel/polyfill', './src/js/index.js', './src/scss/index.scss'],
-    mypage: ['@babel/polyfill', './src/js/mypage.js', './src/js/header.js', './src/scss/index.scss'],
-    develog: ['@babel/polyfill', './src/js/develog.js', './src/js/header.js', './src/scss/index.scss'],
-    // mypage: ['@babel/polyfill', './src/js/mypage.js'],
-    mypage_edit: ['@babel/polyfill', './src/js/mypageEdit.js', './src/scss/index.scss'],
-    signin: ['@babel/polyfill', './src/js/signin.js', './src/scss/index.scss'],
-    signup: ['@babel/polyfill', './src/js/signup.js', './src/scss/index.scss'],
-    // findUser: ['@babel/polyfill', './src/js/findUser.js'],
-    uploadPost: ['@babel/polyfill', './src/js/uploadPost.js', './src/scss/index.scss', './src/js/header.js'],
-    detail: ['@babel/polyfill', './src/js/detail.js', './src/js/header.js', './src/scss/index.scss'],
-  },
+  entry: ['./src/app.js', './src/scss/index.scss'],
   output: {
-    path: path.resolve(__dirname, `${ENVIRONMENT === DEVELOPMENT ? 'build' : 'dist'}`),
+    path: path.resolve(__dirname, 'build'),
+    filename: 'js/app.js',
+    clean: true,
   },
   module: {
     rules: [
-      {
-        test: /\.(png|jpe?g|gif)$/i,
-        type: 'asset/resource',
-        generator: {
-          filename: 'img/[name][ext]',
-        },
-      },
-      {
-        test: /\.html$/,
-        use: [
-          {
-            loader: 'html-loader',
-            options: {
-              minimize: true,
-            },
-          },
-        ],
-        include: [path.resolve(__dirname, 'src')],
-      },
-      {
-        test: /\.s(a|c)ss$/i,
-        exclude: /node_modules/,
-        use: [
-          MiniCssExtractPlugin.loader,
-          {
-            loader: 'css-loader',
-            options: {
-              sourceMap: true,
-              importLoaders: 2,
-            },
-          },
-          {
-            loader: 'postcss-loader',
-            options: {
-              sourceMap: true,
-              postcssOptions: {
-                plugins: [
-                  [
-                    'postcss-preset-env',
-                    {
-                      stage: 3,
-                      features: {
-                        'nesting-rules': true,
-                      },
-                      autoprefixer: {
-                        grid: true,
-                      },
-                    },
-                  ],
-                ],
-              },
-            },
-          },
-          {
-            loader: 'sass-loader',
-            options: {
-              sourceMap: true,
-            },
-          },
-        ],
-      },
       {
         test: /\.js$/,
         include: [path.resolve(__dirname, 'src/js')],
@@ -110,16 +19,31 @@ module.exports = {
           loader: 'babel-loader',
           options: {
             presets: ['@babel/preset-env'],
-            plugins: ['@babel/plugin-transform-runtime'],
+            plugins: [['@babel/plugin-transform-runtime', { corejs: 3, proposals: true }]],
           },
         },
       },
+      {
+        test: /\.s[ac]ss$/i,
+        use: [MiniCssExtractPlugin.loader, 'css-loader', 'sass-loader'],
+        exclude: /node_modules/,
+      },
+      {
+        test: /\.(png|svg|jpg|jpeg|gif)$/i,
+        loader: 'file-loader',
+        options: { outputPath: 'img', publicPath: 'img', name: '[name].[ext]' },
+      },
     ],
   },
-  // devtool: 'source-map',
-  // devServer: {
-  //   static: {
-  //     directory: path.join(__dirname, 'public'),
-  //   },
-  // },
+  plugins: [
+    new HtmlWebpackPlugin({ template: 'src/index.html' }),
+    new MiniCssExtractPlugin({ filename: 'css/style.css' }),
+  ],
+  devServer: {
+    open: true,
+    port: 'auto',
+    proxy: { '/todos': 'http://localhost:9000' },
+  },
+  devtool: 'source-map',
+  mode: 'development',
 };
