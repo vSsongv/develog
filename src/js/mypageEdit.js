@@ -10,3 +10,12 @@ document.querySelector('.mypageEdit--form').oninput = e => {
     if (e.target === input) return validate.validateEdit(e.target.value, index, $editBtn);
   });
 };
+
+const reader = new FileReader();
+reader.onload = () => {
+  document.querySelector('.mypageEdit--avatar').style.backgroundImage = `url('${reader.result}')`;
+};
+
+document.querySelector('#selectImage').onchange = e => {
+  reader.readAsDataURL(e.target.files[0]);
+};
