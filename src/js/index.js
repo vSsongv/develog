@@ -5,7 +5,7 @@ const setPosts = posts => {
   const addedHtml = posts
     .map(
       post =>
-        `<li class="main-post">
+      `<li class="main-post">
     <div class="user-info">
       <button class="avatar-button avatar-button--main" style="background-image: url(${post.userProfile}) no-repeat"></button><a class="user-nickname">${post.nickname}</a>
     </div>
@@ -20,7 +20,9 @@ const setPosts = posts => {
 
 const getSplitedPosts = async () => {
   try {
-    const { data } = await axios.get('/posts');
+    const {
+      data
+    } = await axios.get('/posts');
     return setPosts(data);
   } catch (e) {
     console.error(e);
@@ -68,6 +70,7 @@ const indexHtml = ` <header class="header">
 </section>`;
 
 const indexEvent = () => {
+  header.headerEvent();
   window.addEventListener('DOMContentLoaded', render);
 };
 
