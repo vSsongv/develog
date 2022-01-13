@@ -14,9 +14,7 @@ const mypageHtml = `<div class="cover hidden"></div>
 
   <button class="button button--login">Login</button>
 
-  <div class="user hidden">
-    <img class="avatar" src="./assets/avatar.png" alt="avatar image">
-  </div>
+  <div class="user hidden"></div>
 
   <nav class="nav-box hidden">
     <ul>
@@ -73,7 +71,23 @@ const mypageHtml = `<div class="cover hidden"></div>
   </section>
 </div>`;
 
+const userProfileSet = async () => {
+  try {
+    const { data: user } = await axios.get('/checkAuth');
+    document.querySelector('.nickname span').textContent = user.nickname;
+    document.getElementById('name').value = user.name;
+    document.getElementById('email').value = user.email;
+    document.getElementById('phone').value = user.phone;
+    document.querySelector('.user-profile-avatar').style.backgroundImage = `url('${user.avartarUrl}')`;
+  } catch (e) {
+    console.error(e);
+    window.history.pushState({}, '', '/signin');
+  }
+};
+
 const mypageEvent = () => {
+  userProfileSet();
+
   header.headerEvent();
   const modalToggle = () => {
     document.querySelector('.cover').classList.toggle('hidden');
@@ -86,19 +100,6 @@ const mypageEvent = () => {
   document.querySelector('.button--edit').addEventListener('click', e => {
     window.history.pushState({ data: 'user' }, '', '/mypageEdit');
   });
-
-  (async () => {
-    try {
-      const { data: user } = await axios.get('/checkAuth');
-      document.querySelector('.nickname span').textContent = user.nickname;
-      document.getElementById('name').value = user.name;
-      document.getElementById('email').value = user.email;
-      document.getElementById('phone').value = user.phone;
-    } catch (e) {
-      console.error(e);
-      window.history.pushState({}, '', '/signin');
-    }
-  })();
 };
 
 export default { mypageHtml, mypageEvent };

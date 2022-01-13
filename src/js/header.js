@@ -22,6 +22,7 @@ const headerEvent = () => {
       if (user) {
         document.querySelector('.user').classList.remove('hidden');
         document.querySelector('.button--login').classList.add('hidden');
+
         document.querySelector('.nav-box ul li:first-child').addEventListener('click', () => {
           window.history.pushState({}, '', '/develog');
         });
@@ -29,6 +30,10 @@ const headerEvent = () => {
         document.querySelector('.nav-box ul li:nth-child(2)').addEventListener('click', () => {
           window.history.pushState({}, '', '/mypage');
         });
+
+        document.querySelector('.user').style.backgroundImage = user.avartarUrl
+          ? `url('${user.avartarUrl}')`
+          : `url('img/defaultAvatar.png')`;
       } else {
         document.querySelector('.user').classList.add('hidden');
         document.querySelector('.button--login').classList.remove('hidden');
