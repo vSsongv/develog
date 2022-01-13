@@ -10,9 +10,6 @@ const render = html => {
   $root.innerHTML = html;
 };
 
-render(index.indexHtml);
-index.indexEvent();
-
 const switchDependsOnUrl = () => {
   switch (window.location.pathname) {
     case '/':
@@ -47,6 +44,8 @@ const switchDependsOnUrl = () => {
       alert('잘못된 페이지입니다.');
   }
 };
+
+switchDependsOnUrl();
 
 // url 변경감지
 window.addEventListener('changestate', e => {
