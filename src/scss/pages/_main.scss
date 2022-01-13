@@ -44,14 +44,19 @@
 
   &__desc {
     font-size: rem(20px);
+    display: -webkit-box;
+    word-wrap: break-word;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
     overflow: hidden;
     text-overflow: ellipsis;
-    display: -webkit-box;
-    -webkit-line-clamp: 4; /* 라인수 */
-    -webkit-box-orient: vertical;
-    word-wrap: break-word;
-    line-height: 1.2em;
-    height: 3.6em; /* line-height 가 1.2em 이고 3라인을 자르기 때문에 height는 1.2em * 3 = 3.6em */
+
+    &__desc::before {
+      content: '...';
+      position: absolute;
+      right: 0;
+      bottom: 0;
+    }
   }
 
   img {
