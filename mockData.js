@@ -301,5 +301,5 @@ const posts = [
     likedUsers: [],
   },
 ];
-// };
+
 module.exports = { users, posts };
