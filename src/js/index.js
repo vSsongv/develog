@@ -5,7 +5,7 @@ const setPosts = posts => {
   const addedHtml = posts
     .map(
       post =>
-        `<li class="main-post">
+      `<li class="main-post">
     <div class="user-info">
       <button class="avatar-button avatar-button--main" style="background-image: url(${post.userProfile}) no-repeat"></button><a class="user-nickname">${post.nickname}</a>
     </div>
@@ -72,7 +72,9 @@ const indexHtml = ` <header class="header">
 
 window.addEventListener('DOMContentLoaded', render);
 
-const indexEvent = () => {};
+const indexEvent = () => {
+  header.headerEvent();
+};
 
 // export default render;
 export default {

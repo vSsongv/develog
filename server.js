@@ -26,7 +26,6 @@ const auth = (req, res, next) => {
     next();
   } catch (e) {
     console.error(e);
-    return window.history.pushState(null, null, '/signin');
   }
 };
 
@@ -39,7 +38,6 @@ app.get('/checkAuth', (req, res) => {
     res.send(users.find(user => user.email === decoded.email));
   } catch (e) {
     res.send();
-    return window.history.pushState(null, null, '/');
   }
 });
 
@@ -53,8 +51,6 @@ const createToken = (email, expirePeriod) =>
       expiresIn: expirePeriod,
     }
   );
-
-// window.history.pushState({ data: 'post' }, '', '/detail');
 
 // 로그인
 app.post('/signin', (req, res) => {
@@ -84,6 +80,7 @@ app.post('/signin', (req, res) => {
     _id,
   });
 });
+
 
 app.get('/mypage', (req, res) => {
   alert('success!');
@@ -140,7 +137,11 @@ app.get('/posts/init', (req, res) => {
   let splitedPosts = [];
   for (let i = 0; i < 10; i++) {
     const user = users.filter(user => user.userId === posts[i].userId)[0];
-    posts[i] = { ...posts[i], userProfile: user.avartarUrl, nickname: user.nickname };
+    posts[i] = {
+      ...posts[i],
+      userProfile: user.avartarUrl,
+      nickname: user.nickname
+    };
     splitedPosts = [...splitedPosts, posts[i]];
   }
   res.send(splitedPosts);
