@@ -5,6 +5,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>develog Upload page</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.48.4/codemirror.min.css" />
+    <link rel="stylesheet" href="https://uicdn.toast.com/editor/latest/toastui-editor.css" />
     <link
       rel="stylesheet"
       href="https://use.fontawesome.com/releases/v5.15.4/css/all.css"
@@ -41,13 +43,17 @@
     <main class="upload-container">
       <section class="upload">
         <form class="upload__form" method="post">
-          <label for="upload-title"></label>
-          <input id="upload-title" type="text" placeholder="제목을 입력하세요" />
-          <textarea class="upload__form__textarea"> </textarea>
-
-          <button type="submit" class="upload__form__submit button">작성완료</button>
+          <fieldset>
+            <legend class="a11yHidden">post upload form</legend>
+            <label class="a11yHidden" for="upload-title">글 제목</label>
+            <input id="upload-title" type="text" placeholder="제목을 입력하세요" />
+            <div id="editor"></div>
+            <pre class="upload__form__textarea"></pre>
+            <button type="submit" class="upload__form__submit button">작성완료</button>
+          </fieldset>
         </form>
       </section>
     </main>
+    <script src="https://uicdn.toast.com/editor/latest/toastui-editor-all.min.js"></script>
   </body>
 </html>

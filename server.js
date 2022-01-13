@@ -5,6 +5,7 @@ const path = require('path');
 const cookieParser = require('cookie-parser');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
+const { users, posts } = require('./mockData');
 
 const app = express();
 const PORT = 9000;
