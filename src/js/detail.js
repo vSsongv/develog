@@ -1,4 +1,4 @@
-const detailHTML = `<header class="header">
+const detailHtml = `<header class="header">
 	<h1 class="header--logo">develog</h1>
 
 	<form class="search--form" action="">
@@ -100,6 +100,6 @@ const detailEvent = () => {
 
 // export default render;
 export default {
-  detailHTML,
+  detailHtml,
   detailEvent,
 };
