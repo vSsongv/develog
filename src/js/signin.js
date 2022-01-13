@@ -58,6 +58,7 @@ const signinEvent = () => {
 			});
 			if (user) {
 				window.history.pushState(null, null, '/');
+				window.location.reload();
 				console.log('user id: ', user);
 			}
 		} catch (error) {

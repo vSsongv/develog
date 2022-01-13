@@ -1,6 +1,7 @@
 // import app from '../app';
 // import signin from './signin';
 // import detail from './detail';
+import header from './header';
 
 const indexHtml = ` <header class="header">
 <h1 class="header--logo">develog</h1>
@@ -122,25 +123,30 @@ const indexHtml = ` <header class="header">
 // };
 
 const indexEvent = () => {
-  const msnry = new Masonry('.posts-container', {
-    itemSelector: '.main-post',
-    columnWidth: '.main-post-sizer',
-    percentPosition: true,
-    gutter: 20,
-  });
+  header.headerEvent();
+  // const msnry = new Masonry('.posts-container', {
+  //   itemSelector: '.main-post',
+  //   columnWidth: '.main-post-sizer',
+  //   percentPosition: true,
+  //   gutter: 20,
+  // });
 
-  const $button = document.querySelector('.button--login');
-  const $userinfo = document.querySelector('.user-info');
-  const currentPage = window.location.pathname;
-  $userinfo.addEventListener('click', e => {
-    console.log(e.target);
-    window.history.pushState({ data: 'post' }, '', '/detail');
-  });
+  // const $button = document.querySelector('.button--login');
+  // const $userinfo = document.querySelector('.user-info');
+  // const currentPage = window.location.pathname;
+  // $userinfo.addEventListener('click', e => {
+  //   console.log(e.target);
+  //   window.history.pushState({
+  //     data: 'post'
+  //   }, '', '/detail');
+  // });
 
-  $button.addEventListener('click', e => {
-    console.log(e.target);
-    window.history.pushState({ data: 'signin' }, '', '/signin');
-  });
+  // $button.addEventListener('click', e => {
+  //   console.log(e.target);
+  //   window.history.pushState({
+  //     data: 'signin'
+  //   }, '', '/signin');
+  // });
 };
 
 // export default render;
