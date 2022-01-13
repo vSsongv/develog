@@ -5,10 +5,10 @@ const path = require('path');
 const cookieParser = require('cookie-parser');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
-const {
+let {
   users,
   posts
-} = require('./mockData');
+} = require('./mockData.js');
 
 const app = express();
 const PORT = 9000;
@@ -17,26 +17,127 @@ app.use(express.static('build'));
 app.use(express.json());
 app.use(cookieParser());
 
+// middleware
 const auth = (req, res, next) => {
   const accessToken = req.headers.authorization || req.cookies.accessToken;
   try {
     jwt.verify(accessToken, process.env.JWT_SECRET_KEY);
     next();
   } catch (e) {
-    return res.redirect('/signin');
+    console.error(e);
+    return window.history.pushState(null, null, '/signin');
   }
 };
 
-// app.get('/signin', (req, res) => {
-//   res.sendFile(path.join(__dirname, './build/signin.html'));
-// });
+app.get('/checkAuth', (req, res) => {
+  const accessToken = req.headers.authorization || req.cookies.accessToken;
 
-// app.get('/signup', (req, res) => {
-//   res.sendFile(path.join(__dirname, './build/signup.html'));
-// });
+  try {
+    const decoded = jwt.verify(accessToken, process.env.JWT_SECRET_KEY);
+
+    res.send(users.find(user => user.email === decoded.email));
+  } catch (e) {
+    res.send();
+    return window.history.pushState(null, null, '/');
+  }
+});
+
+const createToken = (email, expirePeriod) => jwt.sign({
+  email
+}, process.env.JWT_SECRET_KEY, {
+  expiresIn: expirePeriod
+});
+
+// window.history.pushState({ data: 'post' }, '', '/detail');
+
+
+// 로그인
+app.post('/signin', (req, res) => {
+  const {
+    email,
+    password
+  } = req.body;
+  if (!email || !password) {
+    return res.status(401).send({
+      error: '사용자 아이디 또는 패스워드가 전달되지 않았습니다.',
+    });
+  }
+
+  const user = users.find(user => email === user.email && password === user.password) // bcrypt.compareSync(password, user.password)
+
+  if (!user) {
+    return res.status(401).send({
+      error: '등록되지 않은 사용자입니다.',
+    });
+  }
+
+  res.cookie('accessToken', createToken(email, '7d'), {
+    maxAge: 1000 * 60 * 60 * 24 * 7,
+    httpOnly: true
+  });
+
+  const _id = user.id;
+
+  res.send({
+    _id
+  });
+});
+
+
+app.get('/mypage', (req, res) => {
+  alert('success!');
+});
+
+// 로그아웃
+app.get('/logout', (req, res) => {
+  res.clearCookie('accessToken').sendStatus(204);
+})
+
+// 회원가입
+app.post('/signup', (req, res) => {
+  users = [...users, {
+    email: req.body.email,
+    password: req.body.password // 암호화된 비밀번호로 변경
+  }]
+  res.send(users);
+})
+
+// 중복확인(이메일, 닉네임)
+app.get('/check/email/:email', (req, res) => {
+  const {
+    email
+  } = req.params;
+  const user = users.find(user => user.email === email);
+  const isDuplicate = !!user;
+
+  res.send({
+    isDuplicate
+  });
+})
+
+app.get('/check/nickname/:nickname', (req, res) => {
+  const {
+    nickname
+  } = req.params;
+  const user = users.find(user => user.nickname === nickname);
+  const isDuplicate = !!user;
+
+  res.send({
+    isDuplicate
+  });
+})
+
+// _id 생성(user, post)
+app.get('/users/createId', (req, res) => {
+  const maxId = Math.max(...users.map(user => user.id), 0) + 1;
+
+  res.send({
+    maxId
+  });
+})
 
 app.get('/*', async (req, res) => {
-  res.sendFile(path.join(__dirname, './build/index.html'));
+  await res.sendFile(path.join(__dirname, './build/index.html'));
 });
 
 app.listen(PORT, () => {
