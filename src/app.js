@@ -2,6 +2,8 @@ import index from './js/index';
 import signin from './js/signin';
 import detail from './js/detail';
 
+const history = require('history-events');
+
 const $root = document.querySelector('.root');
 
 const render = html => {
@@ -40,7 +42,6 @@ const switchDependsOnUrl = () => {
     case 'upload':
       // upload
       break;
-
     default:
       alert('잘못된 페이지입니다.');
   }
@@ -51,6 +52,12 @@ window.addEventListener('changestate', e => {
   switchDependsOnUrl();
 });
 
-// window.history.pushState({ data: 'signin' }, '', '/signin');
+window.addEventListener('load', () => {
+  localStorage.setItem('path', window.location.pathname);
+  window.history.pushState({ data: 'post' }, '', localStorage.getItem('path'));
+  localStorage.removeItem('path');
+});
 
-const origin = 'localhost:9000';
+window.addEventListener('unload', () => {
+  localStorage.setItem('path', window.location.pathname);
+});

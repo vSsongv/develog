@@ -13,7 +13,7 @@ module.exports = {
     rules: [
       {
         test: /\.js$/,
-        include: [path.resolve(__dirname, 'src/js')],
+        include: [path.resolve(__dirname, './app.js')],
         exclude: /node_modules/,
         use: {
           loader: 'babel-loader',
@@ -42,7 +42,7 @@ module.exports = {
   devServer: {
     open: true,
     port: 'auto',
-    proxy: { '/todos': 'http://localhost:9000' },
+    proxy: { '/': 'http://localhost:9000' },
   },
   devtool: 'source-map',
   mode: 'development',
