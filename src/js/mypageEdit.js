@@ -70,6 +70,7 @@ const mypageEditHtml = `<header>
 
 const mypageEditEvent = () => {
   const $editBtn = document.querySelector('.button--editComplete');
+
   const $input = document.querySelectorAll('.input-box__input');
   document.querySelector('.mypageEdit--form').oninput = e => {
     $input.forEach((input, index) => {
@@ -78,6 +79,7 @@ const mypageEditEvent = () => {
       if (e.target === input) return validate.validate(e.target.value, index, $editBtn);
     });
   };
+
   const reader = new FileReader();
   reader.onload = () => {
     document.querySelector('.mypageEdit--avatar').style.backgroundImage = `url('${reader.result}')`;
@@ -86,8 +88,9 @@ const mypageEditEvent = () => {
     reader.readAsDataURL(e.target.files[0]);
   };
 
-  document.querySelector('.button--back').addEventListener('click', () => {
-    window.history.back();
+  document.querySelector('.button--back').addEventListener('click', e => {
+    e.preventDefault();
+    window.history.back(1);
   });
 };
 
