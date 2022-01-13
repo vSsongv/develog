@@ -10,6 +10,8 @@ let {
   posts
 } = require('./mockData.js');
 
+posts.sort((a, b) => new Date(a.createAt) - new Date(b.createAt));
+
 const app = express();
 const PORT = 9000;
 

@@ -2,6 +2,9 @@ import index from './js/index';
 import signin from './js/signin';
 import signup from './js/signup';
 import detail from './js/detail';
+import mypage from './js/mypage';
+import mypageEdit from './js/mypageEdit';
+import header from './js/header';
 
 const history = require('history-events');
 
@@ -18,6 +21,7 @@ const switchDependsOnUrl = () => {
       index.indexEvent();
       break;
     case '/detail':
+      console.log('switch');
       render(detail.detailHTML);
       detail.detailEvent();
       break;
@@ -32,11 +36,13 @@ const switchDependsOnUrl = () => {
     case '/develog':
       // Develog
       break;
-    case 'myPage':
-      // myPage
+    case '/mypage':
+      render(mypage.mypageHtml);
+      mypage.mypageEvent();
       break;
-    case 'myPageEdit':
-      // myPageEdit
+    case '/mypageEdit':
+      render(mypageEdit.mypageEditHtml);
+      mypageEdit.mypageEditEvent();
       break;
     case 'upload':
       // upload
@@ -47,10 +53,14 @@ const switchDependsOnUrl = () => {
   }
 };
 
+// window.addEventListener('DOMContentLoaded', e => {
+//   // const path = window.location
+// });
 switchDependsOnUrl();
 
 // url 변경감지
 window.addEventListener('changestate', e => {
+  console.log(e);
   switchDependsOnUrl();
 });
 
