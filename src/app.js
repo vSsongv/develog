@@ -10,9 +10,6 @@ const render = html => {
   $root.innerHTML = html;
 };
 
-render(index.indexHtml);
-index.indexEvent();
-
 const switchDependsOnUrl = () => {
   switch (window.location.pathname) {
     case '/':
