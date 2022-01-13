@@ -1,4 +1,5 @@
 import header from './header';
+import axios from 'axios';
 
 const mypageHtml = `<div class="cover hidden"></div>
 <header class="header">
@@ -32,20 +33,20 @@ const mypageHtml = `<div class="cover hidden"></div>
     <div class="user-profile-avatar"></div>
     <div class="user-profile-info">
       <div class="nickname">
-        <span>쨈콩</span>
+        <span></span>
         <span>님, 환영합니다.</span>
       </div>
       <div class="user-profile-info-input">
         <label for="name">name :</label>
-        <input id="name" type="text" disabled value="원종빈">
+        <input id="name" type="text" disabled>
       </div>
       <div class="user-profile-info-input">
         <label for="email">email :</label>
-        <input id="email" type="email" disabled value="jongbin@gmail.com">
+        <input id="email" type="email" disabled>
       </div>
       <div class="user-profile-info-input">
-        <label for="nickname">phone :</label>
-        <input id="phone" type="text" disabled value="010-0000-0000">
+        <label for="phone">phone :</label>
+        <input id="phone" type="text" disabled>
       </div>
     </div>
   </section>
@@ -85,6 +86,19 @@ const mypageEvent = () => {
   document.querySelector('.button--edit').addEventListener('click', e => {
     window.history.pushState({ data: 'user' }, '', '/mypageEdit');
   });
+
+  (async () => {
+    try {
+      const { data: user } = await axios.get('/checkAuth');
+      document.querySelector('.nickname span').textContent = user.nickname;
+      document.getElementById('name').value = user.name;
+      document.getElementById('email').value = user.email;
+      document.getElementById('phone').value = user.phone;
+    } catch (e) {
+      console.error(e);
+      window.history.pushState({}, '', '/signin');
+    }
+  })();
 };
 
 export default { mypageHtml, mypageEvent };
