@@ -20,17 +20,12 @@ const setPosts = posts => {
 
 const getSplitedPosts = async () => {
   try {
-<<<<<<< HEAD
-    const { data } = await axios.get('/posts');
-    return setPosts(data);
-=======
     const { data } = await axios.get('/posts/init');
     console.log(data);
     if (data === 'last') console.log('끝');
     else {
       return setPosts(data);
     }
->>>>>>> 9a5d7936bc428bd1fb21d1ccee6e7e320d64af58
   } catch (e) {
     console.error(e);
   }
