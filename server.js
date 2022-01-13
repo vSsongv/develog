@@ -10,7 +10,7 @@ let {
   posts
 } = require('./mockData.js');
 
-let postNumForMain = 0;
+const postNumForMain = 0;
 
 posts.sort((a, b) => new Date(a.createAt) - new Date(b.createAt));
 
@@ -131,9 +131,9 @@ app.get('/users/createId', (req, res) => {
   });
 })
 
-app.get('/posts', (req, res) => {
+app.get('/posts/init', (req, res) => {
   let splitedPosts = [];
-  for (let i = postNumForMain; i < postNumForMain + 10; i++) {
+  for (let i = 0; i < 10; i++) {
     const user = users.filter(user => user.userId === posts[i].userId)[0];
     posts[i] = {
       ...posts[i],
@@ -142,7 +142,6 @@ app.get('/posts', (req, res) => {
     };
     splitedPosts = [...splitedPosts, posts[i]];
   }
-  postNumForMain += 10;
   res.send(splitedPosts);
 });
 
