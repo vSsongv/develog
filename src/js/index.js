@@ -29,14 +29,14 @@ const indexHtml = ` <header class="header">
   <li class="main-post-sizer"></li>
   <li class="main-post">
     <div class="user-info">
-      <button class="avatar-button avatar-button--main"></button><a class="user-id">user</a>
+      <button class="avatar-button avatar-button--main"></button><a class="user-nickname">user</a>
     </div>
     <span class="main-post__title">title1</span
     ><span class="main-post__desc">놀라지놀라지마달라진달라진너heylitsen</span>
   </li>
   <li class="main-post">
     <div class="user-info">
-      <button class="avatar-button avatar-button--main"></button><a class="user-id">user</a>
+      <button class="avatar-button avatar-button--main"></button><a class="user-nickname">user</a>
     </div>
     <span class="main-post__title">title2</span
     ><span class="main-post__desc"
@@ -45,28 +45,28 @@ const indexHtml = ` <header class="header">
   </li>
   <li class="main-post">
     <div class="user-info">
-      <button class="avatar-button avatar-button--main"></button><a class="user-id">user</a>
+      <button class="avatar-button avatar-button--main"></button><a class="user-nickname">user</a>
     </div>
     <span class="main-post__title">title3</span><img src="https://i.postimg.cc/gkQkrcf3/4.png" />
     <span class="main-post__desc">놀라지놀라지마달라진달라진너heylitsen</span>
   </li>
   <li class="main-post">
     <div class="user-info">
-      <button class="avatar-button avatar-button--main"></button><a class="user-id">user</a>
+      <button class="avatar-button avatar-button--main"></button><a class="user-nickname">user</a>
     </div>
     <span class="main-post__title">title4</span><img src="https://i.postimg.cc/T1jKdLr8/design2.png" />
     <span class="main-post__desc">놀라지놀라지마달라진달라진너heylitsen</span>
   </li>
   <li class="main-post">
     <div class="user-info">
-      <button class="avatar-button avatar-button--main"></button><a class="user-id">user</a>
+      <button class="avatar-button avatar-button--main"></button><a class="user-nickname">user</a>
     </div>
     <span class="main-post__title">title</span
     ><span class="main-post__desc">놀라지놀라지마달라진달라진너heylitsen지금넌differentweapon~~</span>
   </li>
   <li class="main-post">
     <div class="user-info">
-      <button class="avatar-button avatar-button--main"></button><a class="user-id">user</a>
+      <button class="avatar-button avatar-button--main"></button><a class="user-nickname">user</a>
     </div>
     <span class="main-post__title">title5</span><img src="https://i.postimg.cc/gkQkrcf3/4.png" /><span
       class="main-post__desc"
@@ -75,7 +75,7 @@ const indexHtml = ` <header class="header">
   </li>
   <li class="main-post">
     <div class="user-info">
-      <button class="avatar-button avatar-button--main"></button><a class="user-id">user</a>
+      <button class="avatar-button avatar-button--main"></button><a class="user-nickname">user</a>
     </div>
     <span class="main-post__title">title6</span><img src="https://i.postimg.cc/T1jKdLr8/design2.png" /><span
       class="main-post__desc"
@@ -84,14 +84,14 @@ const indexHtml = ` <header class="header">
   </li>
   <li class="main-post">
     <div class="user-info">
-      <button class="avatar-button avatar-button--main"></button><a class="user-id">user</a>
+      <button class="avatar-button avatar-button--main"></button><a class="user-nickname">user</a>
     </div>
     <span class="main-post__title">title7</span
     ><span class="main-post__desc">놀라지놀라지마달라진달라진너heylitsen</span>
   </li>
   <li class="main-post">
     <div class="user-info">
-      <button class="avatar-button avatar-button--main"></button><a class="user-id">user</a>
+      <button class="avatar-button avatar-button--main"></button><a class="user-nickname">user</a>
     </div>
     <span class="main-post__title">title8</span><img src="https://i.postimg.cc/gkQkrcf3/4.png" /><span
       class="main-post__desc"
@@ -100,14 +100,14 @@ const indexHtml = ` <header class="header">
   </li>
   <li class="main-post">
     <div class="user-info">
-      <button class="avatar-button avatar-button--main"></button><a class="user-id">user</a>
+      <button class="avatar-button avatar-button--main"></button><a class="user-nickname">user</a>
     </div>
     <span class="main-post__title">title9</span
     ><span class="main-post__desc">놀라지놀라지마달라진달라진너heylitsen</span>
   </li>
   <li class="main-post">
     <div class="user-info">
-      <button class="avatar-button avatar-button--main"></button><a class="user-id">user</a>
+      <button class="avatar-button avatar-button--main"></button><a class="user-nickname">user</a>
     </div>
     <span class="main-post__title">title10</span
     ><span class="main-post__desc">놀라지놀라지마달라진달라진너heylitsen</span>

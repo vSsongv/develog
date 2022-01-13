@@ -42,7 +42,7 @@ module.exports = {
   devServer: {
     open: true,
     port: 'auto',
-    proxy: { '/todos': 'http://localhost:9000' },
+    proxy: { '/': 'http://localhost:9000' },
   },
   devtool: 'source-map',
   mode: 'development',

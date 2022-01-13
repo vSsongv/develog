@@ -6,7 +6,7 @@
 .detail-container {
   margin: 0 auto;
   min-width: rem(550px);
-  @media (max-width: 700px) {
+  @media screen and (max-width: 700px) {
     width: 90%;
   }
   @media screen and (min-width: 701px) and (max-width: 1000px) {
@@ -26,8 +26,6 @@
 
 // post part
 .detail {
-  // margin-bottom: rem(100px);
-
   &__title {
     font-size: rem(40px);
     margin-bottom: rem(30px);
@@ -91,18 +89,16 @@
 // comment-input part
 .user-comment {
   display: flex;
-  position: relative;
   align-items: center;
-
+  position: relative;
   margin-bottom: rem(50px);
 
   .textarea {
     display: inline-block;
-
     resize: none;
-    appearance: none;
-    overflow: hidden;
     border: none;
+    overflow: hidden;
+
     font-size: rem(20px);
     padding: 0 rem(40px) 0 rem(10px);
     border: 2px solid #5c5a5a;
@@ -184,23 +180,22 @@
   }
 
   &__text {
-    white-space: pre-wrap;
-    word-break: break-all;
-
+    // white-space: pre-wrap;
+    // word-break: break-all;
     display: block;
     border-left: 1px solid black;
 
     @media screen and (max-width: 600px) {
       width: 30%;
-      padding: rem(30px);
+      padding: rem(40px) rem(20px);
     }
     @media screen and (max-width: 800px) {
       width: 50%;
-      padding: rem(30px);
+      padding: rem(40px) rem(20px);
     }
     @media screen and (min-width: 801px) {
       width: 60%;
-      padding: rem(30px);
+      padding: rem(40px) rem(20px);
     }
   }
   .edit {

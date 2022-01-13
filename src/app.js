@@ -1,17 +1,8 @@
-import index from './js/index.js';
+import index from './js/index';
 import signin from './js/signin';
 import detail from './js/detail';
 
 const history = require('history-events');
-// import detailRender from './js/detail';
-// import signinRender from './js/signin';
-// import signin from './js/signin.js';
-// import './js/signup';
-// import './js/develog';
-// import './js/detail';
-// import './js/uploadPost';
-// import './js/mypage';
-// import './js/mypageEdit';
 
 const $root = document.querySelector('.root');
 
@@ -22,14 +13,15 @@ const render = html => {
 render(index.indexHtml);
 index.indexEvent();
 
-const testswitch = () => {
+const switchDependsOnUrl = () => {
   switch (window.location.pathname) {
     case '/':
       render(index.indexHtml);
       index.indexEvent();
       break;
     case '/detail':
-      render(detail.detailHtml);
+      render(detail.detailHTML);
+      detail.detailEvent();
       break;
     case '/signin':
       render(signin.signinHtml);
@@ -58,9 +50,7 @@ const testswitch = () => {
 
 // url 변경감지
 window.addEventListener('changestate', e => {
-  testswitch();
+  switchDependsOnUrl();
 });
-
-// window.history.pushState({ data: 'signin' }, '', '/signin');
 
 const origin = 'localhost:9000';
