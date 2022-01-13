@@ -1,5 +1,6 @@
 import index from './js/index';
 import signin from './js/signin';
+import signup from './js/signup';
 import detail from './js/detail';
 import mypage from './js/mypage';
 import mypageEdit from './js/mypageEdit';
@@ -28,8 +29,9 @@ const switchDependsOnUrl = () => {
       render(signin.signinHtml);
       signin.signinEvent();
       break;
-    case '/singUp':
-      // SignUp
+    case '/signup':
+      render(signup.signupHtml);
+      signup.signupEvent();
       break;
     case '/develog':
       // Develog
@@ -61,5 +63,3 @@ window.addEventListener('changestate', e => {
   console.log(e);
   switchDependsOnUrl();
 });
-
-const origin = 'localhost:9000';
