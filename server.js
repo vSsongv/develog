@@ -10,7 +10,7 @@ const { users, posts } = require('./mockData');
 const app = express();
 const PORT = 9000;
 
-app.use(express.static('src'));
+app.use(express.static('build'));
 app.use(express.json());
 app.use(cookieParser());
 
@@ -25,12 +25,16 @@ const auth = (req, res, next) => {
   }
 };
 
-app.get('/signin', (req, res) => {
-  res.sendFile(path.join(__dirname, './build/signin.html'));
-});
+// app.get('/signin', (req, res) => {
+//   res.sendFile(path.join(__dirname, './build/signin.html'));
+// });
 
-app.get('/signup', (req, res) => {
-  res.sendFile(path.join(__dirname, './build/signup.html'));
+// app.get('/signup', (req, res) => {
+//   res.sendFile(path.join(__dirname, './build/signup.html'));
+// });
+
+app.get('/*', async (req, res) => {
+  res.sendFile(path.join(__dirname, './build/index.html'));
 });
 
 app.listen(PORT, () => {

@@ -2,6 +2,8 @@ import index from './js/index';
 import signin from './js/signin';
 import detail from './js/detail';
 
+const history = require('history-events');
+
 const $root = document.querySelector('.root');
 
 const render = html => {
@@ -50,7 +52,5 @@ const switchDependsOnUrl = () => {
 window.addEventListener('changestate', e => {
   switchDependsOnUrl();
 });
-
-// window.history.pushState({ data: 'signin' }, '', '/signin');
 
 const origin = 'localhost:9000';
