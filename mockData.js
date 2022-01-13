@@ -62,7 +62,32 @@ const posts = [
     userId: 1,
     title: '제목1',
     content:
-      'Enim consequat Lorem ipsum ut laborum officia cillum qui id fugiat duis. Sit incididunt fugiat reprehenderit aute mollit et nostrud laboris do aliqua sint. Magna laboris incididunt voluptate sunt ullamco nostrud exercitation reprehenderit excepteur sunt enim. Velit sunt excepteur tempor id ut. Laborum Lorem duis dolor dolor magna non deserunt quis.',
+      `<h1>Lorem ipsum dolor sit amet consectetur adipisicing elit. Rerum labore excepturi repudiandae earum nihil quis
+			</h1>numquam minus, natus corrupti molestiae blanditiis iure distinctio repellendus, praesentium tenetur! Nisi    tempore repudiandae commodi. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quae soluta doloremque
+			harum adipisci aliquid quam, explicabo cumque eius, veniam iure quas repudiandae quo voluptatibus blanditiis
+			at eligendi dignissimos? Non, repellat.
+			<br />
+			<br />
+			<br />
+			<br />
+			Lorem ipsum dolor sit amet consectetur adipisicing elit. Rerum labore excepturi repudiandae earum nihil quis
+			numquam minus, natus corrupti molestiae blanditiis iure distinctio repellendus, praesentium tenetur! Nisi
+			tempore repudiandae commodi. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quae soluta doloremque
+			harum adipisci aliquid quam, explicabo cumque eius, veniam iure quas repudiandae quo voluptatibus blanditiis
+			at eligendi dignissimos? Non, repellat.
+			<br />
+			<br />
+			<br />
+			<br />
+			Lorem ipsum dolor sit amet consectetur adipisicing elit. Rerum labore excepturi repudiandae earum nihil quis
+			numquam minus, natus corrupti molestiae blanditiis iure distinctio repellendus, praesentium tenetur! Nisi
+			tempore repudiandae commodi. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quae soluta doloremque
+			harum adipisci aliquid quam, explicabo cumque eius, veniam iure quas repudiandae quo voluptatibus blanditiis
+			at eligendi dignissimos? Non, repellat.
+			<br />
+			<br />
+			<br />
+			<br />`
     createAt: '2021-01-1',
     likedUsers: [],
   },
