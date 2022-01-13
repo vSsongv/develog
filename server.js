@@ -37,15 +37,15 @@ app.get('/checkAuth', (req, res) => {
 
   try {
     const decoded = jwt.verify(accessToken, process.env.JWT_SECRET_KEY);
-
-    res.send(users.find(user => user.email === decoded.email));
+    console.log(accessToken, decoded)
+    res.send(users.find(user => user.userId === decoded.userId));
   } catch (e) {
     res.send();
   }
 });
 
-const createToken = (email, expirePeriod) => jwt.sign({
-  email
+const createToken = (userId, expirePeriod) => jwt.sign({
+  userId
 }, process.env.JWT_SECRET_KEY, {
   expiresIn: expirePeriod
 });
@@ -71,7 +71,7 @@ app.post('/signin', (req, res) => {
     });
   }
 
-  res.cookie('accessToken', createToken(email, '7d'), {
+  res.cookie('accessToken', createToken(user.userId, '7d'), {
     maxAge: 1000 * 60 * 60 * 24 * 7,
     httpOnly: true
   });
