@@ -47,13 +47,14 @@
 
   .fa-search {
     position: absolute;
-    right: 0px;
-    top: -2px;
+    right: 0;
+    top: 0;
     z-index: 10;
     margin-left: rem(10px);
     font-size: rem(25px);
     cursor: pointer;
     padding: rem(5px);
+    padding-bottom: rem(3px);
     background-color: $white;
   }
 }

@@ -47,5 +47,5 @@ const reg = [
 export default {
   validate(inputValue, index, button) {
     return checkIsCorrectForm(index === 2 ? inputValue : !reg[index].test(inputValue), index, button);
-  }
+  },
 };
