@@ -1,4 +1,5 @@
 import validate from './validate.js';
+import axios from 'axios';
 
 const mypageEditHtml = `<header>
 <h1 class="logo">develog</h1>
@@ -19,7 +20,7 @@ const mypageEditHtml = `<header>
     <legend class="a11yHidden">user profile edit form</legend>
     <div class="input-box">
       <label for="email">email</label>
-      <input id="email" class="input-box__input" type="email">
+      <input id="email" class="input-box__input" type="email" disabled>
       <i class="complete hidden fas fa-check-circle"></i>
       <i class="error hidden fas fa-times-circle"></i>
       <span class="error-message hidden">이메일 형식에 맞게 입력하세요.</span>
@@ -92,6 +93,19 @@ const mypageEditEvent = () => {
     e.preventDefault();
     window.history.back(1);
   });
+
+  (async () => {
+    try {
+      const { data: user } = await axios.get('/checkAuth');
+      document.getElementById('nickname').value = user.nickname;
+      document.getElementById('name').value = user.name;
+      document.getElementById('email').value = user.email;
+      document.getElementById('phone').value = user.phone;
+    } catch (e) {
+      console.error(e);
+      window.history.pushState({}, '', '/signin');
+    }
+  })();
 };
 
 export default { mypageEditHtml, mypageEditEvent };
