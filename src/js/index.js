@@ -1,7 +1,44 @@
-// import app from '../app';
-// import signin from './signin';
-// import detail from './detail';
+import axios from 'axios';
 import header from './header';
+
+const setPosts = posts => {
+  const addedHtml = posts
+    .map(
+      post =>
+        `<li class="main-post">
+    <div class="user-info">
+      <button class="avatar-button avatar-button--main" style="background-image: url(${post.userProfile}) no-repeat"></button><a class="user-nickname">${post.nickname}</a>
+    </div>
+    <span class="main-post__title">${post.title}</span
+    ><span class="main-post__desc">${post.content}</span>
+  </li>`
+    )
+    .join('');
+
+  return addedHtml;
+};
+
+const getSplitedPosts = async () => {
+  try {
+    const { data } = await axios.get('/posts');
+    return setPosts(data);
+  } catch (e) {
+    console.error(e);
+  }
+};
+
+const render = async () => {
+  const addedHtml = await getSplitedPosts();
+  const $postsContainer = document.querySelector('.posts-container');
+  console.log(typeof addedHtml);
+  $postsContainer.innerHTML = `<li class="main-post-sizer"></li>` + addedHtml;
+  const msnry = new Masonry('.posts-container', {
+    itemSelector: '.main-post',
+    columnWidth: '.main-post-sizer',
+    percentPosition: true,
+    gutter: 20,
+  });
+};
 
 const indexHtml = ` <header class="header">
 <h1 class="header--logo">develog</h1>
@@ -26,127 +63,12 @@ const indexHtml = ` <header class="header">
 </nav>
 </header>
 <section class="main-container">
-<ul class="posts-container">
-  <li class="main-post-sizer"></li>
-  <li class="main-post">
-    <div class="user-info">
-      <button class="avatar-button avatar-button--main"></button><a class="user-nickname">user</a>
-    </div>
-    <span class="main-post__title">title1</span
-    ><span class="main-post__desc">놀라지놀라지마달라진달라진너heylitsen</span>
-  </li>
-  <li class="main-post">
-    <div class="user-info">
-      <button class="avatar-button avatar-button--main"></button><a class="user-nickname">user</a>
-    </div>
-    <span class="main-post__title">title2</span
-    ><span class="main-post__desc"
-      >놀라지놀라지마달라진달라진너heylitsen지금넌differentweapon~~aimittotheworld~~rollthisgame빈틈을노려~</span
-    >
-  </li>
-  <li class="main-post">
-    <div class="user-info">
-      <button class="avatar-button avatar-button--main"></button><a class="user-nickname">user</a>
-    </div>
-    <span class="main-post__title">title3</span><img src="https://i.postimg.cc/gkQkrcf3/4.png" />
-    <span class="main-post__desc">놀라지놀라지마달라진달라진너heylitsen</span>
-  </li>
-  <li class="main-post">
-    <div class="user-info">
-      <button class="avatar-button avatar-button--main"></button><a class="user-nickname">user</a>
-    </div>
-    <span class="main-post__title">title4</span><img src="https://i.postimg.cc/T1jKdLr8/design2.png" />
-    <span class="main-post__desc">놀라지놀라지마달라진달라진너heylitsen</span>
-  </li>
-  <li class="main-post">
-    <div class="user-info">
-      <button class="avatar-button avatar-button--main"></button><a class="user-nickname">user</a>
-    </div>
-    <span class="main-post__title">title</span
-    ><span class="main-post__desc">놀라지놀라지마달라진달라진너heylitsen지금넌differentweapon~~</span>
-  </li>
-  <li class="main-post">
-    <div class="user-info">
-      <button class="avatar-button avatar-button--main"></button><a class="user-nickname">user</a>
-    </div>
-    <span class="main-post__title">title5</span><img src="https://i.postimg.cc/gkQkrcf3/4.png" /><span
-      class="main-post__desc"
-      >놀라지놀라지마달라진달라진너heylitsen</span
-    >
-  </li>
-  <li class="main-post">
-    <div class="user-info">
-      <button class="avatar-button avatar-button--main"></button><a class="user-nickname">user</a>
-    </div>
-    <span class="main-post__title">title6</span><img src="https://i.postimg.cc/T1jKdLr8/design2.png" /><span
-      class="main-post__desc"
-      >놀라지놀라지마달라진달라진너heylitsen</span
-    >
-  </li>
-  <li class="main-post">
-    <div class="user-info">
-      <button class="avatar-button avatar-button--main"></button><a class="user-nickname">user</a>
-    </div>
-    <span class="main-post__title">title7</span
-    ><span class="main-post__desc">놀라지놀라지마달라진달라진너heylitsen</span>
-  </li>
-  <li class="main-post">
-    <div class="user-info">
-      <button class="avatar-button avatar-button--main"></button><a class="user-nickname">user</a>
-    </div>
-    <span class="main-post__title">title8</span><img src="https://i.postimg.cc/gkQkrcf3/4.png" /><span
-      class="main-post__desc"
-      >놀라지놀라지마달라진달라진너heylitsen</span
-    >
-  </li>
-  <li class="main-post">
-    <div class="user-info">
-      <button class="avatar-button avatar-button--main"></button><a class="user-nickname">user</a>
-    </div>
-    <span class="main-post__title">title9</span
-    ><span class="main-post__desc">놀라지놀라지마달라진달라진너heylitsen</span>
-  </li>
-  <li class="main-post">
-    <div class="user-info">
-      <button class="avatar-button avatar-button--main"></button><a class="user-nickname">user</a>
-    </div>
-    <span class="main-post__title">title10</span
-    ><span class="main-post__desc">놀라지놀라지마달라진달라진너heylitsen</span>
-  </li>
-  <button class="see-more">더보기</button>
-</ul>
+<ul class="posts-container"></ul>
+  <button class="see-more see-more--main">더보기</button>
 </section>`;
 
-// const render = () => {
-//   const $root = document.querySelector('.root');
-//   $root.innerHTML = indexHTML;
-// };
-
 const indexEvent = () => {
-  header.headerEvent();
-  // const msnry = new Masonry('.posts-container', {
-  //   itemSelector: '.main-post',
-  //   columnWidth: '.main-post-sizer',
-  //   percentPosition: true,
-  //   gutter: 20,
-  // });
-
-  // const $button = document.querySelector('.button--login');
-  // const $userinfo = document.querySelector('.user-info');
-  // const currentPage = window.location.pathname;
-  // $userinfo.addEventListener('click', e => {
-  //   console.log(e.target);
-  //   window.history.pushState({
-  //     data: 'post'
-  //   }, '', '/detail');
-  // });
-
-  // $button.addEventListener('click', e => {
-  //   console.log(e.target);
-  //   window.history.pushState({
-  //     data: 'signin'
-  //   }, '', '/signin');
-  // });
+  window.addEventListener('DOMContentLoaded', render);
 };
 
 // export default render;

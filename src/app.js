@@ -63,5 +63,3 @@ window.addEventListener('changestate', e => {
   console.log(e);
   switchDependsOnUrl();
 });
-
-const origin = 'localhost:9000';
