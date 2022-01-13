@@ -61,8 +61,7 @@ const posts = [
     postId: 1,
     userId: 1,
     title: '제목1',
-    content:
-      `<h1>Lorem ipsum dolor sit amet consectetur adipisicing elit. Rerum labore excepturi repudiandae earum nihil quis
+    content: `<h1>Lorem ipsum dolor sit amet consectetur adipisicing elit. Rerum labore excepturi repudiandae earum nihil quis
 			</h1>numquam minus, natus corrupti molestiae blanditiis iure distinctio repellendus, praesentium tenetur! Nisi    tempore repudiandae commodi. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quae soluta doloremque
 			harum adipisci aliquid quam, explicabo cumque eius, veniam iure quas repudiandae quo voluptatibus blanditiis
 			at eligendi dignissimos? Non, repellat.
@@ -87,7 +86,7 @@ const posts = [
 			<br />
 			<br />
 			<br />
-			<br />`
+			<br />`,
     createAt: '2021-01-1',
     likedUsers: [],
   },
