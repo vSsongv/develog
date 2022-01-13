@@ -68,8 +68,24 @@ const mypageEditHtml = `<header>
   </fieldset>
 </form>
 </div>`;
+const userProfileSet = async avartar => {
+  try {
+    const { data: user } = await axios.get('/checkAuth');
+    document.getElementById('nickname').value = user.nickname;
+    document.getElementById('name').value = user.name;
+    document.getElementById('email').value = user.email;
+    document.getElementById('phone').value = user.phone;
+    avartar.style.backgroundImage = `url('${user.avartarUrl}')`;
+  } catch (e) {
+    console.error(e);
+    // window.history.pushState({}, '', '/signin');
+  }
+};
 
 const mypageEditEvent = () => {
+  const $avartar = document.querySelector('.mypageEdit--avatar');
+  userProfileSet($avartar);
+
   const $editBtn = document.querySelector('.button--editComplete');
 
   const $input = document.querySelectorAll('.input-box__input');
@@ -83,7 +99,7 @@ const mypageEditEvent = () => {
 
   const reader = new FileReader();
   reader.onload = () => {
-    document.querySelector('.mypageEdit--avatar').style.backgroundImage = `url('${reader.result}')`;
+    $avartar.style.backgroundImage = `url('${reader.result}')`;
   };
   document.querySelector('#selectImage').onchange = e => {
     reader.readAsDataURL(e.target.files[0]);
@@ -93,19 +109,6 @@ const mypageEditEvent = () => {
     e.preventDefault();
     window.history.back(1);
   });
-
-  (async () => {
-    try {
-      const { data: user } = await axios.get('/checkAuth');
-      document.getElementById('nickname').value = user.nickname;
-      document.getElementById('name').value = user.name;
-      document.getElementById('email').value = user.email;
-      document.getElementById('phone').value = user.phone;
-    } catch (e) {
-      console.error(e);
-      window.history.pushState({}, '', '/signin');
-    }
-  })();
 };
 
 export default { mypageEditHtml, mypageEditEvent };

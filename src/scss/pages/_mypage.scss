@@ -21,21 +21,25 @@
   &-avatar {
     padding: rem(10px);
     margin: auto;
-    width: 50%;
+    width: rem(200px);
+    height: rem(200px);
+    border-radius: 50%;
     min-width: rem(120px);
     max-width: rem(200px);
+    background-repeat: no-repeat;
+    background-size: cover;
     // height: 80%;
 
-    &:after {
-      content: '';
-      display: block;
-      padding-bottom: 100%;
-      border-radius: 50%;
-      border: 2px solid $black;
-      background-image: url('../assets/avatar.png');
-      background-repeat: no-repeat;
-      background-size: cover;
-    }
+    // &:after {
+    //   content: '';
+    //   display: block;
+    //   padding-bottom: 100%;
+    //   border-radius: 50%;
+    //   border: 2px solid $black;
+    //   background-image: url('../assets/avatar.png');
+    //   background-repeat: no-repeat;
+    //   background-size: cover;
+    // }
   }
 
   &-info {
