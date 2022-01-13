@@ -20,7 +20,7 @@ const switchDependsOnUrl = () => {
       index.indexEvent();
       break;
     case '/detail':
-      render(detail.detailHTML);
+      render(detail.detailHtml);
       detail.detailEvent();
       break;
     case '/signin':
@@ -47,12 +47,14 @@ const switchDependsOnUrl = () => {
   }
 };
 
+switchDependsOnUrl();
+
 // url 변경감지
 window.addEventListener('changestate', e => {
   switchDependsOnUrl();
 });
 
-window.addEventListener('load', () => {
+window.addEventListener('', () => {
   localStorage.setItem('path', window.location.pathname);
   window.history.pushState({ data: 'post' }, '', localStorage.getItem('path'));
   localStorage.removeItem('path');

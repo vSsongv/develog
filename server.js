@@ -32,11 +32,24 @@ app.get('/', (req, res) => {
 app.get('/signin', (req, res) => {
   res.redirect('/');
   // res.sendFile(path.join(__dirname, './build/index.html'));
-});
+// app.get('/signin', (req, res) => {
+//   res.sendFile(path.join(__dirname, './build/signin.html'));
+// });
+
+// app.get('/signup', (req, res) => {
+//   res.sendFile(path.join(__dirname, './build/signup.html'));
+// });
+
+// app.get('/*', async (req, res) => {
+//   res.sendFile(path.join(__dirname, './build/index.html'));
+// });
 
 // detail에 postid만 붙여서 전송이 됨
 
-app.get('/detail:postid', (req, res) => {});
+app.get('/detail/:postid', (req, res) => {
+	req.params.postid
+	posts.find()
+});
 // detail 페이지 요청
 
 app.listen(PORT, () => {
