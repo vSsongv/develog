@@ -1,3 +1,5 @@
+import header from './header';
+
 const mypageHtml = `<div class="cover hidden"></div>
 <header class="header">
   <h1 class="header--logo">
@@ -71,6 +73,7 @@ const mypageHtml = `<div class="cover hidden"></div>
 </div>`;
 
 const mypageEvent = () => {
+  header.headerEvent();
   const modalToggle = () => {
     document.querySelector('.cover').classList.toggle('hidden');
     document.querySelector('.withdrawal').classList.toggle('hidden');
@@ -78,6 +81,10 @@ const mypageEvent = () => {
 
   document.querySelector('.button--withdrawal').onclick = modalToggle;
   document.querySelector('.withdrawal--close').onclick = modalToggle;
+
+  document.querySelector('.button--edit').addEventListener('click', e => {
+    window.history.pushState({ data: 'user' }, '', '/mypageEdit');
+  });
 };
 
 export default { mypageHtml, mypageEvent };

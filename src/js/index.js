@@ -1,4 +1,5 @@
 import axios from 'axios';
+import header from './header';
 
 const setPosts = posts => {
   const addedHtml = posts

@@ -1,19 +1,15 @@
-const $complete = document.querySelectorAll('.complete');
-const $error = document.querySelectorAll('.error');
-const $errorMsg = document.querySelectorAll('.error-message');
-
 const iconChange = (index, isError) => {
   if (isError) {
-    $complete[index].classList.add('hidden');
-    $error[index].classList.remove('hidden');
+    document.querySelectorAll('.complete')[index].classList.add('hidden');
+    document.querySelectorAll('.error')[index].classList.remove('hidden');
   } else {
-    $complete[index].classList.remove('hidden');
-    $error[index].classList.add('hidden');
+    document.querySelectorAll('.complete')[index].classList.remove('hidden');
+    document.querySelectorAll('.error')[index].classList.add('hidden');
   }
 };
 
 const countCorrectInput = (arr, index, btn) => {
-  const cnt = arr.filter(idx => (idx !== index ? !$complete[idx].classList.contains('hidden') : false)).length;
+  const cnt = arr.filter(idx => (idx !== index ? !document.querySelectorAll('.complete')[idx].classList.contains('hidden') : false)).length;
 
   if (cnt === arr.length - 1) btn.removeAttribute('disabled');
 };
@@ -22,7 +18,7 @@ const activeSubmitButton = (reg, index, btn) => {
   if (reg) btn.setAttribute('disabled', '');
   else {
     countCorrectInput(
-      [...$complete].map((_, i) => i),
+      [...document.querySelectorAll('.complete')].map((_, i) => i),
       index,
       btn
     );
@@ -31,7 +27,7 @@ const activeSubmitButton = (reg, index, btn) => {
 
 const checkIsCorrectForm = (reg, index, btn) => {
   iconChange(index, reg);
-  reg ? $errorMsg[index].classList.remove('hidden') : $errorMsg[index].classList.add('hidden');
+  reg ? document.querySelectorAll('.error-message')[index].classList.remove('hidden') : document.querySelectorAll('.error-message')[index].classList.add('hidden');
   activeSubmitButton(reg, index, btn);
 };
 
