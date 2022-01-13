@@ -15,10 +15,17 @@
   </header>
 
   <div class="container">
-    <div class="mypageEdit--avatar">
+    <form method="post" enctype="multipart/form-data">
+      <label for="selectImage">
+        <div class="mypageEdit--avatar">
+          <i class='plusIcon bx bx-plus-circle'></i>
+        </div>
+      </label>
+      <input type="file" class="a11yHidden " id="selectImage" accept="image/*">
+    </form>
+    <!-- <div class="mypageEdit--avatar">
       <i class='plusIcon bx bx-plus-circle'></i>
-      <!-- <i class="plusIcon fas fa-plus"></i> -->
-    </div>
+    </div> -->
 
     <form class="mypageEdit">
       <fieldset class="mypageEdit--form">
@@ -40,6 +47,7 @@
         <div class="input-box">
           <label for="nickname">nickname</label>
           <input id="nickname" class="input-box__input" type="text">
+          <button class="button double-check">중복확인</button>
           <i class="complete hidden fas fa-check-circle"></i>
           <i class="error hidden fas fa-times-circle"></i>
           <span class="error-message hidden">닉네임을 입력하세요.</span>
@@ -59,8 +67,8 @@
           <span class="error-message hidden">6~12자리의 비밀번호를 입력하세요.</span>
         </div>
         <div class="input-box">
-          <label for="confirm-password">confirm password</label>
-          <input id="confirm-password" class="input-box__input" type="password">
+          <label for="confirmPassword">confirm password</label>
+          <input id="confirmPassword" class="input-box__input" type="password">
           <i class="complete hidden fas fa-check-circle"></i>
           <i class="error hidden fas fa-times-circle"></i>
           <span class="error-message hidden">비밀번호를 확인하세요.</span>

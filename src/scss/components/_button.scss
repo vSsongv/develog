@@ -10,68 +10,38 @@
   text-align: center;
   color: $white;
   font-size: rem(16px);
-  background: $blue;
-  border: 2px solid;
+  background-color: $blue;
   box-sizing: border-box;
+  opacity: 0.8;
+
+  &:hover {
+    opacity: 1;
+  }
 
   &--login {
     margin-left: rem(30px);
     width: rem(120px);
     height: rem(40px);
     background-color: $black;
-    border: 2px solid $black;
     transition: all 0.3s;
-
-    &:hover {
-      background-color: $white;
-      border: 2px solid $black;
-      color: $black;
-      box-sizing: border-box;
-    }
   }
 
   &--edit {
     background-color: $blue;
     transition: all 0.3s;
-    &:hover {
-      background-color: $white;
-      border: 2px solid $blue;
-      color: $blue;
-      font-weight: 700;
-    }
   }
   &--withdrawal {
-    border: 2px solid $red;
     background-color: $red;
     transition: all 0.3s;
-    &:hover {
-      background-color: $white;
-      border: 2px solid $red;
-      color: $red;
-      font-weight: 700;
-    }
   }
 
   &--back {
-    // background-color: $black;
     transition: all 0.3s;
-    &:hover {
-      background-color: $white;
-      border: 2px solid #333;
-      color: #333;
-      font-weight: 700;
-    }
   }
 
   &--editComplete {
     background-color: $blue;
     transition: all 0.3s;
-    &:hover {
-      background-color: $white;
-      border: 2px solid $blue;
-      color: $blue;
-      font-weight: 700;
-    }
   }
 
   font-size: rem(20px);
@@ -113,8 +83,21 @@ button.double-check {
   text-align: center;
   background: $blue;
   color: $white;
-  position: absolute;
   bottom: 0;
   left: 50%;
   transform: translateX(-50%);
+}
+
+.see-more:hover {
+  background: $white;
+  color: $blue;
+  border: 1px solid $blue;
+}
+
+.see-more--develog {
+  position: absolute;
+}
+
+.see-more--main {
+  position: relative;
 }
