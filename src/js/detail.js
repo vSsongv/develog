@@ -1,3 +1,5 @@
+import header from './header';
+
 const detailHTML = `<header class="header">
 	<h1 class="header--logo">develog</h1>
 
@@ -8,9 +10,7 @@ const detailHTML = `<header class="header">
 
 	<button class="button button--login">Login</button>
 
-	<div class="user hidden">
-		<img class="avatar" src="./assets/avatar.png" alt="avatar image" />
-	</div>
+	<div class="user hidden"></div>
 
 	<nav class="nav-box hidden">
 		<ul>
@@ -90,6 +90,8 @@ const detailHTML = `<header class="header">
 </main>`;
 
 const detailEvent = () => {
+  header.headerEvent();
+
   document.querySelector('.header--logo').addEventListener('click', () => {
     window.history.pushState({ data: 'index' }, '', '/');
   });
