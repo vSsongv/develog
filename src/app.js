@@ -22,7 +22,7 @@ const render = html => {
 render(index.indexHtml);
 index.indexEvent();
 
-const testswitch = () => {
+const switchDependsOnUrl = () => {
   switch (window.location.pathname) {
     case '/':
       render(index.indexHtml);
@@ -58,7 +58,7 @@ const testswitch = () => {
 
 // url 변경감지
 window.addEventListener('changestate', e => {
-  testswitch();
+  switchDependsOnUrl();
 });
 
 // window.history.pushState({ data: 'signin' }, '', '/signin');
