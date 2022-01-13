@@ -1,5 +1,6 @@
 import index from './js/index';
 import signin from './js/signin';
+import signup from './js/signup';
 import detail from './js/detail';
 
 const history = require('history-events');
@@ -24,8 +25,9 @@ const switchDependsOnUrl = () => {
       render(signin.signinHtml);
       signin.signinEvent();
       break;
-    case '/singUp':
-      // SignUp
+    case '/signup':
+      render(signup.signupHtml);
+      signup.signupEvent();
       break;
     case '/develog':
       // Develog
