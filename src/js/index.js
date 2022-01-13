@@ -20,8 +20,12 @@ const setPosts = posts => {
 
 const getSplitedPosts = async () => {
   try {
-    const { data } = await axios.get('/posts');
-    return setPosts(data);
+    const { data } = await axios.get('/posts/init');
+    console.log(data);
+    if (data === 'last') console.log('끝');
+    else {
+      return setPosts(data);
+    }
   } catch (e) {
     console.error(e);
   }
@@ -30,7 +34,6 @@ const getSplitedPosts = async () => {
 const render = async () => {
   const addedHtml = await getSplitedPosts();
   const $postsContainer = document.querySelector('.posts-container');
-  console.log(typeof addedHtml);
   $postsContainer.innerHTML = `<li class="main-post-sizer"></li>` + addedHtml;
   const msnry = new Masonry('.posts-container', {
     itemSelector: '.main-post',
@@ -67,9 +70,9 @@ const indexHtml = ` <header class="header">
   <button class="see-more see-more--main">더보기</button>
 </section>`;
 
-const indexEvent = () => {
-  window.addEventListener('DOMContentLoaded', render);
-};
+window.addEventListener('DOMContentLoaded', render);
+
+const indexEvent = () => {};
 
 // export default render;
 export default {
