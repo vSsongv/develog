@@ -7,6 +7,8 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const { users, posts } = require('./mockData');
 
+posts.sort((a, b) => new Date(a.createAt) - new Date(b.createAt));
+
 const app = express();
 const PORT = 9000;
 
