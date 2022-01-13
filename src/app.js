@@ -9,7 +9,7 @@ const history = require('history-events');
 // import './js/signup';
 // import './js/develog';
 // import './js/detail';
-// import './js/uploadPost';
+// import 'window.location.pathname./js/uploadPost';
 // import './js/mypage';
 // import './js/mypageEdit';
 
@@ -60,7 +60,5 @@ const testswitch = () => {
 window.addEventListener('changestate', e => {
   testswitch();
 });
-
-// window.history.pushState({ data: 'signin' }, '', '/signin');
 
 const origin = 'localhost:9000';
