@@ -5,16 +5,25 @@ const path = require('path');
 const cookieParser = require('cookie-parser');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
-let {
-  users,
-  posts
-} = require('./mockData.js');
-
-
+let { users, posts } = require('./mockData.js');
 
 const postNumForMain = 0;
 
 posts.sort((a, b) => new Date(a.createAt) - new Date(b.createAt));
+
+const makeSplitedPosts = (startIdx, endIdx) => {
+  let splitedPosts = [];
+  for (let i = startIdx; i < endIdx; i++) {
+    const user = users.filter(user => user.userId === posts[i].userId)[0];
+    posts[i] = {
+      ...posts[i],
+      userProfile: user.avartarUrl,
+      nickname: user.nickname,
+    };
+    splitedPosts = [...splitedPosts, posts[i]];
+  }
+  return splitedPosts;
+};
 
 const app = express();
 const PORT = 9000;
@@ -45,19 +54,20 @@ app.get('/checkAuth', (req, res) => {
   }
 });
 
-const createToken = (userId, expirePeriod) => jwt.sign({
-  userId
-}, process.env.JWT_SECRET_KEY, {
-  expiresIn: expirePeriod
-});
-
+const createToken = (userId, expirePeriod) =>
+  jwt.sign(
+    {
+      userId,
+    },
+    process.env.JWT_SECRET_KEY,
+    {
+      expiresIn: expirePeriod,
+    }
+  );
 
 // 로그인
 app.post('/signin', (req, res) => {
-  const {
-    email,
-    password
-  } = req.body;
+  const { email, password } = req.body;
   if (!email || !password) {
     return res.status(401).send({
       error: '사용자 아이디 또는 패스워드가 전달되지 않았습니다.',
@@ -65,6 +75,7 @@ app.post('/signin', (req, res) => {
   }
 
   const user = users.find(user => email === user.email && bcrypt.compareSync(password, user.password))
+
   if (!user) {
     return res.status(401).send({
       error: '등록되지 않은 사용자입니다.',
@@ -73,20 +84,20 @@ app.post('/signin', (req, res) => {
 
   res.cookie('accessToken', createToken(user.userId, '7d'), {
     maxAge: 1000 * 60 * 60 * 24 * 7,
-    httpOnly: true
+    httpOnly: true,
   });
 
   const _id = user.userId;
 
   res.send({
-    _id
+    _id,
   });
 });
 
 // 로그아웃
 app.get('/logout', (req, res) => {
   res.clearCookie('accessToken').sendStatus(204);
-})
+});
 
 // 회원가입
 app.post('/signup', (req, res) => {
@@ -94,55 +105,57 @@ app.post('/signup', (req, res) => {
     ...req.body,
     password: bcrypt.hashSync(req.body.password, 10)
   }]
+
   res.send(users);
-})
+});
 
 // 중복확인(이메일, 닉네임)
 app.get('/check/email/:email', (req, res) => {
-  const {
-    email
-  } = req.params;
+  const { email } = req.params;
   const user = users.find(user => user.email === email);
   const isDuplicate = !!user;
 
   res.send({
-    isDuplicate
+    isDuplicate,
   });
-})
+});
 
 app.get('/check/nickname/:nickname', (req, res) => {
-  const {
-    nickname
-  } = req.params;
+  const { nickname } = req.params;
   const user = users.find(user => user.nickname === nickname);
   const isDuplicate = !!user;
 
   res.send({
-    isDuplicate
+    isDuplicate,
   });
-})
+});
 
 // _id 생성(user, post)
 app.get('/users/createId', (req, res) => {
   const maxId = Math.max(...users.map(user => user.userId), 0) + 1;
 
   res.send({
-    maxId
+    maxId,
   });
-})
+});
 
+// 메인화면 초기 렌더링
 app.get('/posts/init', (req, res) => {
-  let splitedPosts = [];
-  for (let i = 0; i < 10; i++) {
-    const user = users.filter(user => user.userId === posts[i].userId)[0];
-    posts[i] = {
-      ...posts[i],
-      userProfile: user.avartarUrl,
-      nickname: user.nickname
-    };
-    splitedPosts = [...splitedPosts, posts[i]];
+  leftPostNum = posts.length - 10;
+  postIndex = 9;
+  res.send(makeSplitedPosts(0, 10));
+});
+
+// 메인화면 더보기 버튼 클릭
+app.get('/posts', (req, res) => {
+  if (leftPostNum >= 10) {
+    leftPostNum -= 10;
+    res.send(makeSplitedPosts(postIndex, 10 + postIndex));
+    postIndex += 9;
+  } else {
+    res.send(makeSplitedPosts(postIndex, leftPostNum + postIndex));
+    leftPostNum = 0;
   }
-  res.send(splitedPosts);
 });
 
 app.get('/*', (req, res) => {
