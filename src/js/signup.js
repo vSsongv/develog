@@ -1,3 +1,4 @@
+import axios from 'axios';
 import validate from './validate';
 
 const signupHtml = `<header>
@@ -54,8 +55,8 @@ const signupHtml = `<header>
       <span class="error-message hidden">제대로 입력해!!!</span>
     </div>
     <div class="sign-buttons signup">
-      <button class="button">로그인</button>
-      <button class="button" disabled>회원가입</button>
+      <button type="button" class="button">로그인</button>
+      <button type="button" class="button" disabled>회원가입</button>
     </div>
   </fieldset>
 </form>
@@ -75,6 +76,31 @@ const signupEvent = () => {
 
   document.querySelector('.sign-buttons.signup .button:first-child').onclick = () => {
     window.history.pushState(null, null, '/signin');
+  }
+  $signupBtn.onclick = async e => {
+    e.preventDefault();
+
+    try {
+      const {
+        data: maxId
+      } = await axios.get('/users');
+      const newId = maxId.maxId;
+      const {
+        data: user
+      } = await axios.post('/signup', {
+        userId: newId,
+        email: document.querySelector('#email').value,
+        password: document.querySelector('#password').value,
+        name: document.querySelector('#name').value,
+        nickname: document.querySelector('#nickname').value,
+        phone: document.querySelector('#phone').value,
+      });
+      if (user) {
+        window.history.pushState(null, null, '/signin');
+      }
+    } catch (error) {
+      console.error(error);
+    }
   }
 };
 
