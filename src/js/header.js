@@ -9,14 +9,14 @@ const headerEvent = () => {
   };
 
   document.querySelector('.header--logo').addEventListener('click', () => {
-    window.history.pushState({}, '', '/');
+    window.history.pushState(null, null, '/');
   });
 
   document.querySelector('.button--login').addEventListener('click', () => {
     window.history.pushState({}, '', '/signin');
   });
 
-  window.onload = async () => {
+  (async () => {
     try {
       const { data: user } = await axios.get('/checkAuth');
       if (user) {
@@ -34,26 +34,32 @@ const headerEvent = () => {
         document.querySelector('.user').style.backgroundImage = user.avartarUrl
           ? `url('${user.avartarUrl}')`
           : `url('img/defaultAvatar.png')`;
+
+        document.querySelector('.user').onclick = () => {
+          document.querySelector('.nav-box').classList.toggle('hidden');
+        };
+        document.querySelector('.nav-box ul li:last-child').onclick = async () => {
+          try {
+            const check = await axios.get('/logout');
+            console.log(check.status === 204);
+            if (check.status === 204) window.history.pushState(null, null, '/');
+          } catch (e) {
+            console.error(e);
+          }
+        };
       } else {
         document.querySelector('.user').classList.add('hidden');
         document.querySelector('.button--login').classList.remove('hidden');
-        window.history.pushState(null, null, '/');
+<<<<<<< HEAD
+        if (window.location.pathname !== '/') window.history.pushState(null, null, '/');
+=======
+        // if (window.location.pathname !== '/') window.history.pushState(null, null, '/');
+>>>>>>> c649fe466594d0df43545816c1fe2a7ee1a79a35
       }
     } catch (e) {
       console.error(e);
     }
-  };
-  document.querySelector('.user').onclick = () => {
-    document.querySelector('.nav-box').classList.toggle('hidden');
-  };
-  document.querySelector('.nav-box ul li:last-child').onclick = async () => {
-    try {
-      const check = await axios.get('/logout');
-      if (check.status === 204) window.history.pushState(null, null, '/');
-    } catch (e) {
-      console.error(e);
-    }
-  };
+  })();
 };
 
 export default {
