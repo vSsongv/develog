@@ -5,12 +5,26 @@ const path = require('path');
 const cookieParser = require('cookie-parser');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
-const { users, posts } = require('./mockData.js');
+let { users, posts } = require('./mockData.js');
 
 let leftPostNum = posts.length - 10;
 let postIndex = 9;
 
 posts.sort((a, b) => new Date(a.createAt) - new Date(b.createAt));
+
+const makeSplitedPosts = (startIdx, endIdx) => {
+  let splitedPosts = [];
+  for (let i = startIdx; i < endIdx; i++) {
+    const user = users.filter(user => user.userId === posts[i].userId)[0];
+    posts[i] = {
+      ...posts[i],
+      userProfile: user.avartarUrl,
+      nickname: user.nickname,
+    };
+    splitedPosts = [...splitedPosts, posts[i]];
+  }
+  return splitedPosts;
+};
 
 const app = express();
 const PORT = 9000;
@@ -133,36 +147,17 @@ app.get('/users/createId', (req, res) => {
 app.get('/posts/init', (req, res) => {
   leftPostNum = posts.length - 10;
   postIndex = 9;
-  let splitedPosts = [];
-  for (let i = 0; i < 10; i++) {
-    const user = users.filter(user => user.userId === posts[i].userId)[0];
-    posts[i] = {
-      ...posts[i],
-      userProfile: user.avartarUrl,
-      nickname: user.nickname,
-    };
-    splitedPosts = [...splitedPosts, posts[i]];
-  }
-  res.send(splitedPosts);
+  res.send(makeSplitedPosts(0, 10));
 });
 
 // 메인화면 더보기 버튼 클릭
-app.get('posts', (req, res) => {
+app.get('/posts', (req, res) => {
   if (leftPostNum >= 10) {
     leftPostNum -= 10;
-    let splitedPosts = [];
-    for (let i = postIndex; i < 10; i++) {
-      const user = users.filter(user => user.userId === posts[i].userId)[0];
-      posts[i] = {
-        ...posts[i],
-        userProfile: user.avartarUrl,
-        nickname: user.nickname,
-      };
-      splitedPosts = [...splitedPosts, posts[i]];
-    }
+    res.send(makeSplitedPosts(postIndex, 10 + postIndex));
     postIndex += 9;
-    res.send(splitedPosts);
   } else {
+    res.send(makeSplitedPosts(postIndex, leftPostNum + postIndex));
     leftPostNum = 0;
   }
 });
