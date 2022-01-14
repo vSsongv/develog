@@ -21,12 +21,7 @@ const switchDependsOnUrl = () => {
       index.indexEvent();
       break;
     case '/detail':
-<<<<<<< HEAD
       render(detail.detailHtml);
-=======
-      console.log('switch');
-      render(detail.detailHTML);
->>>>>>> b67b8e5eb2d1175389417c3c6338b52805d2c4a8
       detail.detailEvent();
       break;
     case '/signin':
@@ -66,16 +61,3 @@ window.addEventListener('changestate', e => {
   console.log(e);
   switchDependsOnUrl();
 });
-<<<<<<< HEAD
-
-window.addEventListener('', () => {
-  localStorage.setItem('path', window.location.pathname);
-  window.history.pushState({ data: 'post' }, '', localStorage.getItem('path'));
-  localStorage.removeItem('path');
-});
-
-window.addEventListener('unload', () => {
-  localStorage.setItem('path', window.location.pathname);
-});
-=======
->>>>>>> b67b8e5eb2d1175389417c3c6338b52805d2c4a8

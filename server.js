@@ -5,10 +5,7 @@ const path = require('path');
 const cookieParser = require('cookie-parser');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
-let {
-  users,
-  posts
-} = require('./mockData.js');
+let { users, posts } = require('./mockData.js');
 
 const postNumForMain = 0;
 
@@ -32,50 +29,39 @@ const auth = (req, res, next) => {
   }
 };
 
-<<<<<<< HEAD
-app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, './build/index.html'));
-});
-
-app.get('/signin', (req, res) => {
-  res.redirect('/');
-  // res.sendFile(path.join(__dirname, './build/index.html'));
-// app.get('/signin', (req, res) => {
-//   res.sendFile(path.join(__dirname, './build/signin.html'));
-// });
-=======
 app.get('/checkAuth', (req, res) => {
   const accessToken = req.headers.authorization || req.cookies.accessToken;
 
   try {
     const decoded = jwt.verify(accessToken, process.env.JWT_SECRET_KEY);
-    console.log(accessToken, decoded)
+    console.log(accessToken, decoded);
     res.send(users.find(user => user.userId === decoded.userId));
   } catch (e) {
     res.send();
   }
 });
 
-const createToken = (userId, expirePeriod) => jwt.sign({
-  userId
-}, process.env.JWT_SECRET_KEY, {
-  expiresIn: expirePeriod
-});
-
+const createToken = (userId, expirePeriod) =>
+  jwt.sign(
+    {
+      userId,
+    },
+    process.env.JWT_SECRET_KEY,
+    {
+      expiresIn: expirePeriod,
+    }
+  );
 
 // 로그인
 app.post('/signin', (req, res) => {
-  const {
-    email,
-    password
-  } = req.body;
+  const { email, password } = req.body;
   if (!email || !password) {
     return res.status(401).send({
       error: '사용자 아이디 또는 패스워드가 전달되지 않았습니다.',
     });
   }
 
-  const user = users.find(user => email === user.email && password === user.password) // bcrypt.compareSync(password, user.password)
+  const user = users.find(user => email === user.email && password === user.password); // bcrypt.compareSync(password, user.password)
 
   if (!user) {
     return res.status(401).send({
@@ -85,64 +71,62 @@ app.post('/signin', (req, res) => {
 
   res.cookie('accessToken', createToken(user.userId, '7d'), {
     maxAge: 1000 * 60 * 60 * 24 * 7,
-    httpOnly: true
+    httpOnly: true,
   });
 
   const _id = user.id;
 
   res.send({
-    _id
+    _id,
   });
 });
 
 // 로그아웃
 app.get('/logout', (req, res) => {
   res.clearCookie('accessToken').sendStatus(204);
-})
+});
 
 // 회원가입
 app.post('/signup', (req, res) => {
-  users = [...users, {
-    email: req.body.email,
-    password: req.body.password // 암호화된 비밀번호로 변경
-  }]
+  users = [
+    ...users,
+    {
+      email: req.body.email,
+      password: req.body.password, // 암호화된 비밀번호로 변경
+    },
+  ];
   res.send(users);
-})
+});
 
 // 중복확인(이메일, 닉네임)
 app.get('/check/email/:email', (req, res) => {
-  const {
-    email
-  } = req.params;
+  const { email } = req.params;
   const user = users.find(user => user.email === email);
   const isDuplicate = !!user;
 
   res.send({
-    isDuplicate
+    isDuplicate,
   });
-})
->>>>>>> b67b8e5eb2d1175389417c3c6338b52805d2c4a8
+});
 
 app.get('/check/nickname/:nickname', (req, res) => {
-  const {
-    nickname
-  } = req.params;
+  const { nickname } = req.params;
   const user = users.find(user => user.nickname === nickname);
   const isDuplicate = !!user;
 
   res.send({
-    isDuplicate
+    isDuplicate,
   });
-})
+});
 
 // _id 생성(user, post)
 app.get('/users/createId', (req, res) => {
   const maxId = Math.max(...users.map(user => user.id), 0) + 1;
 
   res.send({
-    maxId
+    maxId,
   });
-})
+});
 
 app.get('/posts/init', (req, res) => {
   let splitedPosts = [];
@@ -151,27 +135,15 @@ app.get('/posts/init', (req, res) => {
     posts[i] = {
       ...posts[i],
       userProfile: user.avartarUrl,
-      nickname: user.nickname
+      nickname: user.nickname,
     };
     splitedPosts = [...splitedPosts, posts[i]];
   }
   res.send(splitedPosts);
 });
 
-<<<<<<< HEAD
-// app.get('/*', async (req, res) => {
-//   res.sendFile(path.join(__dirname, './build/index.html'));
-// });
-
-// detail에 postid만 붙여서 전송이 됨
-
-app.get('/detail/:postid', (req, res) => {
-	req.params.postid
-	posts.find()
-=======
 app.get('/*', async (req, res) => {
   await res.sendFile(path.join(__dirname, './build/index.html'));
->>>>>>> b67b8e5eb2d1175389417c3c6338b52805d2c4a8
 });
 // detail 페이지 요청
 

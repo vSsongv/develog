@@ -37,7 +37,7 @@ const headerEvent = () => {
       } else {
         document.querySelector('.user').classList.add('hidden');
         document.querySelector('.button--login').classList.remove('hidden');
-        window.history.pushState(null, null, '/');
+        // window.history.pushState(null, null, '/');
       }
     } catch (e) {
       console.error(e);
