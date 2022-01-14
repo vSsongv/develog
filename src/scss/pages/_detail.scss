@@ -98,12 +98,14 @@
     resize: none;
     border: none;
     overflow: hidden;
+    position: relative;
 
     font-size: rem(20px);
-    padding: 0 rem(40px) 0 rem(10px);
+    margin-right: rem(30px);
+    padding-right: rem(40px);
     border: 2px solid #5c5a5a;
     opacity: 0.3;
-    width: 90%;
+    width: 100%;
     height: rem(60px);
 
     // word-break: break-all;
@@ -126,12 +128,7 @@
 
     &__cancel {
       position: absolute;
-      @media screen and (min-width: 1100px) {
-        right: rem(70px);
-      }
-      @media screen and (max-width: 1099px) {
-        right: rem(60px);
-      }
+      right: rem(40px);
     }
 
     &:hover {
