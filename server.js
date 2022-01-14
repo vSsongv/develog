@@ -7,8 +7,7 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 let { users, posts } = require('./mockData.js');
 
-let leftPostNum = posts.length - 10;
-let postIndex = 9;
+const postNumForMain = 0;
 
 posts.sort((a, b) => new Date(a.createAt) - new Date(b.createAt));
 
@@ -49,7 +48,6 @@ app.get('/checkAuth', (req, res) => {
 
   try {
     const decoded = jwt.verify(accessToken, process.env.JWT_SECRET_KEY);
-    console.log(accessToken, decoded);
     res.send(users.find(user => user.userId === decoded.userId));
   } catch (e) {
     res.send();
@@ -76,7 +74,7 @@ app.post('/signin', (req, res) => {
     });
   }
 
-  const user = users.find(user => email === user.email && password === user.password); // bcrypt.compareSync(password, user.password)
+  const user = users.find(user => email === user.email && bcrypt.compareSync(password, user.password))
 
   if (!user) {
     return res.status(401).send({
@@ -89,7 +87,7 @@ app.post('/signin', (req, res) => {
     httpOnly: true,
   });
 
-  const _id = user.id;
+  const _id = user.userId;
 
   res.send({
     _id,
@@ -103,13 +101,11 @@ app.get('/logout', (req, res) => {
 
 // 회원가입
 app.post('/signup', (req, res) => {
-  users = [
-    ...users,
-    {
-      email: req.body.email,
-      password: req.body.password, // 암호화된 비밀번호로 변경
-    },
-  ];
+  users = [...users, {
+    ...req.body,
+    password: bcrypt.hashSync(req.body.password, 10)
+  }]
+
   res.send(users);
 });
 
@@ -136,7 +132,7 @@ app.get('/check/nickname/:nickname', (req, res) => {
 
 // _id 생성(user, post)
 app.get('/users/createId', (req, res) => {
-  const maxId = Math.max(...users.map(user => user.id), 0) + 1;
+  const maxId = Math.max(...users.map(user => user.userId), 0) + 1;
 
   res.send({
     maxId,
@@ -162,8 +158,8 @@ app.get('/posts', (req, res) => {
   }
 });
 
-app.get('/*', async (req, res) => {
-  await res.sendFile(path.join(__dirname, './build/index.html'));
+app.get('/*', (req, res) => {
+  res.sendFile(path.join(__dirname, './build/index.html'));
 });
 
 app.listen(PORT, () => {
