@@ -111,6 +111,9 @@
     outline: none;
     transition: all 0.3s ease-in-out;
 
+    &:focus::placeholder {
+      color: transparent;
+    }
     &::placeholder {
       line-height: 3;
     }
