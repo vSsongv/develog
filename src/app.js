@@ -54,13 +54,9 @@ const switchDependsOnUrl = () => {
   }
 };
 
-// window.addEventListener('DOMContentLoaded', e => {
-//   // const path = window.location
-// });
 switchDependsOnUrl();
 
 // url 변경감지
-window.addEventListener('changestate', e => {
-  console.log(e);
+window.addEventListener('changestate', () => {
   switchDependsOnUrl();
 });

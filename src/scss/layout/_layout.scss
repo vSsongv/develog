@@ -8,3 +8,13 @@
   width: 70%;
   margin: 0 auto;
 }
+
+.is-last-post {
+  text-align: center;
+  position: relative;
+  bottom: 0;
+  display: block;
+  font-size: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+}

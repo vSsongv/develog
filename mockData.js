@@ -312,6 +312,102 @@ const posts = [
     createAt: '2021-01-04',
     likedUsers: [],
   },
+  {
+    postId: 30,
+    userId: 5,
+    title: '제목1',
+    content:
+      'Enim consequat Lorem ipsum ut laborum officia cillum qui id fugiat duis. Sit incididunt fugiat reprehenderit aute mollit et nostrud laboris do aliqua sint. Magna laboris incididunt voluptate sunt ullamco nostrud exercitation reprehenderit excepteur sunt enim. Velit sunt excepteur tempor id ut. Laborum Lorem duis dolor dolor magna non deserunt quis.',
+    createAt: '2021-01-11',
+    likedUsers: [],
+  },
+  {
+    postId: 31,
+    userId: 5,
+    title: '제목2',
+    content:
+      'Enim consequat Lorem ipsum ut laborum officia cillum qui id fugiat duis. Sit incididunt fugiat reprehenderit aute mollit et nostrud laboris do aliqua sint. Magna laboris incididunt voluptate sunt ullamco nostrud exercitation reprehenderit excepteur sunt enim. Velit sunt excepteur tempor id ut. Laborum Lorem duis dolor dolor magna non deserunt quis.',
+    createAt: '2021-01-12',
+    likedUsers: [],
+  },
+  {
+    postId: 32,
+    userId: 5,
+    title: '제목3',
+    content: 'Aliqua nulla do ea laboris velit nisi reprehenderit elit occaecat.',
+    createAt: '2021-01-13',
+    likedUsers: [],
+  },
+  {
+    postId: 33,
+    userId: 5,
+    title: '제목4',
+    content:
+      'Enim consequat Lorem ipsum ut laborum officia cillum qui id fugiat duis. Sit incididunt fugiat reprehenderit aute mollit et nostrud laboris do aliqua sint. Magna laboris incididunt voluptate sunt ullamco nostrud exercitation reprehenderit excepteur sunt enim. Velit sunt excepteur tempor id ut. Laborum Lorem duis dolor dolor magna non deserunt quis.',
+    createAt: '2021-01-14',
+    likedUsers: [],
+  },
+  {
+    postId: 34,
+    userId: 5,
+    title: '제목5',
+    content:
+      'Enim consequat Lorem ipsum ut laborum officia cillum qui id fugiat duis. Sit incididunt fugiat reprehenderit aute mollit et nostrud laboris do aliqua sint. Magna laboris incididunt voluptate sunt ullamco nostrud exercitation reprehenderit excepteur sunt enim. Velit sunt excepteur tempor id ut. Laborum Lorem duis dolor dolor magna non deserunt quis.',
+    createAt: '2021-01-15',
+    likedUsers: [],
+  },
+  {
+    postId: 35,
+    userId: 5,
+    title: '제목6',
+    content: 'Aliqua nulla do ea laboris velit nisi reprehenderit elit occaecat.',
+    createAt: '2021-01-16',
+    likedUsers: [],
+  },
+  {
+    postId: 36,
+    userId: 6,
+    title: '제목4',
+    content:
+      'Enim consequat Lorem ipsum ut laborum officia cillum qui id fugiat duis. Sit incididunt fugiat reprehenderit aute mollit et nostrud laboris do aliqua sint. Magna laboris incididunt voluptate sunt ullamco nostrud exercitation reprehenderit excepteur sunt enim. Velit sunt excepteur tempor id ut. Laborum Lorem duis dolor dolor magna non deserunt quis.',
+    createAt: '2021-01-6',
+    likedUsers: [],
+  },
+  {
+    postId: 37,
+    userId: 6,
+    title: '제목5',
+    content:
+      'Enim consequat Lorem ipsum ut laborum officia cillum qui id fugiat duis. Sit incididunt fugiat reprehenderit aute mollit et nostrud laboris do aliqua sint. Magna laboris incididunt voluptate sunt ullamco nostrud exercitation reprehenderit excepteur sunt enim. Velit sunt excepteur tempor id ut. Laborum Lorem duis dolor dolor magna non deserunt quis.',
+    createAt: '2021-01-7',
+    likedUsers: [],
+  },
+  {
+    postId: 38,
+    userId: 6,
+    title: '제목6',
+    content:
+      'Enim consequat Lorem ipsum ut laborum officia cillum qui id fugiat duis. Sit incididunt fugiat reprehenderit aute mollit et nostrud laboris do aliqua sint. Magna laboris incididunt voluptate sunt ullamco nostrud exercitation reprehenderit excepteur sunt enim. Velit sunt excepteur tempor id ut. Laborum Lorem duis dolor dolor magna non deserunt quis.',
+    createAt: '2021-01-8',
+    likedUsers: [],
+  },
+  {
+    postId: 39,
+    userId: 6,
+    title: '제목7',
+    content: 'Aliqua nulla do ea laboris velit nisi reprehenderit elit occaecat.',
+    createAt: '2021-01-9',
+    likedUsers: [],
+  },
+  {
+    postId: 40,
+    userId: 6,
+    title: '제목8',
+    content:
+      'Enim consequat Lorem ipsum ut laborum officia cillum qui id fugiat duis. Sit incididunt fugiat reprehenderit aute mollit et nostrud laboris do aliqua sint. Magna laboris incididunt voluptate sunt ullamco nostrud exercitation reprehenderit excepteur sunt enim. Velit sunt excepteur tempor id ut. Laborum Lorem duis dolor dolor magna non deserunt quis.',
+    createAt: '2021-01-10',
+    likedUsers: [],
+  },
 ];
 
 module.exports = {
