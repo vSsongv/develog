@@ -142,10 +142,17 @@ app.get('/posts/init', (req, res) => {
   res.send(splitedPosts);
 });
 
-app.get('/*', async (req, res) => {
-  await res.sendFile(path.join(__dirname, './build/index.html'));
-});
 // detail 페이지 요청
+app.get('/posts/:id', (req, res) => {
+  const postid = req.params.id;
+  console.log('postid', typeof postid, postid, 'post.id');
+  const post = posts.find(post => post.id === postid);
+  res.send(post);
+});
+
+app.get('/*', (req, res) => {
+  res.sendFile(path.join(__dirname, './build/index.html'));
+});
 
 app.listen(PORT, () => {
   console.log(`Server listening at http://localhost:${PORT}`);

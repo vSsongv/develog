@@ -8,6 +8,7 @@ import header from './js/header';
 
 const history = require('history-events');
 
+const regex = /\/[a-zA-Z0-9]*/;
 const $root = document.querySelector('.root');
 
 const render = html => {
@@ -15,7 +16,9 @@ const render = html => {
 };
 
 const switchDependsOnUrl = () => {
-  switch (window.location.pathname) {
+  const url = window.location.pathname.split('/');
+  console.log(url);
+  switch (url[1] === '' ? '/' : `/${url[1]}`) {
     case '/':
       render(index.indexHtml);
       index.indexEvent();
