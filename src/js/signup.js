@@ -12,10 +12,11 @@ const signupHtml = `<header>
     <div class="input-box">
       <label for="email">email</label>
       <input id="email" class="input-box__input" type="email" />
-      <button class="button double-check">중복확인</button>
+      <button type="button" class="button double-check" disabled>중복확인</button>
       <i class="complete hidden fas fa-check-circle"></i>
       <i class="error hidden fas fa-times-circle"></i>
       <span class="error-message hidden">제대로 입력해!!!</span>
+      <span class="check-message hidden">다시 중복 확인하기!!!</span>
     </div>
     <div class="input-box">
       <label for="password">password</label>
@@ -41,11 +42,11 @@ const signupHtml = `<header>
     <div class="input-box">
       <label for="nickname">nickname</label>
       <input id="nickname" class="input-box__input" type="text" />
-      <button class="button double-check">중복확인</button>
-
+      <button type="button" class="button double-check" disabled>중복확인</button>
       <i class="complete hidden fas fa-check-circle"></i>
       <i class="error hidden fas fa-times-circle"></i>
       <span class="error-message hidden">제대로 입력해!!!</span>
+      <span class="check-message hidden">다시 중복 확인하기!!!</span>
     </div>
     <div class="input-box">
       <label for="phone">phone</label>
@@ -55,7 +56,6 @@ const signupHtml = `<header>
       <span class="error-message hidden">제대로 입력해!!!</span>
     </div>
     <div class="sign-buttons signup">
-      <button type="button" class="button">로그인</button>
       <button type="button" class="button" disabled>회원가입</button>
     </div>
   </fieldset>
@@ -64,7 +64,7 @@ const signupHtml = `<header>
 `
 
 const signupEvent = () => {
-  const $signupBtn = document.querySelector('.sign-buttons.signup .button:last-child');
+  const $signupBtn = document.querySelector('.sign-buttons.signup .button');
   const $input = document.querySelectorAll('.input-box__input');
 
   document.querySelector('.sign-form').oninput = e => {
@@ -73,10 +73,19 @@ const signupEvent = () => {
       if (e.target === input) return validate.validate(e.target.value, index, $signupBtn);
     });
   };
-
-  document.querySelector('.sign-buttons.signup .button:first-child').onclick = () => {
-    window.history.pushState(null, null, '/signin');
+  document.querySelectorAll('.double-check')[0].onclick = async e => {
+    const {
+      data: isDuplicate
+    } = await axios.get('/check/email/' + $input[0].value);
+    validate.isDuplicate(0, isDuplicate.isDuplicate);
   }
+  document.querySelectorAll('.double-check')[1].onclick = async e => {
+    const {
+      data: isDuplicate
+    } = await axios.get('/check/nickname/' + $input[4].value);
+    validate.isDuplicate(4, isDuplicate.isDuplicate);
+  }
+
   $signupBtn.onclick = async e => {
     e.preventDefault();
 

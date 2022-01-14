@@ -1,10 +1,32 @@
+const isDuplicate = (index, isError) => {
+  if (isError) {
+    document.querySelectorAll('.complete')[index].classList.add('hidden');
+    document.querySelectorAll('.error')[index].classList.remove('hidden');
+    document.querySelectorAll('.check-message')[+!!index].classList.remove('hidden');
+    document.querySelectorAll('.double-check')[+!!index].style.backgroundColor = 'red';
+  } else {
+    document.querySelectorAll('.complete')[index].classList.remove('hidden');
+    document.querySelectorAll('.error')[index].classList.add('hidden');
+    document.querySelectorAll('.check-message')[+!!index].classList.add('hidden');
+    document.querySelectorAll('.double-check')[+!!index].style.backgroundColor = 'green';
+  }
+}
+
 const iconChange = (index, isError) => {
   if (isError) {
     document.querySelectorAll('.complete')[index].classList.add('hidden');
     document.querySelectorAll('.error')[index].classList.remove('hidden');
+    if (index === 0 || index === 4) {
+      document.querySelectorAll('.double-check')[+!!index].setAttribute('disabled', '');
+      document.querySelectorAll('.check-message')[+!!index].classList.add('hidden');
+    }
   } else {
     document.querySelectorAll('.complete')[index].classList.remove('hidden');
     document.querySelectorAll('.error')[index].classList.add('hidden');
+    if (index === 0 || index === 4) {
+      document.querySelectorAll('.double-check')[+!!index].removeAttribute('disabled');
+      // document.querySelectorAll('.check-message')[+!!index].classList.remove('hidden');
+    }
   }
 };
 
@@ -44,4 +66,5 @@ export default {
   validate(inputValue, index, button) {
     return checkIsCorrectForm(index === 2 ? inputValue : !reg[index].test(inputValue), index, button);
   },
+  isDuplicate
 };
