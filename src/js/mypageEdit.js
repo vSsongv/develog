@@ -6,16 +6,16 @@ const mypageEditHtml = `<header>
 </header>
 
 <div class="container">
-<form method="post" enctype="multipart/form-data">
-  <label for="selectImage">
-    <div class="mypageEdit--avatar">
-      <i class='plusIcon bx bx-plus-circle'></i>
-    </div>
-  </label>
-  <input type="file" class="a11yHidden " id="selectImage" accept="image/*">
+<form class="image--form" method="post" enctype="multipart/form-data">
 </form>
 
-<form class="mypageEdit">
+<form class="mypageEdit" action="/upload" enctype="multipart/form-data">
+<label class="label--avatar" for="selectImage">
+  <div class="mypageEdit--avatar">
+    <i class='plusIcon bx bx-plus-circle'></i>
+  </div>
+</label>
+<input type="file" class="a11yHidden " name="selectImage" id="selectImage" accept="image/*">
   <fieldset class="mypageEdit--form">
     <legend class="a11yHidden">user profile edit form</legend>
     <div class="input-box">
@@ -62,8 +62,8 @@ const mypageEditHtml = `<header>
       <span class="error-message hidden">올바른 핸드폰 번호를 입력하세요.</span>
     </div>
     <div class="button-group">
-      <button class="button button--back">돌아가기</button>
-      <button class="button button--editComplete">수정완료</button>
+      <button type="button" class="button button--back">돌아가기</button>
+      <button type="button" class="button button--editComplete">수정완료</button>
     </div>
   </fieldset>
 </form>
@@ -108,6 +108,41 @@ const mypageEditEvent = () => {
   document.querySelector('.button--back').addEventListener('click', e => {
     e.preventDefault();
     window.history.back(1);
+  });
+
+  document.querySelector('.button--editComplete').addEventListener('click', async e => {
+    console.log(document.querySelector('#selectImage').value);
+    console.log(document.querySelector('#selectImage').files);
+    console.log(e);
+    e.preventDefault();
+
+    const config = {
+      header: { 'content-type': 'multipart/form-data' },
+    };
+
+    try {
+      const { data: user } = await axios.get('/checkAuth');
+
+      const $fileImage = document.querySelector('#selectImage');
+
+      const formData = new FormData();
+
+      formData.append('selectImage', $fileImage.files[0]);
+      formData.append('filename', $fileImage.files[0].name);
+
+      await axios.post('/uploadImage', formData, config).then(response => {
+        if (response.status === 200) {
+          axios.patch(`/editUser/${user.userId}`, {
+            password: document.getElementById('password').value,
+            nickname: document.getElementById('nickname').value,
+            phone: document.getElementById('phone').value,
+            avartarUrl: `/img/${$fileImage.files[0].name}`,
+          });
+        }
+      });
+    } catch (e) {
+      console.error(e);
+    }
   });
 };
 
