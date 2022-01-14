@@ -1,6 +1,12 @@
 @use '../utils/unit' as *;
 @use '../utils/colors' as *;
 
+.image--form {
+  width: 200px;
+  height: 200px;
+  margin: 0 auto;
+}
+
 .mypageEdit--avatar {
   position: relative;
 
