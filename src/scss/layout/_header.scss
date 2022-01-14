@@ -63,11 +63,12 @@
   display: flex;
   align-items: center;
   margin-left: rem(30px);
-
-  img {
-    height: rem(45px);
-    cursor: pointer;
-  }
+  width: rem(45px);
+  height: rem(45px);
+  border-radius: 50%;
+  background-repeat: no-repeat;
+  background-size: cover;
+  cursor: pointer;
 }
 
 .nav-box {
@@ -85,16 +86,16 @@
 
       &:first-child:hover {
         border-radius: rem(10px) rem(10px) 0 0;
-        background-color: antiquewhite;
+        background-color: rgb(232, 237, 252);
       }
 
       &:hover {
-        background-color: antiquewhite;
+        background-color: rgb(232, 237, 252);
       }
 
       &:last-child:hover {
         border-radius: 0 0 rem(10px) rem(10px);
-        background-color: antiquewhite;
+        background-color: rgb(232, 237, 252);
       }
     }
   }

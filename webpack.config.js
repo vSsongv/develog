@@ -10,8 +10,7 @@ module.exports = {
     clean: true,
   },
   module: {
-    rules: [
-      {
+    rules: [{
         test: /\.js$/,
         include: [path.resolve(__dirname, './app.js')],
         exclude: /node_modules/,
@@ -19,7 +18,12 @@ module.exports = {
           loader: 'babel-loader',
           options: {
             presets: ['@babel/preset-env'],
-            plugins: [['@babel/plugin-transform-runtime', { corejs: 3, proposals: true }]],
+            plugins: [
+              ['@babel/plugin-transform-runtime', {
+                corejs: 3,
+                proposals: true
+              }]
+            ],
           },
         },
       },
@@ -31,18 +35,28 @@ module.exports = {
       {
         test: /\.(png|svg|jpg|jpeg|gif)$/i,
         loader: 'file-loader',
-        options: { outputPath: 'img', publicPath: 'img', name: '[name].[ext]' },
+        options: {
+          outputPath: 'img',
+          publicPath: 'img',
+          name: '[name].[ext]'
+        },
       },
     ],
   },
   plugins: [
-    new HtmlWebpackPlugin({ template: 'src/index.html' }),
-    new MiniCssExtractPlugin({ filename: 'css/style.css' }),
+    new HtmlWebpackPlugin({
+      template: 'src/index.html'
+    }),
+    new MiniCssExtractPlugin({
+      filename: 'css/style.css'
+    }),
   ],
   devServer: {
     open: true,
     port: 'auto',
-    proxy: { '/': 'http://localhost:9000' },
+    proxy: {
+      '/': 'http://localhost:9000'
+    },
   },
   devtool: 'source-map',
   mode: 'development',

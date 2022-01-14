@@ -1,3 +1,6 @@
+import header from './header';
+import axios from 'axios';
+
 const mypageHtml = `<div class="cover hidden"></div>
 <header class="header">
   <h1 class="header--logo">
@@ -11,9 +14,7 @@ const mypageHtml = `<div class="cover hidden"></div>
 
   <button class="button button--login">Login</button>
 
-  <div class="user hidden">
-    <img class="avatar" src="./assets/avatar.png" alt="avatar image">
-  </div>
+  <div class="user hidden"></div>
 
   <nav class="nav-box hidden">
     <ul>
@@ -30,20 +31,20 @@ const mypageHtml = `<div class="cover hidden"></div>
     <div class="user-profile-avatar"></div>
     <div class="user-profile-info">
       <div class="nickname">
-        <span>쨈콩</span>
+        <span></span>
         <span>님, 환영합니다.</span>
       </div>
       <div class="user-profile-info-input">
         <label for="name">name :</label>
-        <input id="name" type="text" disabled value="원종빈">
+        <input id="name" type="text" disabled>
       </div>
       <div class="user-profile-info-input">
         <label for="email">email :</label>
-        <input id="email" type="email" disabled value="jongbin@gmail.com">
+        <input id="email" type="email" disabled>
       </div>
       <div class="user-profile-info-input">
-        <label for="nickname">phone :</label>
-        <input id="phone" type="text" disabled value="010-0000-0000">
+        <label for="phone">phone :</label>
+        <input id="phone" type="text" disabled>
       </div>
     </div>
   </section>
@@ -70,7 +71,24 @@ const mypageHtml = `<div class="cover hidden"></div>
   </section>
 </div>`;
 
+const userProfileSet = async () => {
+  try {
+    const { data: user } = await axios.get('/checkAuth');
+    document.querySelector('.nickname span').textContent = user.nickname;
+    document.getElementById('name').value = user.name;
+    document.getElementById('email').value = user.email;
+    document.getElementById('phone').value = user.phone;
+    document.querySelector('.user-profile-avatar').style.backgroundImage = `url('${user.avartarUrl}')`;
+  } catch (e) {
+    console.error(e);
+    window.history.pushState({}, '', '/signin');
+  }
+};
+
 const mypageEvent = () => {
+  userProfileSet();
+
+  header.headerEvent();
   const modalToggle = () => {
     document.querySelector('.cover').classList.toggle('hidden');
     document.querySelector('.withdrawal').classList.toggle('hidden');
@@ -78,6 +96,10 @@ const mypageEvent = () => {
 
   document.querySelector('.button--withdrawal').onclick = modalToggle;
   document.querySelector('.withdrawal--close').onclick = modalToggle;
+
+  document.querySelector('.button--edit').addEventListener('click', e => {
+    window.history.pushState({ data: 'user' }, '', '/mypageEdit');
+  });
 };
 
 export default { mypageHtml, mypageEvent };

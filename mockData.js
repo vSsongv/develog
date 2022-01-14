@@ -6,7 +6,7 @@ const users = [
     nickname: 'User1',
     name: '송진영',
     phone: '010-1234-5678',
-    avartarUrl: 'src/assets/doctorStrange_profile.jpg',
+    avartarUrl: '',
   },
   {
     userId: 2,
@@ -19,8 +19,8 @@ const users = [
   },
   {
     userId: 3,
-    email: 'test3@gmail.com',
-    password: '345345',
+    email: '1410ahs@naver.com',
+    password: 'gustj123',
     nickname: 'User3',
     name: '안현서',
     phone: '010-3456-7890',
@@ -33,7 +33,7 @@ const users = [
     nickname: 'User4',
     name: '원종빈',
     phone: '010-4567-8901',
-    avartarUrl: 'src/assets/종빈이.png',
+    avartarUrl: 'img/avatar.png',
   },
   {
     userId: 5,
@@ -61,32 +61,20 @@ const posts = [
     postId: 1,
     userId: 1,
     title: '제목1',
-    content: `<h1>Lorem ipsum dolor sit amet consectetur adipisicing elit. Rerum labore excepturi repudiandae earum nihil quis
-			</h1>numquam minus, natus corrupti molestiae blanditiis iure distinctio repellendus, praesentium tenetur! Nisi    tempore repudiandae commodi. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quae soluta doloremque
+    content: `Lorem ipsum dolor sit amet consectetur adipisicing elit. Rerum labore excepturi repudiandae earum nihil quis
+			numquam minus, natus corrupti molestiae blanditiis iure distinctio repellendus, praesentium tenetur! Nisi    tempore repudiandae commodi. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quae soluta doloremque
 			harum adipisci aliquid quam, explicabo cumque eius, veniam iure quas repudiandae quo voluptatibus blanditiis
-			at eligendi dignissimos? Non, repellat.
-			<br />
-			<br />
-			<br />
-			<br />
+			at eligendi dignissimos? Non, repellat.<br><br><br>
 			Lorem ipsum dolor sit amet consectetur adipisicing elit. Rerum labore excepturi repudiandae earum nihil quis
 			numquam minus, natus corrupti molestiae blanditiis iure distinctio repellendus, praesentium tenetur! Nisi
 			tempore repudiandae commodi. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quae soluta doloremque
 			harum adipisci aliquid quam, explicabo cumque eius, veniam iure quas repudiandae quo voluptatibus blanditiis
-			at eligendi dignissimos? Non, repellat.
-			<br />
-			<br />
-			<br />
-			<br />
+			at eligendi dignissimos? Non, repellat.<br><br><br>
 			Lorem ipsum dolor sit amet consectetur adipisicing elit. Rerum labore excepturi repudiandae earum nihil quis
 			numquam minus, natus corrupti molestiae blanditiis iure distinctio repellendus, praesentium tenetur! Nisi
 			tempore repudiandae commodi. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quae soluta doloremque
 			harum adipisci aliquid quam, explicabo cumque eius, veniam iure quas repudiandae quo voluptatibus blanditiis
-			at eligendi dignissimos? Non, repellat.
-			<br />
-			<br />
-			<br />
-			<br />`,
+			at eligendi dignissimos? Non, repellat.`,
     createAt: '2021-01-1',
     likedUsers: [],
   },
@@ -326,4 +314,7 @@ const posts = [
   },
 ];
 
-module.exports = { users, posts };
+module.exports = {
+  users,
+  posts,
+};
