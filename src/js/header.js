@@ -50,7 +50,11 @@ const headerEvent = () => {
       } else {
         document.querySelector('.user').classList.add('hidden');
         document.querySelector('.button--login').classList.remove('hidden');
+<<<<<<< HEAD
         if (window.location.pathname !== '/') window.history.pushState(null, null, '/');
+=======
+        // if (window.location.pathname !== '/') window.history.pushState(null, null, '/');
+>>>>>>> c649fe466594d0df43545816c1fe2a7ee1a79a35
       }
     } catch (e) {
       console.error(e);
