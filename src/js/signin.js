@@ -37,7 +37,6 @@ const signinEvent = () => {
 	const $input = document.querySelectorAll('.input-box__input');
 
 	document.querySelector('.sign-form').oninput = e => {
-		console.log(e.target.value);
 		$input.forEach((input, index) => {
 			if (e.target === input) validate.validate(e.target.value, index, $signinBtn);
 		});
@@ -59,7 +58,6 @@ const signinEvent = () => {
 			if (user) {
 				window.history.pushState(null, null, '/');
 				window.location.reload();
-				console.log('user id: ', user);
 			}
 		} catch (error) {
 			document.querySelector('.singin-error-login').innerHTML = '아이디 또는 비밀번호가 잘못 입력 되었습니다.';
