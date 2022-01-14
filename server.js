@@ -39,7 +39,6 @@ app.get('/checkAuth', (req, res) => {
 
   try {
     const decoded = jwt.verify(accessToken, process.env.JWT_SECRET_KEY);
-    console.log(accessToken, decoded)
     res.send(users.find(user => user.userId === decoded.userId));
   } catch (e) {
     res.send();
@@ -66,7 +65,6 @@ app.post('/signin', (req, res) => {
   }
 
   const user = users.find(user => email === user.email && bcrypt.compareSync(password, user.password))
-  console.log(password, user);
   if (!user) {
     return res.status(401).send({
       error: '등록되지 않은 사용자입니다.',
@@ -96,7 +94,6 @@ app.post('/signup', (req, res) => {
     ...req.body,
     password: bcrypt.hashSync(req.body.password, 10)
   }]
-  console.log(users);
   res.send(users);
 })
 
@@ -148,8 +145,8 @@ app.get('/posts/init', (req, res) => {
   res.send(splitedPosts);
 });
 
-app.get('/*', async (req, res) => {
-  await res.sendFile(path.join(__dirname, './build/index.html'));
+app.get('/*', (req, res) => {
+  res.sendFile(path.join(__dirname, './build/index.html'));
 });
 
 app.listen(PORT, () => {
