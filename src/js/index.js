@@ -5,9 +5,9 @@ const setPosts = posts => {
   const addedHtml = posts
     .map(
       post =>
-        `<li class="main-post">
+        `<li class="main-post" data-post-id="${post.postId}">
     <div class="user-info">
-      <button class="avatar-button avatar-button--main" style="background-image: url(${post.userProfile}) no-repeat"></button><a class="user-nickname">${post.nickname}</a>
+      <button class="avatar-button avatar-button--main" style="background-image: url('img/avatar.png')"></button><a class="user-nickname">${post.nickname}</a>
     </div>
     <span class="main-post__title">${post.title}</span
     ><span class="main-post__desc">${post.content}</span>
@@ -71,7 +71,14 @@ const indexHtml = ` <header class="header">
 window.addEventListener('DOMContentLoaded', render);
 
 const indexEvent = () => {
-  header.headerEvent();
+  // header.headerEvent();
+  document.querySelector('.main-container').addEventListener('click', e => {
+    if (e.target.classList.contains('avatar-button')) {
+      console.log('avatar');
+    } else if (e.target.classList.contains('user-nickname')) {
+      console.log('nickname');
+    } else history.pushState(null, null, `/detail/${e.target.closest('li').dataset.postId}`);
+  });
 };
 
 // export default render;
