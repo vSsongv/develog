@@ -1,6 +1,6 @@
 import header from './header';
 
-const detailHTML = `<header class="header">
+const detailHtml = `<header class="header">
 	<h1 class="header--logo">develog</h1>
 
 	<form class="search--form" action="">
@@ -58,9 +58,8 @@ const detailHTML = `<header class="header">
 		</div>
 
 		<div class="textarea-container">
-			<textarea class="textarea" id="input-box" rows="3" maxlength="100"></textarea>
-			<span class="input-comment">댓글을 입력해주세요.</span>
-			<button class="textarea__cancel btn">
+			<textarea class="textarea" id="input-box" rows="3" maxlength="100" placeholder="댓글을 입력해주세요."></textarea>
+			<button class="no-display textarea__cancel btn">
 				<i class="fas fa-times"></i>
 			</button>
 		</div>
@@ -69,7 +68,7 @@ const detailHTML = `<header class="header">
 
 	<section class="comments">
 		<div class="comment">
-			<div class="comment__user-info">
+			<div class="comment__user-info comment__user-info--border">
 				<img
 					class="avatar-button avatar-button--size"
 					src=imgUrl
@@ -78,7 +77,9 @@ const detailHTML = `<header class="header">
 				/>
 				<span class="user-id">minsoftk</span>
 			</div>
-			<div class="comment__text">vsdfsfsdfsdfsdfsafasfssdfsfsdfsdfsdfsafasfssdfsfsdfsdfsdfsafasfs</div>
+			<div class="comment__text">
+            <span> vsdfsfsdfsdfsdfsafasfssdfsfsdfsdfsdfsafasfssdfsfsdfsdfsdfsafasfs </span>
+          </div>
 			<button class="edit pencil-btn btn">
 				<i class="bx bx-pencil"></i>
 			</button>
@@ -92,12 +93,25 @@ const detailHTML = `<header class="header">
 const detailEvent = () => {
   header.headerEvent();
 
-  document.querySelector('.header--logo').addEventListener('click', () => {
-    window.history.pushState({ data: 'index' }, '', '/');
+  const $textarea = document.querySelector('.textarea');
+  const $textareaCancel = document.querySelector('.textarea__cancel');
+
+  $textarea.addEventListener('focus', () => {
+    $textareaCancel.removeAttribute('disabled');
+    $textareaCancel.classList.toggle('no-display');
+    $textareaCancel.style.color = 'black';
+    $textareaCancel.style.cursor = 'pointer';
+    document.querySelector('.textarea__cancel').addEventListener('click', () => {
+      $textarea.value = '';
+    });
   });
 
-  document.querySelector();
-  const $userinfo = document.querySelector('.user-info');
+  $textarea.addEventListener('blur', () => {
+    $textareaCancel.setAttribute('disabled');
+    $textareaCancel.classList.toggle('no-display');
+    $textareaCancel.style.color = 'transparent';
+    $textareaCancel.style.cursor = 'unset';
+  });
 };
 
 // export default render;
