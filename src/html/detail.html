@@ -25,14 +25,14 @@
   <section class="detail">
     <h1 class="detail__title"></h1>
     <div class="detail__info">
-      <img class="avatar-button avatar-button--size" src="#" alt="avatar-button" />
+      <button class="btn">
+        <img class="avatar-button avatar-button--size" src="#" alt="avatar-button" />
+      </button>
       <span class="author"></span>
       <button class="no-display heart-btn btn">
         <i class="far fa-heart"></i>
       </button>
-      <button class="fullheart heart-btn btn">
-        <i class="fas fa-heart"></i>
-      </button>
+
       <button class="edit pencil-btn btn">
         <i class="bx bx-pencil"></i>
       </button>
@@ -47,13 +47,15 @@
   <h2 class="comments-title">댓글</h2>
   <section class="user-comment">
     <div class="comment__user-info">
-      <img class="avatar-button avatar-button--size" src="#" class="user__avatar" alt="user-avatar" />
+      <button class="btn">
+        <img class="avatar-button avatar-button--size" src="#" class="user__avatar" alt="user-avatar" />
+      </button>
       <span class="user-id"></span>
     </div>
 
     <div class="textarea-container">
       <textarea class="textarea" id="input-box" rows="3" maxlength="100" placeholder="댓글을 입력해주세요."></textarea>
-      <button class="textarea__cancel btn">
+      <button class="textarea__cancel btn no-display">
         <i class="fas fa-times"></i>
       </button>
     </div>
@@ -63,7 +65,9 @@
   <section class="comments">
     <div class="comment">
       <div class="comment__user-info">
-        <img class="user__avatar avatar-button avatar-button--size" src="#" alt="comments-avatar" />
+        <button class="btn">
+          <img class="user__avatar avatar-button avatar-button--size" src="#" alt="comments-avatar" />
+        </button>
         <span class="user-id">minsoftk</span>
       </div>
       <div class="comment__text">

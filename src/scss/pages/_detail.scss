@@ -39,7 +39,7 @@
     position: relative;
     margin-bottom: rem(60px);
 
-    :nth-child(n) {
+    :nth-child(n):not(img) {
       margin-right: rem(15px);
     }
 
