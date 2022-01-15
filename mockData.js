@@ -25,7 +25,7 @@ let users = [{
     nickname: 'User3',
     name: '안현서',
     phone: '010-3456-7890',
-    avartarUrl: 'img/최고심 on Twitter.jpg',
+    avartarUrl: 'src/assets/최고심 on Twitter.jpg',
   },
   {
     userId: 4,
@@ -384,6 +384,14 @@ const posts = [{
     userId: 6,
     title: '제목8',
     content: 'Enim consequat Lorem ipsum ut laborum officia cillum qui id fugiat duis. Sit incididunt fugiat reprehenderit aute mollit et nostrud laboris do aliqua sint. Magna laboris incididunt voluptate sunt ullamco nostrud exercitation reprehenderit excepteur sunt enim. Velit sunt excepteur tempor id ut. Laborum Lorem duis dolor dolor magna non deserunt quis.',
+    createAt: '2021-01-10',
+    likedUsers: [],
+  },
+  {
+    postId: 41,
+    userId: 6,
+    title: 'test',
+    content: 'test content.',
     createAt: '2021-01-10',
     likedUsers: [],
   },
