@@ -10,7 +10,12 @@ module.exports = {
     clean: true,
   },
   module: {
-    rules: [{
+    rules: [
+      {
+        test: /\.html$/i,
+        loader: 'html-loader',
+      },
+      {
         test: /\.js$/,
         include: [path.resolve(__dirname, './app.js')],
         exclude: /node_modules/,
@@ -19,10 +24,13 @@ module.exports = {
           options: {
             presets: ['@babel/preset-env'],
             plugins: [
-              ['@babel/plugin-transform-runtime', {
-                corejs: 3,
-                proposals: true
-              }]
+              [
+                '@babel/plugin-transform-runtime',
+                {
+                  corejs: 3,
+                  proposals: true,
+                },
+              ],
             ],
           },
         },
@@ -38,24 +46,24 @@ module.exports = {
         options: {
           outputPath: 'img',
           publicPath: 'img',
-          name: '[name].[ext]'
+          name: '[name].[ext]',
         },
       },
     ],
   },
   plugins: [
     new HtmlWebpackPlugin({
-      template: 'src/index.html'
+      template: 'src/index.html',
     }),
     new MiniCssExtractPlugin({
-      filename: 'css/style.css'
+      filename: 'css/style.css',
     }),
   ],
   devServer: {
     open: true,
     port: 'auto',
     proxy: {
-      '/': 'http://localhost:9000'
+      '/': 'http://localhost:9000',
     },
   },
   devtool: 'source-map',
