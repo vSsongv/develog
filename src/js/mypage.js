@@ -105,7 +105,9 @@ const mypageEvent = () => {
     try {
       const { data: user } = await axios.get('/checkAuth');
 
-      const { status } = await axios.delete(`/delete/user/${user.userId}`);
+      const { status } = await axios.post(`/delete/user/${user.userId}`, {
+        password: document.querySelector('.withdrawal--password').value,
+      });
       if (status === 204) window.history.pushState({}, '', '/');
     } catch (e) {
       console.log(e);
