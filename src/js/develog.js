@@ -1,27 +1,22 @@
-let allPost = {};
+import axios from 'axios';
+import header from './header';
+import * as postFunc from './showPost';
 
-const msnry = new Masonry('.all-posts', {
-  itemSelector: '.post',
-  columnWidth: '.post-sizer',
-  percentPosition: true,
-  gutter: 40,
-});
-
-const $seeMoreBtn = document.querySelector('.see-more');
-const $popularPostContainer = document.querySelector('.popular-posts__title');
-const $allPostContainer = document.querySelector('.all-posts');
-
-const addPopularPosts = posts => {
-  $popularPostContainer.innerHTML = posts
-    .map(post =>
-      `<li class="post">
-      <span class="post__title">${post.title}</span>` + posts.imgUrl
-        ? `<img src="${post.imgUrl}">`
-        : '' +
-          `<span class="post__desc">${post.contents}</span>
+const addPopularPosts = posts =>
+  posts
+    .map(
+      post =>
+        `<li class="post">
+      <span class="post__title">${post.title}</span><span class="post__desc">${post.content}</span>
     </li>`
     )
     .join('');
+
+const develogPageInitialRender = async ($populaPpostsContainer, $allPostContainer, userId) => {
+  const { data } = await axios.get(`develog/${userId}/popularposts`);
+  console.log(data);
+  const popularposts = addPopularPosts(data);
+  $populaPpostsContainer.innerHTML = popularposts;
 };
 
 const addAllPosts = posts => {
@@ -39,18 +34,48 @@ const addAllPosts = posts => {
   $allPostContainer.innerHTML += post.join('');
 };
 
-const fetchPosts = async () => {
-  try {
-    const { data } = await request.getPosts();
-    allPost = data;
-    // 여기서 좋아요 순으로 정렬한 다음에 앞에 3개만 addPopular 보내기.
-    addPopularPosts(data);
-    // date 순으로 정렬한 다음에 addAllPosts 보내기
-    addAllPosts(data);
-  } catch (e) {
-    console.errer(e);
-  }
+const develogHtml = `<header class="header">
+      <h1 class="header--logo">develog</h1>
+
+      <form class="search--form" action="">
+        <input id="search" class="search--hidden" type="text" />
+        <label for="search" class="fas fa-search"></label>
+      </form>
+
+      <button class="button button--login">Login</button>
+
+      <div class="user hidden">
+        <img class="avatar" src="./assets/avatar.png" alt="avatar image" />
+      </div>
+
+      <nav class="nav-box hidden">
+        <ul>
+          <li>내 블로그</li>
+          <li>마이페이지</li>
+          <li>로그아웃</li>
+        </ul>
+      </nav>
+    </header>
+    <section class="develog-container">
+      <span class="popular-posts__title">인기 포스트 TOP 3</span>
+      <i class="fas fa-heart"></i>
+      <ul class="popular-posts">
+      </ul>
+      <span class="all-posts__title">전체 포스트</span>
+      <ul class="all-posts">
+        <li class="post-sizer"></li>
+        <button class="see-more see-more--develog">더보기</button>
+      </ul>
+    </section>`;
+
+const develogEvent = userId => {
+  header.headerEvent();
+  develogPageInitialRender(document.querySelector('.popular-posts'), document.querySelector('.all-posts'), userId);
+  const $seeMoreBtn = document.querySelector('.see-more');
+  $seeMoreBtn.addEventListener('click', getSplitedPosts);
 };
 
-window.addEventListener('DOMContentLoaded', fetchPosts);
-$seeMoreBtn.addEventListener('click', () => {});
+export default {
+  develogHtml,
+  develogEvent,
+};

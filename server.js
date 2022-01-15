@@ -19,7 +19,7 @@ const makeSplitedPosts = (startIdx, endIdx) => {
     const user = users.filter(user => user.userId === posts[i].userId)[0];
     posts[i] = {
       ...posts[i],
-      userProfile: user.avartarUrl,
+      userProfile: user.avatarUrl,
       nickname: user.nickname,
     };
     splitedPosts = [...splitedPosts, posts[i]];
@@ -35,15 +35,15 @@ app.use(express.json());
 app.use(cookieParser());
 
 const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
+  destination(req, file, cb) {
     cb(null, 'build/img/');
   },
-  filename: function (req, file, cb) {
+  filename(req, file, cb) {
     cb(null, file.originalname);
   },
 });
 
-const upload = multer({ storage: storage });
+const upload = multer({ storage });
 
 // middleware
 const auth = (req, res, next) => {
@@ -174,7 +174,21 @@ app.get('/posts', (req, res) => {
   }
 });
 
-app.post('/uploadImage', upload.single('selectImage'), function (req, res) {
+app.get('/develog/:userId/popularposts', (req, res) => {
+  let { userId } = req.params;
+  userId = Number(userId);
+  const UsersPost = posts.filter(post => post.userId === userId);
+  // posts.filter(post => console.log(post.userId === userId));
+  // console.log(UsersPost);
+  UsersPost.sort((a, b) => b.likedUsers.length - a.likedUsers.length);
+  let popularUserPost = [];
+  for (let i = 0; i < 3; i++) {
+    popularUserPost = [...popularUserPost, UsersPost[i]];
+  }
+  res.send(popularUserPost);
+});
+
+app.post('/uploadImage', upload.single('selectImage'), (req, res) => {
   res.send(req.files);
 });
 
@@ -182,6 +196,11 @@ app.patch('/editUser/:userId', (req, res) => {
   const { userId } = req.params;
   users = users.map(user => (user.userId === +userId ? { ...user, ...req.body } : user));
   res.sendStatus();
+});
+
+app.get('/src/assets/:imageUrl', (req, res) => {
+  const img = req.params.imageUrl;
+  res.sendFile(path.join(__dirname, `./src/assets/${img}`));
 });
 
 app.get('/*', (req, res) => {
