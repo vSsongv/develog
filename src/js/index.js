@@ -1,4 +1,3 @@
-import axios from 'axios';
 import header from './header';
 import * as postFunc from './showPost';
 
@@ -25,15 +24,14 @@ const indexHtml = ` <header class="header">
 <section class="main-container">
 <ul class="posts-container"></ul>
 <button class="see-more see-more--main">더보기</button>
-<span class="is-last-post hidden">마지막 포스트입니다.</span>
+<span class="is-last-post hidden">더 이상 포스트가 없습니다.</span>
 </section>`;
 
 const indexEvent = () => {
   header.headerEvent();
 
   postFunc.mainPageInitialRender(document.querySelector('.posts-container'));
-  const $seeMoreBtn = document.querySelector('.see-more');
-  $seeMoreBtn.addEventListener('click', postFunc.getMorePostsForMain);
+  document.querySelector('.see-more').addEventListener('click', postFunc.getMorePostsForMain);
 
   document.querySelector('.main-container').addEventListener('click', e => {
     if (e.target.classList.contains('avatar-button') || e.target.classList.contains('user-nickname')) {
@@ -43,7 +41,7 @@ const indexEvent = () => {
     }
   });
 };
-// export default render;
+
 export default {
   indexHtml,
   indexEvent,

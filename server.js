@@ -1,5 +1,3 @@
-require('dotenv').config();
-
 const express = require('express');
 const path = require('path');
 const cookieParser = require('cookie-parser');
@@ -10,12 +8,15 @@ let { users, posts } = require('./mockData.js');
 
 let leftPostNum = posts.length - 10;
 let postIndex = 9;
+let leftUserPostNum = 0;
+let userPostIndex = 0;
 
 posts.sort((a, b) => new Date(a.createAt) - new Date(b.createAt));
 
-const makeSplitedPosts = (startIdx, endIdx) => {
+const makeSplitedPosts = (posts, startIdx, endIdx) => {
   let splitedPosts = [];
   for (let i = startIdx; i < endIdx; i++) {
+    console.log(posts[i]);
     const user = users.filter(user => user.userId === posts[i].userId)[0];
     posts[i] = {
       ...posts[i],
@@ -58,7 +59,6 @@ const auth = (req, res, next) => {
 
 app.get('/checkAuth', (req, res) => {
   const accessToken = req.headers.authorization || req.cookies.accessToken;
-
   try {
     const decoded = jwt.verify(accessToken, process.env.JWT_SECRET_KEY);
     res.send(users.find(user => user.userId === decoded.userId));
@@ -159,17 +159,17 @@ app.get('/users/createId', (req, res) => {
 app.get('/posts/init', (req, res) => {
   leftPostNum = posts.length - 10;
   postIndex = 9;
-  res.send(makeSplitedPosts(0, 10));
+  res.send(makeSplitedPosts(posts, 0, 10));
 });
 
 // 메인화면 더보기 버튼 클릭
 app.get('/posts', (req, res) => {
   if (leftPostNum >= 10) {
     leftPostNum -= 10;
-    res.send(makeSplitedPosts(postIndex, 10 + postIndex));
+    res.send(makeSplitedPosts(posts, postIndex, 10 + postIndex));
     postIndex += 9;
   } else {
-    res.send(makeSplitedPosts(postIndex, leftPostNum + postIndex));
+    res.send(makeSplitedPosts(posts, postIndex, leftPostNum + postIndex));
     leftPostNum = 0;
   }
 });
@@ -177,15 +177,34 @@ app.get('/posts', (req, res) => {
 app.get('/develog/:userId/popularposts', (req, res) => {
   let { userId } = req.params;
   userId = Number(userId);
-  const UsersPost = posts.filter(post => post.userId === userId);
-  // posts.filter(post => console.log(post.userId === userId));
-  // console.log(UsersPost);
-  UsersPost.sort((a, b) => b.likedUsers.length - a.likedUsers.length);
+  const userPost = posts.filter(post => post.userId === userId);
+  leftUserPostNum = 0;
+  userPostIndex = 0;
+  userPost.sort((a, b) => b.likedUsers.length - a.likedUsers.length);
   let popularUserPost = [];
   for (let i = 0; i < 3; i++) {
-    popularUserPost = [...popularUserPost, UsersPost[i]];
+    popularUserPost = [...popularUserPost, userPost[i]];
   }
   res.send(popularUserPost);
+});
+
+app.get('/develog/:userId/posts', (req, res) => {
+  let { userId } = req.params;
+  userId = Number(userId);
+  const userPost = posts.filter(post => post.userId === userId);
+  const userPostLen = userPost.length;
+  if (leftUserPostNum === 0) {
+    res.send(makeSplitedPosts(userPost, userPostIndex, userPostLen > 8 ? 8 : userPostLen));
+    leftUserPostNum = userPostLen > 8 ? userPost.length - 8 : 0;
+    userPostIndex += 7;
+  } else if (leftUserPostNum > 8) {
+    res.send(makeSplitedPosts(userPost, userPostIndex, 8 + userPostIndex));
+    leftUserPostNum -= 8;
+    userPostIndex += 7;
+  } else {
+    res.send(makeSplitedPosts(userPost, userPostIndex, leftUserPostNum + userPostIndex));
+    leftUserPostNum = 0;
+  }
 });
 
 app.post('/uploadImage', upload.single('selectImage'), (req, res) => {
