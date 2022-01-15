@@ -21,7 +21,7 @@ const mypageEditHtml = `<header>
     <div class="input-box">
       <label for="email">email</label>
       <input id="email" class="input-box__input" type="email" disabled>
-      <i class="complete hidden fas fa-check-circle"></i>
+      <i class="complete fas fa-check-circle"></i>
       <i class="error hidden fas fa-times-circle"></i>
       <span class="error-message hidden">이메일 형식에 맞게 입력하세요.</span>
     </div>
@@ -42,28 +42,29 @@ const mypageEditHtml = `<header>
     <div class="input-box">
       <label for="name">name</label>
       <input id="name" class="input-box__input" type="text">
-      <i class="complete hidden fas fa-check-circle"></i>
+      <i class="complete fas fa-check-circle"></i>
       <i class="error hidden fas fa-times-circle"></i>
       <span class="error-message hidden">이름을 입력하세요.</span>
     </div>
     <div class="input-box">
       <label for="nickname">nickname</label>
       <input id="nickname" class="input-box__input" type="text">
-      <button class="button double-check">중복확인</button>
-      <i class="complete hidden fas fa-check-circle"></i>
+      <button type="button" class="button double-check">중복확인</button>
+      <i class="complete fas fa-check-circle"></i>
       <i class="error hidden fas fa-times-circle"></i>
       <span class="error-message hidden">닉네임을 입력하세요.</span>
+      <span class="check-message hidden">다시 중복 확인하기!!!</span>
     </div>
     <div class="input-box">
       <label for="phone">phone</label>
       <input id="phone" class="input-box__input" type="text">
-      <i class="complete hidden fas fa-check-circle"></i>
+      <i class="complete fas fa-check-circle"></i>
       <i class="error hidden fas fa-times-circle"></i>
       <span class="error-message hidden">올바른 핸드폰 번호를 입력하세요.</span>
     </div>
     <div class="button-group">
       <button type="button" class="button button--back">돌아가기</button>
-      <button type="button" class="button button--editComplete">수정완료</button>
+      <button type="button" class="button button--editComplete" disabled >수정완료</button>
     </div>
   </fieldset>
 </form>
@@ -75,7 +76,7 @@ const userProfileSet = async avartar => {
     document.getElementById('name').value = user.name;
     document.getElementById('email').value = user.email;
     document.getElementById('phone').value = user.phone;
-    avartar.style.backgroundImage = `url('${user.avartarUrl}')`;
+    avartar.style.backgroundImage = `url('/avatar/${user.userId}')`;
   } catch (e) {
     console.error(e);
     // window.history.pushState({}, '', '/signin');
@@ -110,10 +111,24 @@ const mypageEditEvent = () => {
     window.history.back(1);
   });
 
+  const $nickName = document.getElementById('nickname');
+  const $doubleCheckBtn = document.querySelector('.double-check');
+
+  $doubleCheckBtn.onclick = async e => {
+    const { data: user } = await axios.get('/checkAuth');
+    if (user.nickname === $nickName.value) {
+      document.querySelector('.check-message').classList.add('hidden');
+      $doubleCheckBtn.style.backgroundColor = 'green';
+    } else {
+      const { data: isDuplicate } = await axios.get('/check/nickname/' + $nickName.value);
+      validate.isDuplicate(4, isDuplicate.isDuplicate);
+    }
+    const $checkComplete = [...document.querySelectorAll('.complete')].filter(i => !i.classList.contains('hidden'));
+    if (($doubleCheckBtn.style.backgroundColor = 'green' && $checkComplete.length === 6))
+      $editBtn.removeAttribute('disabled');
+  };
+
   document.querySelector('.button--editComplete').addEventListener('click', async e => {
-    console.log(document.querySelector('#selectImage').value);
-    console.log(document.querySelector('#selectImage').files);
-    console.log(e);
     e.preventDefault();
 
     const config = {
@@ -136,13 +151,14 @@ const mypageEditEvent = () => {
             password: document.getElementById('password').value,
             nickname: document.getElementById('nickname').value,
             phone: document.getElementById('phone').value,
-            avartarUrl: `/img/${$fileImage.files[0].name}`,
+            avartarUrl: $fileImage.files[0] ? `/src/assets/${$fileImage.files[0].name}` : user.avartarUrl,
           });
         }
       });
     } catch (e) {
-      console.error(e);
+      console.log(e);
     }
+    window.history.back(1);
   });
 };
 
