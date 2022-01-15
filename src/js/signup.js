@@ -11,7 +11,7 @@ const signupHtml = `<header>
     <legend class="a11yHidden">signup form</legend>
     <div class="input-box">
       <label for="email">email</label>
-      <input id="email" class="input-box__input" type="email" />
+      <input id="email" class="input-box__input" type="email" autocomplete='off' />
       <button type="button" class="button double-check" disabled>중복확인</button>
       <i class="complete hidden fas fa-check-circle"></i>
       <i class="error hidden fas fa-times-circle"></i>
@@ -20,28 +20,28 @@ const signupHtml = `<header>
     </div>
     <div class="input-box">
       <label for="password">password</label>
-      <input id="password" class="input-box__input" type="password" />
+      <input id="password" class="input-box__input" type="password" autocomplete='off' />
       <i class="complete hidden fas fa-check-circle"></i>
       <i class="error hidden fas fa-times-circle"></i>
       <span class="error-message hidden">제대로 입력해!!!</span>
     </div>
     <div class="input-box">
       <label for="confirmPassword">confirm password</label>
-      <input id="confirmPassword" class="input-box__input" type="password" />
+      <input id="confirmPassword" class="input-box__input" type="password" autocomplete='off' />
       <i class="complete hidden fas fa-check-circle"></i>
       <i class="error hidden fas fa-times-circle"></i>
       <span class="error-message hidden">제대로 입력해!!!</span>
     </div>
     <div class="input-box">
       <label for="name">name</label>
-      <input id="name" class="input-box__input" type="text" />
+      <input id="name" class="input-box__input" type="text" autocomplete='off' />
       <i class="complete hidden fas fa-check-circle"></i>
       <i class="error hidden fas fa-times-circle"></i>
       <span class="error-message hidden">제대로 입력해!!!</span>
     </div>
     <div class="input-box">
       <label for="nickname">nickname</label>
-      <input id="nickname" class="input-box__input" type="text" />
+      <input id="nickname" class="input-box__input" type="text" autocomplete='off' />
       <button type="button" class="button double-check" disabled>중복확인</button>
       <i class="complete hidden fas fa-check-circle"></i>
       <i class="error hidden fas fa-times-circle"></i>
@@ -50,7 +50,7 @@ const signupHtml = `<header>
     </div>
     <div class="input-box">
       <label for="phone">phone</label>
-      <input id="phone" class="input-box__input" type="tel" />
+      <input id="phone" class="input-box__input" type="tel" autocomplete='off' />
       <i class="complete hidden fas fa-check-circle"></i>
       <i class="error hidden fas fa-times-circle"></i>
       <span class="error-message hidden">제대로 입력해!!!</span>
