@@ -129,9 +129,6 @@ const mypageEditEvent = () => {
   };
 
   document.querySelector('.button--editComplete').addEventListener('click', async e => {
-    console.log(document.querySelector('#selectImage').value);
-    console.log(document.querySelector('#selectImage').files);
-    console.log(e);
     e.preventDefault();
 
     const config = {
@@ -154,13 +151,14 @@ const mypageEditEvent = () => {
             password: document.getElementById('password').value,
             nickname: document.getElementById('nickname').value,
             phone: document.getElementById('phone').value,
-            avartarUrl: `/img/${$fileImage.files[0].name}`,
+            avartarUrl: $fileImage.files[0] ? `/img/${$fileImage.files[0].name}` : user.avartarUrl,
           });
         }
       });
     } catch (e) {
-      console.error(e);
+      console.log(e);
     }
+    window.history.back(1);
   });
 };
 
