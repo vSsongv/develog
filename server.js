@@ -38,6 +38,7 @@ app.use(express.json());
 app.use(cookieParser());
 
 const storage = multer.diskStorage({
+
   destination(req, file, cb) {
     cb(null, 'src/assets/');
   },
@@ -222,6 +223,16 @@ app.get('/avatar/:userId', (req, res) => {
   res.sendFile(path.join(__dirname, `${user.avatarUrl}`));
 });
 
+app.post('/checkPassword/:userId', async (req, res) => {
+  const {
+    userId
+  } = req.params;
+  const user = users.find(user => user.userId === +userId);
+
+  if (bcrypt.compareSync(req.body.password, user.password)) res.sendStatus(204);
+  else res.send('failed');
+});
+
 // 유저 탈퇴
 app.post('/delete/user/:userId', async (req, res) => {
   const {
@@ -232,8 +243,10 @@ app.post('/delete/user/:userId', async (req, res) => {
   if (bcrypt.compareSync(req.body.password, user.password)) {
     users = users.filter(user => user.userId !== +userId);
     posts = posts.filter(post => post.userId !== +userId);
+    res.clearCookie('accessToken').sendStatus(204);
+  } else {
+    res.send('failed');
   }
-  res.clearCookie('accessToken').sendStatus(204);
 });
 
 // detail page
