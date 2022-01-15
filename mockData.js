@@ -6,7 +6,7 @@ const users = [
     nickname: 'User1',
     name: '송진영',
     phone: '010-1234-5678',
-    avartarUrl: '',
+    avartarUrl: 'src/assets/ironman_profile.jpg',
   },
   {
     userId: 2,
