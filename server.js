@@ -8,8 +8,6 @@ const bcrypt = require('bcrypt');
 const multer = require('multer');
 let { users, posts } = require('./mockData.js');
 
-console.log(users);
-
 let leftPostNum = posts.length - 10;
 let postIndex = 9;
 
@@ -45,7 +43,9 @@ const storage = multer.diskStorage({
   },
 });
 
-const upload = multer({ storage });
+const upload = multer({
+  storage,
+});
 
 // middleware
 const auth = (req, res, next) => {
@@ -157,6 +157,18 @@ app.get('/users/createId', (req, res) => {
   });
 });
 
+// 검색
+app.get('/search/:searchInput', (req, res) => {
+  const { searchInput } = req.params;
+  let filter;
+  try {
+    filter = posts.filter(post => post.title.includes(searchInput) || post.content.includes(searchInput));
+  } catch (e) {
+    console.error(e);
+  }
+  res.send(filter);
+});
+
 // 메인화면 초기 렌더링
 app.get('/posts/init', (req, res) => {
   leftPostNum = posts.length - 10;
@@ -182,7 +194,14 @@ app.post('/uploadImage', upload.single('selectImage'), (req, res) => {
 
 app.patch('/editUser/:userId', (req, res) => {
   const { userId } = req.params;
-  users = users.map(user => (user.userId === +userId ? { ...user, ...req.body } : user));
+  users = users.map(user =>
+    user.userId === +userId
+      ? {
+          ...user,
+          ...req.body,
+        }
+      : user
+  );
   res.sendStatus();
 });
 
@@ -193,6 +212,14 @@ app.get('/avatar/:userId', (req, res) => {
   res.sendFile(path.join(__dirname, `${user.avatarUrl}`));
 });
 
+app.post('/checkPassword/:userId', async (req, res) => {
+  const { userId } = req.params;
+  const user = users.find(user => user.userId === +userId);
+
+  if (bcrypt.compareSync(req.body.password, user.password)) res.sendStatus(204);
+  else res.send('failed');
+});
+
 // 유저 탈퇴
 app.post('/delete/user/:userId', async (req, res) => {
   const { userId } = req.params;
@@ -201,8 +228,10 @@ app.post('/delete/user/:userId', async (req, res) => {
   if (bcrypt.compareSync(req.body.password, user.password)) {
     users = users.filter(user => user.userId !== +userId);
     posts = posts.filter(post => post.userId !== +userId);
+    res.clearCookie('accessToken').sendStatus(204);
+  } else {
+    res.send('failed');
   }
-  res.clearCookie('accessToken').sendStatus(204);
 });
 
 // detail page
