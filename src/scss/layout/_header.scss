@@ -22,17 +22,17 @@
   display: flex;
   align-items: center;
   position: relative;
+  border-bottom: 1px solid $black;
+  border-width: rem(2px);
+  box-sizing: border-box;
   #search {
     height: rem(35px);
     width: rem(250px);
     border: none;
-    border-bottom: 1px solid $black;
-    border-width: rem(2px);
     font-size: rem(20px);
-    box-sizing: border-box;
-    padding: 0 rem(10px);
+    padding-left: rem(10px);
+    padding-right: rem(40px);
     transition: all 0.5s;
-
     &:focus {
       outline: none;
     }
