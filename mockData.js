@@ -1,4 +1,6 @@
-const users = [
+const bcrypt = require('bcrypt');
+
+let users = [
   {
     userId: 1,
     email: 'test1@gmail.com',
@@ -15,7 +17,7 @@ const users = [
     nickname: 'User2',
     name: '김민성',
     phone: '010-2345-6789',
-    avartarUrl: 'src/assets/ironman_profile.jpg',
+    avartarUrl: 'img/defaultAvatar.png',
   },
   {
     userId: 3,
@@ -24,7 +26,7 @@ const users = [
     nickname: 'User3',
     name: '안현서',
     phone: '010-3456-7890',
-    avartarUrl: 'src/assets/spider_profile.jpg',
+    avartarUrl: 'img/최고심 on Twitter.jpg',
   },
   {
     userId: 4,
@@ -42,7 +44,7 @@ const users = [
     nickname: 'User5',
     name: '앤트맨',
     phone: '010-4362-1156',
-    avartarUrl: 'src/assets/antman_profile.jpg',
+    avartarUrl: 'img/defaultAvatar.png',
   },
   {
     userId: 6,
@@ -51,9 +53,14 @@ const users = [
     nickname: 'User6',
     name: '원종빈',
     phone: '010-4782-4367',
-    avartarUrl: 'src/assets/avatar.png',
+    avartarUrl: 'img/defaultAvatar.png',
   },
 ];
+
+users = users.map(user => ({
+  ...user,
+  password: bcrypt.hashSync(user.password, 10),
+}));
 // export default {
 
 const posts = [

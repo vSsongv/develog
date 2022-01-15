@@ -17,7 +17,12 @@
     "express": "^4.17.2",
     "file-loader": "^6.2.0",
     "history-events": "^1.0.4",
+<<<<<<< HEAD
     "jsonwebtoken": "^8.5.1"
+=======
+    "jsonwebtoken": "^8.5.1",
+    "multer": "^1.4.4"
+>>>>>>> e7a58e31e0eb1377c1ba1b581f2a50e41380ab13
   },
   "devDependencies": {
     "@babel/cli": "^7.16.7",

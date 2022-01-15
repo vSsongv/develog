@@ -5,7 +5,10 @@ const path = require('path');
 const cookieParser = require('cookie-parser');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
+const multer = require('multer');
 let { users, posts } = require('./mockData.js');
+
+console.log(users);
 
 let leftPostNum = posts.length - 10;
 let postIndex = 9;
@@ -33,6 +36,17 @@ app.use(express.static('build'));
 app.use(express.json());
 app.use(cookieParser());
 
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, 'src/assets/');
+  },
+  filename: function (req, file, cb) {
+    cb(null, file.originalname);
+  },
+});
+
+const upload = multer({ storage: storage });
+
 // middleware
 const auth = (req, res, next) => {
   const accessToken = req.headers.authorization || req.cookies.accessToken;
@@ -49,7 +63,6 @@ app.get('/checkAuth', (req, res) => {
 
   try {
     const decoded = jwt.verify(accessToken, process.env.JWT_SECRET_KEY);
-    console.log(accessToken, decoded);
     res.send(users.find(user => user.userId === decoded.userId));
   } catch (e) {
     res.send();
@@ -76,7 +89,7 @@ app.post('/signin', (req, res) => {
     });
   }
 
-  const user = users.find(user => email === user.email && password === user.password); // bcrypt.compareSync(password, user.password)
+  const user = users.find(user => email === user.email && bcrypt.compareSync(password, user.password));
 
   if (!user) {
     return res.status(401).send({
@@ -89,7 +102,7 @@ app.post('/signin', (req, res) => {
     httpOnly: true,
   });
 
-  const _id = user.id;
+  const _id = user.userId;
 
   res.send({
     _id,
@@ -106,10 +119,11 @@ app.post('/signup', (req, res) => {
   users = [
     ...users,
     {
-      email: req.body.email,
-      password: req.body.password, // 암호화된 비밀번호로 변경
+      ...req.body,
+      password: bcrypt.hashSync(req.body.password, 10),
     },
   ];
+
   res.send(users);
 });
 
@@ -136,7 +150,7 @@ app.get('/check/nickname/:nickname', (req, res) => {
 
 // _id 생성(user, post)
 app.get('/users/createId', (req, res) => {
-  const maxId = Math.max(...users.map(user => user.id), 0) + 1;
+  const maxId = Math.max(...users.map(user => user.userId), 0) + 1;
 
   res.send({
     maxId,
@@ -162,7 +176,36 @@ app.get('/posts', (req, res) => {
   }
 });
 
-// detail 페이지 요청
+app.post('/uploadImage', upload.single('selectImage'), function (req, res) {
+  res.send(req.files);
+});
+
+app.patch('/editUser/:userId', (req, res) => {
+  const { userId } = req.params;
+  users = users.map(user => (user.userId === +userId ? { ...user, ...req.body } : user));
+  res.sendStatus();
+});
+
+// avatar 불러오기
+app.get('/avatar/:userId', (req, res) => {
+  const { userId } = req.params;
+  const user = users.find(user => user.userId === +userId);
+  res.sendFile(path.join(__dirname, `${user.avatarUrl}`));
+});
+
+// 유저 탈퇴
+app.post('/delete/user/:userId', async (req, res) => {
+  const { userId } = req.params;
+  const user = users.find(user => user.userId === +userId);
+
+  if (bcrypt.compareSync(req.body.password, user.password)) {
+    users = users.filter(user => user.userId !== +userId);
+    posts = posts.filter(post => post.userId !== +userId);
+  }
+  res.clearCookie('accessToken').sendStatus(204);
+});
+
+// detail page
 app.get('/posts/:postid', (req, res) => {
   const { postid } = req.params;
   const post = posts.find(elem => elem.postId === +postid);
@@ -183,7 +226,7 @@ app.delete('/posts/:postid', (req, res) => {
 });
 
 app.get('/*', (req, res) => {
-  console.log(req.headers.referer);
+  console.log('sendFile', req.headers.referer);
   res.sendFile(path.join(__dirname, './build/index.html'));
 });
 

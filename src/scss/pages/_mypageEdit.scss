@@ -1,16 +1,20 @@
 @use '../utils/unit' as *;
 @use '../utils/colors' as *;
 
+.label--avatar {
+  margin-bottom: rem(40px);
+}
+
 .mypageEdit--avatar {
   position: relative;
-
   width: 200px;
   height: 200px;
   border-radius: 50%;
-  background-image: url('../assets/avatar.png');
+  // background-image: url('../assets/avatar.png');
   background-repeat: no-repeat;
   background-size: cover;
-  margin: rem(30px) auto;
+  background-position: 50% 50%;
+  margin: 0 auto;
   transition: all 0.5s;
   opacity: 0.8;
   cursor: pointer;
