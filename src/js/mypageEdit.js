@@ -76,7 +76,7 @@ const userProfileSet = async avartar => {
     document.getElementById('name').value = user.name;
     document.getElementById('email').value = user.email;
     document.getElementById('phone').value = user.phone;
-    avartar.style.backgroundImage = `url('${user.avartarUrl}')`;
+    avartar.style.backgroundImage = `url('/avatar/${user.userId}')`;
   } catch (e) {
     console.error(e);
     // window.history.pushState({}, '', '/signin');
@@ -151,7 +151,7 @@ const mypageEditEvent = () => {
             password: document.getElementById('password').value,
             nickname: document.getElementById('nickname').value,
             phone: document.getElementById('phone').value,
-            avartarUrl: $fileImage.files[0] ? `/img/${$fileImage.files[0].name}` : user.avartarUrl,
+            avartarUrl: $fileImage.files[0] ? `/src/assets/${$fileImage.files[0].name}` : user.avartarUrl,
           });
         }
       });
