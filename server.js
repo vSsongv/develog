@@ -163,9 +163,8 @@ app.get('/posts', (req, res) => {
 });
 
 // detail 페이지 요청
-
-app.get('/posts/:id', (req, res) => {
-  const postid = req.params.id;
+app.get('/posts/:postid', (req, res) => {
+  const { postid } = req.params;
   const post = posts.find(elem => elem.postId === +postid);
   const user = users.find(user => user.userId === +post.userId);
   res.send({ post, user });
@@ -175,6 +174,12 @@ app.get('/src/assets/:imageUrl', (req, res) => {
   const img = req.params.imageUrl;
   console.log(img);
   res.sendFile(path.join(__dirname, `./src/assets/${img}`));
+});
+
+app.delete('/posts/:postid', (req, res) => {
+  console.log('test');
+  const { postid } = req.params;
+  posts = posts.filter(post => post.postId !== +postid);
 });
 
 app.get('/*', (req, res) => {
