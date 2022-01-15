@@ -37,15 +37,15 @@ app.use(express.json());
 app.use(cookieParser());
 
 const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
+  destination(req, file, cb) {
     cb(null, 'src/assets/');
   },
-  filename: function (req, file, cb) {
+  filename(req, file, cb) {
     cb(null, file.originalname);
   },
 });
 
-const upload = multer({ storage: storage });
+const upload = multer({ storage });
 
 // middleware
 const auth = (req, res, next) => {
@@ -176,7 +176,7 @@ app.get('/posts', (req, res) => {
   }
 });
 
-app.post('/uploadImage', upload.single('selectImage'), function (req, res) {
+app.post('/uploadImage', upload.single('selectImage'), (req, res) => {
   res.send(req.files);
 });
 
@@ -215,13 +215,13 @@ app.get('/posts/:postid', (req, res) => {
 
 app.get('/src/assets/:imageUrl', (req, res) => {
   const img = req.params.imageUrl;
-  console.log(img);
+  console.log('img: ', img);
   res.sendFile(path.join(__dirname, `./src/assets/${img}`));
 });
 
 app.delete('/posts/:postid', (req, res) => {
-  console.log('test');
   const { postid } = req.params;
+  console.log('postid: ', postid);
   posts = posts.filter(post => post.postId !== +postid);
 });
 
