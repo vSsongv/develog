@@ -1,56 +1,60 @@
-let allPost = {};
+import header from './header';
+import * as postFunc from './showPost';
 
-const msnry = new Masonry('.all-posts', {
-  itemSelector: '.post',
-  columnWidth: '.post-sizer',
-  percentPosition: true,
-  gutter: 40,
-});
+const develogHtml = `<header class="header">
+      <h1 class="header--logo">develog</h1>
 
-const $seeMoreBtn = document.querySelector('.see-more');
-const $popularPostContainer = document.querySelector('.popular-posts__title');
-const $allPostContainer = document.querySelector('.all-posts');
+      <form class="search--form" action="">
+        <input id="search" class="search--hidden" type="text" />
+        <label for="search" class="fas fa-search"></label>
+      </form>
 
-const addPopularPosts = posts => {
-  $popularPostContainer.innerHTML = posts
-    .map(post =>
-      `<li class="post">
-      <span class="post__title">${post.title}</span>` + posts.imgUrl
-        ? `<img src="${post.imgUrl}">`
-        : '' +
-          `<span class="post__desc">${post.contents}</span>
-    </li>`
-    )
-    .join('');
+      <button class="button button--login">Login</button>
+      <div class="user hidden">
+        <img class="avatar" src="./assets/avatar.png" alt="avatar image" />
+      </div>
+
+      <nav class="nav-box hidden">
+        <ul>
+          <li>내 블로그</li>
+          <li>마이페이지</li>
+          <li>로그아웃</li>
+        </ul>
+      </nav>
+    </header>
+    <section class="develog-container">
+      <span class="popular-posts__title">인기 포스트 TOP 3</span>
+      <i class="fas fa-heart"></i>
+      <ul class="popular-posts">
+      </ul>
+      <span class="all-posts__title">전체 포스트</span>
+      <ul class="all-posts">
+        <li class="post-sizer"></li>
+        <button class="see-more see-more--develog">더보기</button>
+        </ul>
+    </section>`;
+
+const develogEvent = userId => {
+  header.headerEvent();
+
+  const $allPostContainer = document.querySelector('.all-posts');
+
+  postFunc.develogPageInitialRender(document.querySelector('.popular-posts'), $allPostContainer, userId);
+
+  //  document.querySelector('.see-more').addEventListener('click', postFunc.setUserPosts());
+
+  document.querySelector('.develog-container').addEventListener('click', e => {
+    if (e.target.className.split('__')[0] === 'post') {
+      console.log(e.target);
+      history.pushState(null, null, `/detail/${e.target.closest('li').dataset.postId}`);
+    } else if (e.target.classList.contains('see-more')) {
+      postFunc.setUserPosts($allPostContainer, userId);
+      console.log(userId);
+    }
+  });
 };
 
-const addAllPosts = posts => {
-  const post = [];
-  for (let i = 0; i < 8; i++) {
-    post[i] =
-      `<li class="post" data-id="${posts[i].postId}">
-          <span class="post__title">${posts[i].title}</span>` + posts[i].imgUrl
-        ? `<img src="${posts[i].imgUrl}">`
-        : '' +
-          `<span class="post__desc">${posts[i].contents}</span>
-        </li>`;
-  }
-  allPost = allPost.slice(0, 9);
-  $allPostContainer.innerHTML += post.join('');
+export default {
+  develogHtml,
+  develogEvent,
 };
-
-const fetchPosts = async () => {
-  try {
-    const { data } = await request.getPosts();
-    allPost = data;
-    // 여기서 좋아요 순으로 정렬한 다음에 앞에 3개만 addPopular 보내기.
-    addPopularPosts(data);
-    // date 순으로 정렬한 다음에 addAllPosts 보내기
-    addAllPosts(data);
-  } catch (e) {
-    console.errer(e);
-  }
-};
-
-window.addEventListener('DOMContentLoaded', fetchPosts);
-$seeMoreBtn.addEventListener('click', () => {});
