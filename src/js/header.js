@@ -21,7 +21,12 @@ const headerEvent = () => {
       const { data: user } = await axios.get('/checkAuth');
       if (user) {
         document.querySelector('.user').classList.remove('hidden');
+        document.querySelector('.button--posting').classList.remove('hidden');
         document.querySelector('.button--login').classList.add('hidden');
+
+        document.querySelector('.button--posting').addEventListener('click', () => {
+          window.history.pushState({}, '', '/write');
+        });
 
         document.querySelector('.nav-box ul li:first-child').addEventListener('click', () => {
           window.history.pushState({}, '', '/develog');
@@ -46,6 +51,7 @@ const headerEvent = () => {
           }
         };
       } else {
+        document.querySelector('.button--posting').classList.add('hidden');
         document.querySelector('.user').classList.add('hidden');
         document.querySelector('.button--login').classList.remove('hidden');
         // if (window.location.pathname !== '/') window.history.pushState(null, null, '/');

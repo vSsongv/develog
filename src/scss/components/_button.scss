@@ -18,13 +18,14 @@
     opacity: 1;
   }
 
-  &:disabled{
+  &:disabled {
     background-color: $gray;
     cursor: default;
     opacity: 0.8;
   }
 
-  &--login {
+  &--login,
+  &--posting {
     margin-left: rem(30px);
     width: rem(120px);
     height: rem(40px);
