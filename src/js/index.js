@@ -12,7 +12,7 @@ const setPosts = posts => {
   const addedHtml = posts
     .map(
       post =>
-        `<li class="main-post" data-post-id="${post.postId}">
+      `<li class="main-post" data-post-id="${post.postId}">
     <div class="user-info" data-user-id="${post.userId}">
       <button class="avatar-button avatar-button--main" style="background-image: url('img/avatar.png')"></button><a class="user-nickname">${post.nickname}</a>
     </div>
@@ -26,7 +26,9 @@ const setPosts = posts => {
 };
 
 const initialRender = async $postsContainer => {
-  const { data } = await axios.get('/posts/init');
+  const {
+    data
+  } = await axios.get('/posts/init');
   const addedHtml = await setPosts(data);
   $postsContainer.innerHTML = `<li class="main-post-sizer"></li>` + addedHtml;
   new Masonry('.posts-container', setMasonry);
@@ -34,7 +36,9 @@ const initialRender = async $postsContainer => {
 
 const getSplitedPosts = async () => {
   try {
-    const { data } = await axios.get('/posts');
+    const {
+      data
+    } = await axios.get('/posts');
     if (data.length === 0) {
       return;
     }
@@ -53,9 +57,9 @@ const indexHtml = ` <header class="header">
 <h1 class="header--logo">develog</h1>
 
 <form class="search--form" action="">
-  <input id="search" class="hidden" type="text" />
-  <label for="search" class="fas fa-search"></label>
-</form>
+    <input id="search" class="search--hidden" type="text">
+    <label for="search" class="fas fa-search "></label>
+  </form>
 
 <button class="button button--login">Login</button>
 
