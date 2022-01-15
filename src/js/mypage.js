@@ -67,7 +67,7 @@ const mypageHtml = `<div class="cover hidden"></div>
     <button class="withdrawal--close"><i class="fas fa-times"></i></button>
     <h3>회원탈퇴를 하시려면 비밀번호를 입력후 회원탈퇴 버튼을 눌러주세요.</h3>
     <input class="withdrawal--password" type="password" placeholder="비밀번호를 입력해주세요.">
-    <button class="button button--withdrawal">회원탈퇴</button>
+    <button type="button" class="button button--withdrawal withdrawal-confirm">회원탈퇴</button>
   </section>
 </div>`;
 
@@ -78,7 +78,7 @@ const userProfileSet = async () => {
     document.getElementById('name').value = user.name;
     document.getElementById('email').value = user.email;
     document.getElementById('phone').value = user.phone;
-    document.querySelector('.user-profile-avatar').style.backgroundImage = `url('${user.avartarUrl}')`;
+    document.querySelector('.user-profile-avatar').style.backgroundImage = `url('/avatar/${user.userId}')`;
   } catch (e) {
     console.error(e);
     window.history.pushState({}, '', '/signin');
@@ -99,6 +99,19 @@ const mypageEvent = () => {
 
   document.querySelector('.button--edit').addEventListener('click', e => {
     window.history.pushState({ data: 'user' }, '', '/mypageEdit');
+  });
+
+  document.querySelector('.withdrawal-confirm').addEventListener('click', async () => {
+    try {
+      const { data: user } = await axios.get('/checkAuth');
+
+      const { status } = await axios.post(`/delete/user/${user.userId}`, {
+        password: document.querySelector('.withdrawal--password').value,
+      });
+      if (status === 204) window.history.pushState({}, '', '/');
+    } catch (e) {
+      console.log(e);
+    }
   });
 };
 

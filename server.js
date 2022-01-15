@@ -8,6 +8,8 @@ const bcrypt = require('bcrypt');
 const multer = require('multer');
 let { users, posts } = require('./mockData.js');
 
+console.log(users);
+
 let leftPostNum = posts.length - 10;
 let postIndex = 9;
 
@@ -36,7 +38,7 @@ app.use(cookieParser());
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, 'build/img/');
+    cb(null, 'src/assets/');
   },
   filename: function (req, file, cb) {
     cb(null, file.originalname);
@@ -182,6 +184,25 @@ app.patch('/editUser/:userId', (req, res) => {
   const { userId } = req.params;
   users = users.map(user => (user.userId === +userId ? { ...user, ...req.body } : user));
   res.sendStatus();
+});
+
+// avatar 불러오기
+app.get('/avatar/:userId', (req, res) => {
+  const { userId } = req.params;
+  const user = users.find(user => user.userId === +userId);
+  res.sendFile(path.join(__dirname, `${user.avatarUrl}`));
+});
+
+// 유저 탈퇴
+app.post('/delete/user/:userId', async (req, res) => {
+  const { userId } = req.params;
+  const user = users.find(user => user.userId === +userId);
+
+  if (bcrypt.compareSync(req.body.password, user.password)) {
+    users = users.filter(user => user.userId !== +userId);
+    posts = posts.filter(post => post.userId !== +userId);
+  }
+  res.clearCookie('accessToken').sendStatus(204);
 });
 
 app.get('/*', (req, res) => {

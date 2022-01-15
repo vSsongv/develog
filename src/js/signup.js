@@ -61,7 +61,7 @@ const signupHtml = `<header>
   </fieldset>
 </form>
 </main>
-`
+`;
 
 const signupEvent = () => {
   const $signupBtn = document.querySelector('.sign-buttons.signup .button');
@@ -69,40 +69,34 @@ const signupEvent = () => {
 
   document.querySelector('.sign-form').oninput = e => {
     $input.forEach((input, index) => {
-      if (e.target === input && e.target.matches('#confirmPassword')) return validate.validate(e.target.value !== document.querySelector('#password').value, index, $signupBtn);
+      if (e.target === input && e.target.matches('#confirmPassword'))
+        return validate.validate(e.target.value !== document.querySelector('#password').value, index, $signupBtn);
       if (e.target === input) return validate.validate(e.target.value, index, $signupBtn);
     });
   };
   document.querySelectorAll('.double-check')[0].onclick = async e => {
-    const {
-      data: isDuplicate
-    } = await axios.get('/check/email/' + $input[0].value);
+    const { data: isDuplicate } = await axios.get('/check/email/' + $input[0].value);
     validate.isDuplicate(0, isDuplicate.isDuplicate);
-  }
+  };
   document.querySelectorAll('.double-check')[1].onclick = async e => {
-    const {
-      data: isDuplicate
-    } = await axios.get('/check/nickname/' + $input[4].value);
+    const { data: isDuplicate } = await axios.get('/check/nickname/' + $input[4].value);
     validate.isDuplicate(4, isDuplicate.isDuplicate);
-  }
+  };
 
   $signupBtn.onclick = async e => {
     e.preventDefault();
 
     try {
-      const {
-        data: maxId
-      } = await axios.get('/users');
+      const { data: maxId } = await axios.get('/users');
       const newId = maxId.maxId;
-      const {
-        data: user
-      } = await axios.post('/signup', {
+      const { data: user } = await axios.post('/signup', {
         userId: newId,
         email: document.querySelector('#email').value,
         password: document.querySelector('#password').value,
         name: document.querySelector('#name').value,
         nickname: document.querySelector('#nickname').value,
         phone: document.querySelector('#phone').value,
+        avartarUrl: 'img/defaultAvatar.png',
       });
       if (user) {
         window.history.pushState(null, null, '/signin');
@@ -110,10 +104,10 @@ const signupEvent = () => {
     } catch (error) {
       console.error(error);
     }
-  }
+  };
 };
 
 export default {
   signupHtml,
-  signupEvent
+  signupEvent,
 };
