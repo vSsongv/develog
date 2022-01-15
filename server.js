@@ -192,7 +192,13 @@ app.get('/avatar/:userId', (req, res) => {
 });
 
 // 유저 탈퇴
-app.get('/delete/user/:userId', (req, res) => {});
+app.delete('/delete/user/:userId', (req, res) => {
+  const { userId } = req.params;
+  // bcrypt.hashSync(req.body.password, 10)
+  users = users.filter(user => user.userId !== +userId);
+  posts = posts.filter(post => post.userId !== +userId);
+  res.clearCookie('accessToken').sendStatus(204);
+});
 
 app.get('/*', (req, res) => {
   console.log('sendFile', req.headers.referer);
