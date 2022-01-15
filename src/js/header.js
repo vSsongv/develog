@@ -1,10 +1,12 @@
 import axios from 'axios';
 
+let searchResult = [];
 const search = async input => {
   const {
     data: filter
   } = await axios.get('/search/' + input);
   console.log(...filter);
+  searchResult = filter; // search 사용
 }
 
 const headerEvent = () => {
@@ -24,7 +26,7 @@ const headerEvent = () => {
   }
   document.querySelector('.search--form label').onclick = async () => {
     // icon click으로 검색 시
-    if (!searchInput.classList.contains('search--hidden')) {
+    if (!searchInput.classList.contains('search--hidden') && searchInput.value.trim()) {
       await search(searchInput.value.trim());
     }
     // 초기화
@@ -86,4 +88,5 @@ const headerEvent = () => {
 
 export default {
   headerEvent,
+  searchResult
 };
