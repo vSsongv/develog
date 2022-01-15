@@ -19,13 +19,14 @@ const render = html => {
 };
 
 const switchDependsOnUrl = () => {
+  const path = window.location.pathname.split('/');
   if (/\/develog\/\d/.test(window.location.pathname)) {
-    const userId = window.location.pathname.split('/')[2];
+    const userId = path[2];
     render(develog.develogHtml);
     develog.develogEvent(userId);
   } else {
-    const path = '/' + window.location.pathname.split('/')[1];
-    switch (path) {
+    const targetPath = '/' + path[1];
+    switch (targetPath) {
       case '/':
         render(index.indexHtml);
         index.indexEvent();
