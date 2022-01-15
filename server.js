@@ -11,8 +11,6 @@ let {
   posts
 } = require('./mockData.js');
 
-console.log(users);
-
 let leftPostNum = posts.length - 10;
 let postIndex = 9;
 
