@@ -38,8 +38,9 @@ app.use(express.json());
 app.use(cookieParser());
 
 const storage = multer.diskStorage({
-  destination(req, file, cb) {
-    cb(null, 'build/img/');
+
+  destination: function (req, file, cb) {
+    cb(null, 'src/assets/');
   },
   filename(req, file, cb) {
     cb(null, file.originalname);
@@ -211,6 +212,55 @@ app.patch('/editUser/:userId', (req, res) => {
     ...req.body
   } : user));
   res.sendStatus();
+});
+
+// avatar 불러오기
+app.get('/avatar/:userId', (req, res) => {
+  const { userId } = req.params;
+  const user = users.find(user => user.userId === +userId);
+  res.sendFile(path.join(__dirname, `${user.avatarUrl}`));
+});
+
+app.post('/checkPassword/:userId', async (req, res) => {
+  const { userId } = req.params;
+  const user = users.find(user => user.userId === +userId);
+
+  if (bcrypt.compareSync(req.body.password, user.password)) res.sendStatus(204);
+  else res.send('failed');
+});
+
+// 유저 탈퇴
+app.post('/delete/user/:userId', async (req, res) => {
+  const { userId } = req.params;
+  const user = users.find(user => user.userId === +userId);
+
+  if (bcrypt.compareSync(req.body.password, user.password)) {
+    users = users.filter(user => user.userId !== +userId);
+    posts = posts.filter(post => post.userId !== +userId);
+    res.clearCookie('accessToken').sendStatus(204);
+  } else {
+    res.send('failed');
+  }
+});
+
+// detail page
+app.get('/posts/:postid', (req, res) => {
+  const { postid } = req.params;
+  const post = posts.find(elem => elem.postId === +postid);
+  const user = users.find(user => user.userId === +post.userId);
+  res.send({ post, user });
+});
+
+app.get('/src/assets/:imageUrl', (req, res) => {
+  const img = req.params.imageUrl;
+  console.log(img);
+  res.sendFile(path.join(__dirname, `./src/assets/${img}`));
+});
+
+app.delete('/posts/:postid', (req, res) => {
+  console.log('test');
+  const { postid } = req.params;
+  posts = posts.filter(post => post.postId !== +postid);
 });
 
 app.get('/*', (req, res) => {
