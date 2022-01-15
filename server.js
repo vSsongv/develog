@@ -6,7 +6,10 @@ const cookieParser = require('cookie-parser');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const multer = require('multer');
-let { users, posts } = require('./mockData.js');
+let {
+  users,
+  posts
+} = require('./mockData.js');
 
 let leftPostNum = posts.length - 10;
 let postIndex = 9;
@@ -35,15 +38,18 @@ app.use(express.json());
 app.use(cookieParser());
 
 const storage = multer.diskStorage({
+
   destination: function (req, file, cb) {
     cb(null, 'src/assets/');
   },
-  filename: function (req, file, cb) {
+  filename(req, file, cb) {
     cb(null, file.originalname);
   },
 });
 
-const upload = multer({ storage: storage });
+const upload = multer({
+  storage
+});
 
 // middleware
 const auth = (req, res, next) => {
@@ -68,19 +74,20 @@ app.get('/checkAuth', (req, res) => {
 });
 
 const createToken = (userId, expirePeriod) =>
-  jwt.sign(
-    {
+  jwt.sign({
       userId,
     },
-    process.env.JWT_SECRET_KEY,
-    {
+    process.env.JWT_SECRET_KEY, {
       expiresIn: expirePeriod,
     }
   );
 
 // 로그인
 app.post('/signin', (req, res) => {
-  const { email, password } = req.body;
+  const {
+    email,
+    password
+  } = req.body;
   if (!email || !password) {
     return res.status(401).send({
       error: '사용자 아이디 또는 패스워드가 전달되지 않았습니다.',
@@ -127,7 +134,9 @@ app.post('/signup', (req, res) => {
 
 // 중복확인(이메일, 닉네임)
 app.get('/check/email/:email', (req, res) => {
-  const { email } = req.params;
+  const {
+    email
+  } = req.params;
   const user = users.find(user => user.email === email);
   const isDuplicate = !!user;
 
@@ -137,7 +146,9 @@ app.get('/check/email/:email', (req, res) => {
 });
 
 app.get('/check/nickname/:nickname', (req, res) => {
-  const { nickname } = req.params;
+  const {
+    nickname
+  } = req.params;
   const user = users.find(user => user.nickname === nickname);
   const isDuplicate = !!user;
 
@@ -154,6 +165,20 @@ app.get('/users/createId', (req, res) => {
     maxId,
   });
 });
+
+// 검색
+app.get('/search/:searchInput', (req, res) => {
+  const {
+    searchInput
+  } = req.params;
+  let filter;
+  try {
+    filter = posts.filter(post => post.title.includes(searchInput) || post.content.includes(searchInput));
+  } catch (e) {
+    console.error(e)
+  }
+  res.send(filter);
+})
 
 // 메인화면 초기 렌더링
 app.get('/posts/init', (req, res) => {
@@ -174,13 +199,18 @@ app.get('/posts', (req, res) => {
   }
 });
 
-app.post('/uploadImage', upload.single('selectImage'), function (req, res) {
+app.post('/uploadImage', upload.single('selectImage'), (req, res) => {
   res.send(req.files);
 });
 
 app.patch('/editUser/:userId', (req, res) => {
-  const { userId } = req.params;
-  users = users.map(user => (user.userId === +userId ? { ...user, ...req.body } : user));
+  const {
+    userId
+  } = req.params;
+  users = users.map(user => (user.userId === +userId ? {
+    ...user,
+    ...req.body
+  } : user));
   res.sendStatus();
 });
 

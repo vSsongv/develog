@@ -1,9 +1,35 @@
 import axios from 'axios';
 
+let searchResult = [];
+const search = async input => {
+  const {
+    data: filter
+  } = await axios.get('/search/' + input);
+  console.log(...filter);
+  searchResult = filter; // search 사용
+}
+
 const headerEvent = () => {
   const searchInput = document.getElementById('search');
 
-  document.querySelector('.search--form label').onclick = () => {
+  // search form submit 방지용
+  document.querySelector('.search--form').onsubmit = e => {
+    e.preventDefault();
+  }
+  // enter로 검색 시
+  searchInput.onkeyup = async e => {
+    if (e.key !== 'Enter') return;
+    await search(e.target.value.trim());
+    // 초기화
+    searchInput.value = '';
+    searchInput.classList.toggle('search--hidden');
+  }
+  document.querySelector('.search--form label').onclick = async () => {
+    // icon click으로 검색 시
+    if (!searchInput.classList.contains('search--hidden') && searchInput.value.trim()) {
+      await search(searchInput.value.trim());
+    }
+    // 초기화
     searchInput.value = '';
     searchInput.classList.toggle('search--hidden');
   };
@@ -18,7 +44,9 @@ const headerEvent = () => {
 
   (async () => {
     try {
-      const { data: user } = await axios.get('/checkAuth');
+      const {
+        data: user
+      } = await axios.get('/checkAuth');
       if (user) {
         document.querySelector('.user').classList.remove('hidden');
         document.querySelector('.button--login').classList.add('hidden');
@@ -58,4 +86,5 @@ const headerEvent = () => {
 
 export default {
   headerEvent,
+  searchResult
 };
