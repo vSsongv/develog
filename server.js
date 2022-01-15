@@ -8,8 +8,6 @@ const bcrypt = require('bcrypt');
 const multer = require('multer');
 let { users, posts } = require('./mockData.js');
 
-console.log(users);
-
 let leftPostNum = posts.length - 10;
 let postIndex = 9;
 
@@ -193,6 +191,14 @@ app.get('/avatar/:userId', (req, res) => {
   res.sendFile(path.join(__dirname, `${user.avatarUrl}`));
 });
 
+app.post('/checkPassword/:userId', async (req, res) => {
+  const { userId } = req.params;
+  const user = users.find(user => user.userId === +userId);
+
+  if (bcrypt.compareSync(req.body.password, user.password)) res.sendStatus(204);
+  else res.send('failed');
+});
+
 // 유저 탈퇴
 app.post('/delete/user/:userId', async (req, res) => {
   const { userId } = req.params;
@@ -201,8 +207,10 @@ app.post('/delete/user/:userId', async (req, res) => {
   if (bcrypt.compareSync(req.body.password, user.password)) {
     users = users.filter(user => user.userId !== +userId);
     posts = posts.filter(post => post.userId !== +userId);
+    res.clearCookie('accessToken').sendStatus(204);
+  } else {
+    res.send('failed');
   }
-  res.clearCookie('accessToken').sendStatus(204);
 });
 
 // detail page

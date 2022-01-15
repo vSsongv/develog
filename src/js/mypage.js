@@ -67,7 +67,17 @@ const mypageHtml = `<div class="cover hidden"></div>
     <button class="withdrawal--close"><i class="fas fa-times"></i></button>
     <h3>회원탈퇴를 하시려면 비밀번호를 입력후 회원탈퇴 버튼을 눌러주세요.</h3>
     <input class="withdrawal--password" type="password" placeholder="비밀번호를 입력해주세요.">
+    <span class="error-message hidden">비밀번호가 일치하지 않습니다. 3회 이상 틀리면 로그아웃됩니다.</span>
     <button type="button" class="button button--withdrawal withdrawal-confirm">회원탈퇴</button>
+  </section>
+  
+  <section class="profileEdit hidden">
+    <h2 class="a11yHidden">수정페이지 이동 전 비밀번호 확인</h2>
+    <button class="profileEdit--close"><i class="fas fa-times"></i></button>
+    <h3>수정페이지로 이동하시려면 비밀번호를 입력하세요.</h3>
+    <input class="profileEdit--password" type="password" placeholder="비밀번호를 입력해주세요.">
+    <span class="error-message hidden">비밀번호가 일치하지 않습니다. 3회 이상 틀리면 로그아웃됩니다.</span>
+    <button type="button" class="button button--edit profileEdit-confirm">비밀번호 확인</button>
   </section>
 </div>`;
 
@@ -86,33 +96,83 @@ const userProfileSet = async () => {
 };
 
 const mypageEvent = () => {
+  let checkPasswordCnt = 0;
   userProfileSet();
 
   header.headerEvent();
-  const modalToggle = () => {
+
+  const withdrawalToggle = () => {
     document.querySelector('.cover').classList.toggle('hidden');
     document.querySelector('.withdrawal').classList.toggle('hidden');
   };
 
-  document.querySelector('.button--withdrawal').onclick = modalToggle;
-  document.querySelector('.withdrawal--close').onclick = modalToggle;
+  const editToggle = () => {
+    document.querySelector('.cover').classList.toggle('hidden');
+    document.querySelector('.profileEdit').classList.toggle('hidden');
+  };
 
-  document.querySelector('.button--edit').addEventListener('click', e => {
-    window.history.pushState({ data: 'user' }, '', '/mypageEdit');
-  });
+  document.querySelector('.button--withdrawal').onclick = withdrawalToggle;
+  document.querySelector('.withdrawal--close').onclick = withdrawalToggle;
+  document.querySelector('.button--edit').onclick = editToggle;
+  document.querySelector('.profileEdit--close').onclick = editToggle;
 
-  document.querySelector('.withdrawal-confirm').addEventListener('click', async () => {
+  // document.querySelector('.button--edit').addEventListener('click', e => {
+  //   window.history.pushState({ data: 'user' }, '', '/mypageEdit');
+  // });
+
+  const $error = document.querySelectorAll('.error-message');
+
+  // const deleteApi = async user => {
+  //   const data = await axios.post(`/delete/user/${user.userId}`, {
+  //     password: document.querySelector('.withdrawal--password').value,
+  //   });
+  // };
+
+  document.querySelector('.profileEdit-confirm').onclick = async restApi => {
     try {
       const { data: user } = await axios.get('/checkAuth');
-
-      const { status } = await axios.post(`/delete/user/${user.userId}`, {
-        password: document.querySelector('.withdrawal--password').value,
+      const data = await axios.post(`/checkPassword/${user.userId}`, {
+        password: document.querySelector('.profileEdit--password').value,
       });
-      if (status === 204) window.history.pushState({}, '', '/');
+      // console.log(data);
+      if (data.status === 204) window.history.pushState({ data: 'user' }, '', '/mypageEdit');
+      else if (data.data === 'failed') {
+        checkPasswordCnt += 1;
+        if (checkPasswordCnt < 4) {
+          $error[1].textContent = `비밀번호가 일치하지 않습니다. 4회 이상 틀리면 로그아웃됩니다. (${checkPasswordCnt}/4)`;
+        } else {
+          const check = await axios.get('/logout');
+          if (check.status === 204) window.history.pushState({}, '', '/');
+        }
+      }
+      $error[1].classList.remove('hidden');
     } catch (e) {
       console.log(e);
     }
-  });
+  };
+
+  document.querySelector('.withdrawal-confirm').onclick = async restApi => {
+    try {
+      const { data: user } = await axios.get('/checkAuth');
+      const data = await axios.post(`/delete/user/${user.userId}`, {
+        password: document.querySelector('.withdrawal--password').value,
+      });
+      // console.log(data);
+      if (data.status === 204) window.history.pushState({}, '', '/');
+      else if (data.data === 'failed') {
+        checkPasswordCnt += 1;
+        if (checkPasswordCnt < 4) {
+          $error[0].textContent = `비밀번호가 일치하지 않습니다. 4회 이상 틀리면 로그아웃됩니다. (${checkPasswordCnt}/4)`;
+        } else {
+          const check = await axios.get('/logout');
+          if (check.status === 204) window.history.pushState({}, '', '/');
+        }
+      }
+      $error[0].classList.remove('hidden');
+    } catch (e) {
+      console.log(e);
+    }
+  };
 };
 
 export default { mypageHtml, mypageEvent };
