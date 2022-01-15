@@ -8,7 +8,6 @@ import header from './js/header';
 
 const history = require('history-events');
 
-const regex = /\/[a-zA-Z0-9]*/;
 const $root = document.querySelector('.root');
 
 const render = html => {
@@ -17,8 +16,8 @@ const render = html => {
 
 const switchDependsOnUrl = () => {
   const url = window.location.pathname.split('/');
-  console.log(url);
-  switch (url[1] === '' ? '/' : `/${url[1]}`) {
+  const pageCase = url[1] === '' ? '/' : `/${url[1]}`;
+  switch (pageCase) {
     case '/':
       render(index.indexHtml);
       index.indexEvent();
@@ -50,6 +49,7 @@ const switchDependsOnUrl = () => {
       // upload
       break;
     default:
+      // 404page 뿌려주기
       alert('잘못된 페이지입니다.');
   }
 };
