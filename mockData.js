@@ -8,7 +8,7 @@ let users = [
     nickname: 'User1',
     name: '송진영',
     phone: '010-1234-5678',
-    avatarUrl: 'src/assets/진영.jpg',
+    avatarUrl: 'src/assets/진영.png',
   },
   {
     userId: 2,
@@ -17,7 +17,7 @@ let users = [
     nickname: 'User2',
     name: '김민성',
     phone: '010-2345-6789',
-    avatarUrl: 'src/assets/민성.jpg',
+    avatarUrl: 'src/assets/민성.png',
   },
   {
     userId: 3,
@@ -26,7 +26,7 @@ let users = [
     nickname: 'User3',
     name: '안현서',
     phone: '010-3456-7890',
-    avatarUrl: 'src/assets/현서.jpg',
+    avatarUrl: 'src/assets/현서.png',
   },
   {
     userId: 4,
@@ -35,7 +35,7 @@ let users = [
     nickname: 'User4',
     name: '원종빈',
     phone: '010-4567-8901',
-    avatarUrl: 'src/assets/종빈.jpg',
+    avatarUrl: 'src/assets/종빈.png',
   },
   {
     userId: 5,
