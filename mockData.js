@@ -8,7 +8,7 @@ let users = [
     nickname: 'User1',
     name: '송진영',
     phone: '010-1234-5678',
-    avartarUrl: 'img/doctorStrange_profile.jpg',
+    avartarUrl: 'src/assets/ironman_profile.jpg',
   },
   {
     userId: 2,
@@ -68,20 +68,7 @@ const posts = [
     postId: 1,
     userId: 1,
     title: '제목1',
-    content: `Lorem ipsum dolor sit amet consectetur adipisicing elit. Rerum labore excepturi repudiandae earum nihil quis
-			numquam minus, natus corrupti molestiae blanditiis iure distinctio repellendus, praesentium tenetur! Nisi    tempore repudiandae commodi. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quae soluta doloremque
-			harum adipisci aliquid quam, explicabo cumque eius, veniam iure quas repudiandae quo voluptatibus blanditiis
-			at eligendi dignissimos? Non, repellat.<br><br><br>
-			Lorem ipsum dolor sit amet consectetur adipisicing elit. Rerum labore excepturi repudiandae earum nihil quis
-			numquam minus, natus corrupti molestiae blanditiis iure distinctio repellendus, praesentium tenetur! Nisi
-			tempore repudiandae commodi. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quae soluta doloremque
-			harum adipisci aliquid quam, explicabo cumque eius, veniam iure quas repudiandae quo voluptatibus blanditiis
-			at eligendi dignissimos? Non, repellat.<br><br><br>
-			Lorem ipsum dolor sit amet consectetur adipisicing elit. Rerum labore excepturi repudiandae earum nihil quis
-			numquam minus, natus corrupti molestiae blanditiis iure distinctio repellendus, praesentium tenetur! Nisi
-			tempore repudiandae commodi. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quae soluta doloremque
-			harum adipisci aliquid quam, explicabo cumque eius, veniam iure quas repudiandae quo voluptatibus blanditiis
-			at eligendi dignissimos? Non, repellat.`,
+    content: `teset`,
     createAt: '2021-01-1',
     likedUsers: [],
   },
