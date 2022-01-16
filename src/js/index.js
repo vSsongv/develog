@@ -9,9 +9,11 @@ const indexHtml = ` <header class="header">
     <label for="search" class="fas fa-search "></label>
   </form>
 
-<button class="button button--login">Login</button>
+  <button class="button button--login">Login</button>
+  
+  <button class="button button--posting">Posting</button>
 
-<div class="user hidden"></div>
+  <div class="user hidden"></div>
 
 <nav class="nav-box hidden">
   <ul>

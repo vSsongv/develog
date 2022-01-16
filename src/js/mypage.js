@@ -13,6 +13,8 @@ const mypageHtml = `<div class="cover hidden"></div>
   </form>
 
   <button class="button button--login">Login</button>
+  
+  <button class="button button--posting">Posting</button>
 
   <div class="user hidden"></div>
 
