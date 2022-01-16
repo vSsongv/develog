@@ -15,29 +15,29 @@ const signupHtml = `<header>
       <button type="button" class="button double-check" disabled>중복확인</button>
       <i class="complete hidden fas fa-check-circle"></i>
       <i class="error hidden fas fa-times-circle"></i>
-      <span class="error-message hidden">제대로 입력해!!!</span>
-      <span class="check-message hidden">다시 중복 확인하기!!!</span>
+      <span class="error-message hidden">이메일 형식에 맞게 입력해주세요.</span>
+      <span class="check-message hidden">이미 사용 중인 닉네임입니다.</span>
     </div>
     <div class="input-box">
       <label for="password">password</label>
       <input id="password" class="input-box__input" type="password" autocomplete="off" />
       <i class="complete hidden fas fa-check-circle"></i>
       <i class="error hidden fas fa-times-circle"></i>
-      <span class="error-message hidden">제대로 입력해!!!</span>
+      <span class="error-message hidden">6자리 이상 12자리 이하로 입력해주세요.</span>
     </div>
     <div class="input-box">
       <label for="confirmPassword">confirm password</label>
       <input id="confirmPassword" class="input-box__input" type="password" autocomplete="off" />
       <i class="complete hidden fas fa-check-circle"></i>
       <i class="error hidden fas fa-times-circle"></i>
-      <span class="error-message hidden">제대로 입력해!!!</span>
+      <span class="error-message hidden">비밀번호가 일치하지 않습니다.</span>
     </div>
     <div class="input-box">
       <label for="name">name</label>
       <input id="name" class="input-box__input" type="text" autocomplete="off" />
       <i class="complete hidden fas fa-check-circle"></i>
       <i class="error hidden fas fa-times-circle"></i>
-      <span class="error-message hidden">제대로 입력해!!!</span>
+      <span class="error-message hidden">이름을 한 글자 이상 입력해주세요.</span>
     </div>
     <div class="input-box">
       <label for="nickname">nickname</label>
@@ -45,15 +45,15 @@ const signupHtml = `<header>
       <button type="button" class="button double-check" disabled>중복확인</button>
       <i class="complete hidden fas fa-check-circle"></i>
       <i class="error hidden fas fa-times-circle"></i>
-      <span class="error-message hidden">제대로 입력해!!!</span>
-      <span class="check-message hidden">다시 중복 확인하기!!!</span>
+      <span class="error-message hidden">닉네임을 한 글자 이상 입력해주세요.</span>
+      <span class="check-message hidden">이미 사용 중인 닉네임입니다.</span>
     </div>
     <div class="input-box">
       <label for="phone">phone</label>
       <input id="phone" class="input-box__input" type="tel" autocomplete="off" />
       <i class="complete hidden fas fa-check-circle"></i>
       <i class="error hidden fas fa-times-circle"></i>
-      <span class="error-message hidden">제대로 입력해!!!</span>
+      <span class="error-message hidden">전화번호 형식에 맞게 입력해주세요.</span>
     </div>
     <div class="sign-buttons signup">
       <button type="button" class="button" disabled>회원가입</button>
@@ -69,6 +69,15 @@ const signupEvent = () => {
 
   document.querySelector('.sign-form').oninput = e => {
     $input.forEach((input, index) => {
+      // if (e.target === input) {
+      //   if (e.target.matches('#confirm'))
+      //     return validate.validate(e.target.value !== document.querySelector('#confirmPassword').value, index, $signupBtn);
+      //   if (e.target.matches('#confirmPassword'))
+      //     return validate.validate(e.target.value !== document.querySelector('#password').value, index, $signupBtn);
+
+      // }
+      // return validate.validate(e.target.value !== document.querySelector('#password').value, index, $signupBtn);
+
       if (e.target === input && e.target.matches('#confirmPassword'))
         return validate.validate(e.target.value !== document.querySelector('#password').value, index, $signupBtn);
       if (e.target === input) return validate.validate(e.target.value, index, $signupBtn);

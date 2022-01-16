@@ -24,7 +24,8 @@
     color: $red;
   }
 
-  .error-message {
+  .error-message,
+  .check-message {
     font-size: rem(14px);
     color: $red;
   }
