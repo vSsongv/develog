@@ -59,7 +59,7 @@ const headerEvent = () => {
           window.history.pushState({}, '', '/mypage');
         });
 
-        document.querySelector('.user').style.backgroundImage = `url('/avatar/${user.userId}')`;
+        document.querySelector('.user').style.backgroundImage = `url('/${user.avartarUrl}')`;
 
         document.querySelector('.user').onclick = () => {
           document.querySelector('.nav-box').classList.toggle('hidden');

@@ -8,7 +8,7 @@ let users = [
     nickname: 'User1',
     name: '송진영',
     phone: '010-1234-5678',
-    avartarUrl: 'src/assets/ironman_profile.jpg',
+    avatarUrl: 'src/assets/doctorStrange_profile.jpg',
   },
   {
     userId: 2,
@@ -17,7 +17,7 @@ let users = [
     nickname: 'User2',
     name: '김민성',
     phone: '010-2345-6789',
-    avartarUrl: 'img/defaultAvatar.png',
+    avatarUrl: 'src/assets/ironman_profile.jpg',
   },
   {
     userId: 3,
@@ -26,7 +26,7 @@ let users = [
     nickname: 'User3',
     name: '안현서',
     phone: '010-3456-7890',
-    avartarUrl: 'src/assets/최고심 on Twitter.jpg',
+    avatarUrl: 'src/assets/최고심 on Twitter.jpg',
   },
   {
     userId: 4,
@@ -35,7 +35,7 @@ let users = [
     nickname: 'User4',
     name: '원종빈',
     phone: '010-4567-8901',
-    avartarUrl: 'img/avatar.png',
+    avatarUrl: 'src/assets/종빈이.png',
   },
   {
     userId: 5,
@@ -44,7 +44,7 @@ let users = [
     nickname: 'User5',
     name: '앤트맨',
     phone: '010-4362-1156',
-    avartarUrl: 'img/defaultAvatar.png',
+    avatarUrl: 'src/assets/antman_profile.jpg',
   },
   {
     userId: 6,
@@ -53,7 +53,7 @@ let users = [
     nickname: 'User6',
     name: '원종빈',
     phone: '010-4782-4367',
-    avartarUrl: 'img/defaultAvatar.png',
+    avatarUrl: 'src/assets/avatar.png',
   },
 ];
 
@@ -68,8 +68,21 @@ const posts = [
     postId: 1,
     userId: 1,
     title: '제목1',
-    content: `teset`,
-    createAt: '2021-01-1',
+    content: `Lorem ipsum dolor sit amet consectetur adipisicing elit. Rerum labore excepturi repudiandae earum nihil quis
+			numquam minus, natus corrupti molestiae blanditiis iure distinctio repellendus, praesentium tenetur! Nisi    tempore repudiandae commodi. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quae soluta doloremque
+			harum adipisci aliquid quam, explicabo cumque eius, veniam iure quas repudiandae quo voluptatibus blanditiis
+			at eligendi dignissimos? Non, repellat.<br><br><br>
+			Lorem ipsum dolor sit amet consectetur adipisicing elit. Rerum labore excepturi repudiandae earum nihil quis
+			numquam minus, natus corrupti molestiae blanditiis iure distinctio repellendus, praesentium tenetur! Nisi
+			tempore repudiandae commodi. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quae soluta doloremque
+			harum adipisci aliquid quam, explicabo cumque eius, veniam iure quas repudiandae quo voluptatibus blanditiis
+			at eligendi dignissimos? Non, repellat.<br><br><br>
+			Lorem ipsum dolor sit amet consectetur adipisicing elit. Rerum labore excepturi repudiandae earum nihil quis
+			numquam minus, natus corrupti molestiae blanditiis iure distinctio repellendus, praesentium tenetur! Nisi
+			tempore repudiandae commodi. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quae soluta doloremque
+			harum adipisci aliquid quam, explicabo cumque eius, veniam iure quas repudiandae quo voluptatibus blanditiis
+			at eligendi dignissimos? Non, repellat.`,
+    createAt: '2021-01-01',
     likedUsers: [],
   },
   {
@@ -77,8 +90,8 @@ const posts = [
     userId: 2,
     title: '제목2',
     content:
-      'Enim consequat Lorem ipsum ut laborum officia cillum qui id fugiat duis. Sit incididunt fugiat reprehenderit aute mollit et nostrud laboris do aliqua sint. Magna laboris incididunt voluptate sunt ullamco nostrud exercitation reprehenderit excepteur sunt enim. Velit sunt excepteur tempor id ut. Laborum Lorem duis dolor dolor magna non deserunt quis.',
-    createAt: '2021-01-2',
+      "When the sharpest words wanna cut me down I'm gonna send a flood, gonna drown em out I am brave, I am bruised I am who I'm meant to be, this is me Look out cause here I come And I'm marching on to the beat I drum I'm not scared to be seen I make no apologies, this is me",
+    createAt: '2021-01-02',
     likedUsers: [2, 3, 1],
   },
   {
@@ -86,7 +99,7 @@ const posts = [
     userId: 1,
     title: '제목3',
     content: 'Aliqua nulla do ea laboris velit nisi reprehenderit elit occaecat.',
-    createAt: '2021-01-3',
+    createAt: '2021-01-03',
     likedUsers: [2, 1],
   },
   {
@@ -95,7 +108,7 @@ const posts = [
     title: '제목4',
     content:
       'Enim consequat Lorem ipsum ut laborum officia cillum qui id fugiat duis. Sit incididunt fugiat reprehenderit aute mollit et nostrud laboris do aliqua sint. Magna laboris incididunt voluptate sunt ullamco nostrud exercitation reprehenderit excepteur sunt enim. Velit sunt excepteur tempor id ut. Laborum Lorem duis dolor dolor magna non deserunt quis.',
-    createAt: '2021-01-4',
+    createAt: '2021-01-04',
     likedUsers: [],
   },
   {
@@ -104,7 +117,7 @@ const posts = [
     title: '제목5',
     content:
       'Enim consequat Lorem ipsum ut laborum officia cillum qui id fugiat duis. Sit incididunt fugiat reprehenderit aute mollit et nostrud laboris do aliqua sint. Magna laboris incididunt voluptate sunt ullamco nostrud exercitation reprehenderit excepteur sunt enim. Velit sunt excepteur tempor id ut. Laborum Lorem duis dolor dolor magna non deserunt quis.',
-    createAt: '2021-01-5',
+    createAt: '2021-01-05',
     likedUsers: [3, 6],
   },
   {
@@ -112,7 +125,7 @@ const posts = [
     userId: 1,
     title: '제목6',
     content: 'Aliqua nulla do ea laboris velit nisi reprehenderit elit occaecat.',
-    createAt: '2021-01-6',
+    createAt: '2021-01-06',
     likedUsers: [],
   },
   {
@@ -121,7 +134,7 @@ const posts = [
     title: '제목7',
     content:
       'Enim consequat Lorem ipsum ut laborum officia cillum qui id fugiat duis. Sit incididunt fugiat reprehenderit aute mollit et nostrud laboris do aliqua sint. Magna laboris incididunt voluptate sunt ullamco nostrud exercitation reprehenderit excepteur sunt enim. Velit sunt excepteur tempor id ut. Laborum Lorem duis dolor dolor magna non deserunt quis.',
-    createAt: '2021-01-7',
+    createAt: '2021-01-07',
     likedUsers: [],
   },
   {
@@ -130,7 +143,7 @@ const posts = [
     title: '제목8',
     content:
       'Enim consequat Lorem ipsum ut laborum officia cillum qui id fugiat duis. Sit incididunt fugiat reprehenderit aute mollit et nostrud laboris do aliqua sint. Magna laboris incididunt voluptate sunt ullamco nostrud exercitation reprehenderit excepteur sunt enim. Velit sunt excepteur tempor id ut. Laborum Lorem duis dolor dolor magna non deserunt quis.',
-    createAt: '2021-01-8',
+    createAt: '2021-01-08',
     likedUsers: [],
   },
   {
@@ -138,7 +151,7 @@ const posts = [
     userId: 1,
     title: '제목9',
     content: 'Aliqua nulla do ea laboris velit nisi reprehenderit elit occaecat.',
-    createAt: '2021-01-9',
+    createAt: '2021-01-09',
     likedUsers: [],
   },
   {
@@ -364,7 +377,7 @@ const posts = [
     title: '제목4',
     content:
       'Enim consequat Lorem ipsum ut laborum officia cillum qui id fugiat duis. Sit incididunt fugiat reprehenderit aute mollit et nostrud laboris do aliqua sint. Magna laboris incididunt voluptate sunt ullamco nostrud exercitation reprehenderit excepteur sunt enim. Velit sunt excepteur tempor id ut. Laborum Lorem duis dolor dolor magna non deserunt quis.',
-    createAt: '2021-01-6',
+    createAt: '2021-01-06',
     likedUsers: [],
   },
   {
@@ -373,7 +386,7 @@ const posts = [
     title: '제목5',
     content:
       'Enim consequat Lorem ipsum ut laborum officia cillum qui id fugiat duis. Sit incididunt fugiat reprehenderit aute mollit et nostrud laboris do aliqua sint. Magna laboris incididunt voluptate sunt ullamco nostrud exercitation reprehenderit excepteur sunt enim. Velit sunt excepteur tempor id ut. Laborum Lorem duis dolor dolor magna non deserunt quis.',
-    createAt: '2021-01-7',
+    createAt: '2021-01-07',
     likedUsers: [],
   },
   {
@@ -382,7 +395,7 @@ const posts = [
     title: '제목6',
     content:
       'Enim consequat Lorem ipsum ut laborum officia cillum qui id fugiat duis. Sit incididunt fugiat reprehenderit aute mollit et nostrud laboris do aliqua sint. Magna laboris incididunt voluptate sunt ullamco nostrud exercitation reprehenderit excepteur sunt enim. Velit sunt excepteur tempor id ut. Laborum Lorem duis dolor dolor magna non deserunt quis.',
-    createAt: '2021-01-8',
+    createAt: '2021-01-08',
     likedUsers: [],
   },
   {
@@ -390,7 +403,7 @@ const posts = [
     userId: 6,
     title: '제목7',
     content: 'Aliqua nulla do ea laboris velit nisi reprehenderit elit occaecat.',
-    createAt: '2021-01-9',
+    createAt: '2021-01-09',
     likedUsers: [],
   },
   {
@@ -404,10 +417,29 @@ const posts = [
   },
   {
     postId: 41,
-    userId: 6,
-    title: 'test',
-    content: 'test content.',
-    createAt: '2021-01-10',
+    userId: 1,
+    title: '제목16',
+    content:
+      'Enim consequat Lorem ipsum ut laborum officia cillum qui id fugiat duis. Sit incididunt fugiat reprehenderit aute mollit et nostrud laboris do aliqua sint. Magna laboris incididunt voluptate sunt ullamco nostrud exercitation reprehenderit excepteur sunt enim. Velit sunt excepteur tempor id ut. Laborum Lorem duis dolor dolor magna non deserunt quis.',
+    createAt: '2021-01-20',
+    likedUsers: [],
+  },
+  {
+    postId: 42,
+    userId: 1,
+    title: '제목16',
+    content:
+      'Enim consequat Lorem cillum qui id fugiat duis. Sit incididunt fugiat reprehenderit aute mollit et nostrud laboris do aliqua sint. Magna laboris incididunt voluptate sunt ullamco nostrud exercitation reprehenderit excepteur sunt enim. Velit sunt excepteur tempor id ut. Laborum Lorem duis dolor dolor magna non deserunt quis.',
+    createAt: '2021-01-21',
+    likedUsers: [],
+  },
+  {
+    postId: 43,
+    userId: 1,
+    title: '제목13',
+    content:
+      'cillum qui id fugiat duis. Sit incididunt fugiat reprehenderit aute mollit et nostrud laboris do aliqua sint. Magna laboris incididunt voluptate sunt ullamco nostrud exercitation reprehenderit excepteur sunt enim. Velit sunt excepteur tempor id ut. Laborum Lorem duis dolor dolor magna non deserunt quis.',
+    createAt: '2021-01-21',
     likedUsers: [],
   },
 ];
