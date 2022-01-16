@@ -12,16 +12,16 @@ const signinHtml = `<header>
 			<div class="input-box">
 				<label for="email">email</label>
 				<input id="email" class="input-box__input" type="email" autocomplete='off' />
-				<i class="complete hidden fas fa-check-circle"></i>
-				<i class="error hidden fas fa-times-circle"></i>
-				<span class="error-message hidden">이메일 형식에 맞게 입력해주세요.</span>
+				<i class="complete hidden emailVal fas fa-check-circle"></i>
+				<i class="error hidden emailVal fas fa-times-circle"></i>
+				<span class="error-message hidden emailVal">이메일 형식에 맞게 입력해주세요.</span>
 			</div>
 			<div class="input-box">
 				<label for="password">password</label>
 				<input id="password" class="input-box__input" type="password" autocomplete='off' />
-				<i class="complete hidden fas fa-check-circle"></i>
-				<i class="error hidden fas fa-times-circle"></i>
-				<span class="error-message hidden">6자리 이상 12자리 이하로 입력해주세요.</span>
+				<i class="complete hidden passwordVal fas fa-check-circle"></i>
+				<i class="error hidden passwordVal fas fa-times-circle"></i>
+				<span class="error-message hidden passwordVal">6자리 이상 12자리 이하로 입력해주세요.</span>
 			</div>
 			<div class="sign-buttons signin">
 			<button type="button" class="button">회원가입</button>
@@ -34,17 +34,16 @@ const signinHtml = `<header>
 
 const signinEvent = () => {
 	const $signinBtn = document.querySelector('.sign-buttons.signin .button:last-child');
-	const $input = document.querySelectorAll('.input-box__input');
 
 	document.querySelector('.sign-form').oninput = e => {
-		$input.forEach((input, index) => {
-			if (e.target === input) validate.validate(e.target.value, index, $signinBtn);
-		});
+		if (e.target === document.querySelector('#email')) validate.emailValidate(e.target.value)
+		if (e.target === document.querySelector('#password')) validate.passwordValidate(e.target.value)
 	};
 
 	document.querySelector('.sign-buttons.signin .button:first-child').onclick = () => {
 		window.history.pushState(null, null, '/signup');
-	}
+	};
+
 	$signinBtn.onclick = async e => {
 		e.preventDefault();
 
