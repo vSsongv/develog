@@ -59,10 +59,10 @@ const countCorrectInput = (arr, index, btn) => {
   const cnt = arr.filter(idx =>
     idx !== index ? !document.querySelectorAll('.complete')[idx].classList.contains('hidden') : false
   ).length;
+  console.log(check);
   if (document.querySelectorAll('.check-message').length > 1) {
     if ((cnt === 1 || check === 2) && cnt === arr.length - 1) btn.removeAttribute('disabled');
   } else {
-    console.log(check);
     if ((cnt === 1 || check === 1) && cnt === arr.length - 1) btn.removeAttribute('disabled');
   }
 };
@@ -83,7 +83,8 @@ const checkIsCorrectForm = (reg, index, btn) => {
     if (
       document.querySelectorAll('.check-message')[+!!index] &&
       !document.querySelectorAll('.check-message')[+!!index].classList.contains('hidden') &&
-      (document.querySelectorAll('.input-box').length !== 2 && (index === 0 || index === 4))
+      document.querySelectorAll('.input-box').length !== 2 &&
+      (index === 0 || index === 4)
     ) {
       document.querySelectorAll('.check-message')[+!!index].classList.remove('hidden');
       document.querySelectorAll('.double-check')[+!!index].style.backgroundColor = 'red';
@@ -91,16 +92,18 @@ const checkIsCorrectForm = (reg, index, btn) => {
   } else if (
     document.querySelector('.check-message') &&
     !document.querySelector('.check-message').classList.contains('hidden') &&
-    (document.querySelectorAll('.input-box').length !== 2 && (index === 0 || index === 4))
+    document.querySelectorAll('.input-box').length !== 2 &&
+    (index === 0 || index === 4)
   ) {
     document.querySelector('.check-message').classList.remove('hidden');
     document.querySelector('.double-check').style.backgroundColor = 'red';
   }
   iconChange(index, reg);
+
   reg
-    ?
-    document.querySelectorAll('.error-message')[index].classList.remove('hidden') :
-    document.querySelectorAll('.error-message')[index].classList.add('hidden');
+    ? document.querySelectorAll('.error-message')[index].classList.remove('hidden')
+    : document.querySelectorAll('.error-message')[index].classList.add('hidden');
+
   activeSubmitButton(reg, index, btn);
 };
 

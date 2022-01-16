@@ -84,17 +84,37 @@ const userProfileSet = async avatar => {
 };
 
 const mypageEditEvent = () => {
+  const activeBtn = () => {
+    const $checkComplete = [...document.querySelectorAll('.complete')].filter(i => !i.classList.contains('hidden'));
+    if (document.querySelector('.double-check').style.backgroundColor === 'green' && $checkComplete.length === 6)
+      $editBtn.removeAttribute('disabled');
+  };
+
   const $avatar = document.querySelector('.mypageEdit--avatar');
   userProfileSet($avatar);
 
   const $editBtn = document.querySelector('.button--editComplete');
-
+  const $nickName = document.getElementById('nickname');
+  const $doubleCheckBtn = document.querySelector('.double-check');
   const $input = document.querySelectorAll('.input-box__input');
+
   document.querySelector('.mypageEdit--form').oninput = e => {
     $input.forEach((input, index) => {
-      if (e.target === input && e.target.matches('#confirmPassword'))
-        return validate.validate(e.target.value !== document.querySelector('#password').value, index, $editBtn);
-      if (e.target === input) return validate.validate(e.target.value, index, $editBtn);
+      if (e.target === input && (e.target.matches('#confirmPassword') || e.target.matches('#password'))) {
+        validate.validate(e.target.value, index, $editBtn);
+        validate.validate(
+          document.querySelector('#confirmPassword').value !== document.querySelector('#password').value,
+          2,
+          $editBtn
+        );
+        activeBtn();
+        return;
+      }
+      if (e.target === input) {
+        validate.validate(e.target.value, index, $editBtn);
+        activeBtn();
+        return;
+      }
     });
   };
 
@@ -111,9 +131,6 @@ const mypageEditEvent = () => {
     window.history.back(1);
   });
 
-  const $nickName = document.getElementById('nickname');
-  const $doubleCheckBtn = document.querySelector('.double-check');
-
   $doubleCheckBtn.onclick = async e => {
     const { data: user } = await axios.get('/checkAuth');
     if (user.nickname === $nickName.value) {
@@ -123,9 +140,11 @@ const mypageEditEvent = () => {
       const { data: isDuplicate } = await axios.get('/check/nickname/' + $nickName.value);
       validate.isDuplicate(4, isDuplicate.isDuplicate);
     }
-    const $checkComplete = [...document.querySelectorAll('.complete')].filter(i => !i.classList.contains('hidden'));
-    if (($doubleCheckBtn.style.backgroundColor = 'green' && $checkComplete.length === 6))
-      $editBtn.removeAttribute('disabled');
+    // const $checkComplete = [...document.querySelectorAll('.complete')].filter(i => !i.classList.contains('hidden'));
+    // console.log($checkComplete);
+    // if (($doubleCheckBtn.style.backgroundColor = 'green' && $checkComplete.length === 6))
+    //   $editBtn.removeAttribute('disabled');
+    activeBtn();
   };
 
   document.querySelector('.button--editComplete').addEventListener('click', async e => {
