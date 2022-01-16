@@ -18,7 +18,6 @@ posts.sort((a, b) => new Date(a.createAt) - new Date(b.createAt));
 const makeSplitedPosts = (posts, startIdx, endIdx) => {
   let splitedPosts = [];
   for (let i = startIdx; i < endIdx; i++) {
-    console.log(posts[i]);
     const user = users.filter(user => user.userId === posts[i].userId)[0];
     posts[i] = {
       ...posts[i],
