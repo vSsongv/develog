@@ -1,3 +1,5 @@
+require('dotenv').config();
+
 const express = require('express');
 const path = require('path');
 const cookieParser = require('cookie-parser');
@@ -16,7 +18,6 @@ posts.sort((a, b) => new Date(a.createAt) - new Date(b.createAt));
 const makeSplitedPosts = (posts, startIdx, endIdx) => {
   let splitedPosts = [];
   for (let i = startIdx; i < endIdx; i++) {
-    console.log(posts[i]);
     const user = users.filter(user => user.userId === posts[i].userId)[0];
     posts[i] = {
       ...posts[i],
@@ -295,6 +296,7 @@ app.delete('/posts/:postid', (req, res) => {
 
 app.get('/*', (req, res) => {
   console.log('sendFile', req.headers.referer);
+  console.log(users);
   res.sendFile(path.join(__dirname, './build/index.html'));
 });
 

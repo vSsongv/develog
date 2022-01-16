@@ -61,7 +61,6 @@ users = users.map(user => ({
   ...user,
   password: bcrypt.hashSync(user.password, 10),
 }));
-// export default {
 
 const posts = [
   {
