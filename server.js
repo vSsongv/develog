@@ -301,7 +301,6 @@ app.delete('/posts/:postid', (req, res) => {
 
 app.get('/*', (req, res) => {
   console.log('sendFile', req.headers.referer);
-  console.log(users);
   res.sendFile(path.join(__dirname, './build/index.html'));
 });
 
