@@ -44,7 +44,7 @@ let users = [
     nickname: 'User5',
     name: '앤트맨',
     phone: '010-4362-1156',
-    avatarUrl: 'img/defaultAvatar.png',
+    avatarUrl: 'src/assets/defaultAvatar.png',
   },
   {
     userId: 6,
@@ -53,7 +53,7 @@ let users = [
     nickname: 'User6',
     name: '원종빈',
     phone: '010-4782-4367',
-    avatarUrl: 'img/defaultAvatar.png',
+    avatarUrl: 'src/assets/defaultAvatar.png',
   },
 ];
 
