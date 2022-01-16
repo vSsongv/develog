@@ -69,14 +69,14 @@ const mypageEditHtml = `<header>
   </fieldset>
 </form>
 </div>`;
-const userProfileSet = async avartar => {
+const userProfileSet = async avatar => {
   try {
     const { data: user } = await axios.get('/checkAuth');
     document.getElementById('nickname').value = user.nickname;
     document.getElementById('name').value = user.name;
     document.getElementById('email').value = user.email;
     document.getElementById('phone').value = user.phone;
-    avartar.style.backgroundImage = `url('/avatar/${user.userId}')`;
+    avatar.style.backgroundImage = `url('/avatar/${user.userId}')`;
   } catch (e) {
     console.error(e);
     // window.history.pushState({}, '', '/signin');
@@ -84,23 +84,43 @@ const userProfileSet = async avartar => {
 };
 
 const mypageEditEvent = () => {
-  const $avartar = document.querySelector('.mypageEdit--avatar');
-  userProfileSet($avartar);
+  const activeBtn = () => {
+    const $checkComplete = [...document.querySelectorAll('.complete')].filter(i => !i.classList.contains('hidden'));
+    if (document.querySelector('.double-check').style.backgroundColor === 'green' && $checkComplete.length === 6)
+      $editBtn.removeAttribute('disabled');
+  };
+
+  const $avatar = document.querySelector('.mypageEdit--avatar');
+  userProfileSet($avatar);
 
   const $editBtn = document.querySelector('.button--editComplete');
-
+  const $nickName = document.getElementById('nickname');
+  const $doubleCheckBtn = document.querySelector('.double-check');
   const $input = document.querySelectorAll('.input-box__input');
+
   document.querySelector('.mypageEdit--form').oninput = e => {
     $input.forEach((input, index) => {
-      if (e.target === input && e.target.matches('#confirmPassword'))
-        return validate.validate(e.target.value !== document.querySelector('#password').value, index, $editBtn);
-      if (e.target === input) return validate.validate(e.target.value, index, $editBtn);
+      if (e.target === input && (e.target.matches('#confirmPassword') || e.target.matches('#password'))) {
+        validate.validate(e.target.value, index, $editBtn);
+        validate.validate(
+          document.querySelector('#confirmPassword').value !== document.querySelector('#password').value,
+          2,
+          $editBtn
+        );
+        activeBtn();
+        return;
+      }
+      if (e.target === input) {
+        validate.validate(e.target.value, index, $editBtn);
+        activeBtn();
+        return;
+      }
     });
   };
 
   const reader = new FileReader();
   reader.onload = () => {
-    $avartar.style.backgroundImage = `url('${reader.result}')`;
+    $avatar.style.backgroundImage = `url('${reader.result}')`;
   };
   document.querySelector('#selectImage').onchange = e => {
     reader.readAsDataURL(e.target.files[0]);
@@ -111,9 +131,6 @@ const mypageEditEvent = () => {
     window.history.back(1);
   });
 
-  const $nickName = document.getElementById('nickname');
-  const $doubleCheckBtn = document.querySelector('.double-check');
-
   $doubleCheckBtn.onclick = async e => {
     const { data: user } = await axios.get('/checkAuth');
     if (user.nickname === $nickName.value) {
@@ -123,9 +140,11 @@ const mypageEditEvent = () => {
       const { data: isDuplicate } = await axios.get('/check/nickname/' + $nickName.value);
       validate.isDuplicate(4, isDuplicate.isDuplicate);
     }
-    const $checkComplete = [...document.querySelectorAll('.complete')].filter(i => !i.classList.contains('hidden'));
-    if (($doubleCheckBtn.style.backgroundColor = 'green' && $checkComplete.length === 6))
-      $editBtn.removeAttribute('disabled');
+    // const $checkComplete = [...document.querySelectorAll('.complete')].filter(i => !i.classList.contains('hidden'));
+    // console.log($checkComplete);
+    // if (($doubleCheckBtn.style.backgroundColor = 'green' && $checkComplete.length === 6))
+    //   $editBtn.removeAttribute('disabled');
+    activeBtn();
   };
 
   document.querySelector('.button--editComplete').addEventListener('click', async e => {
@@ -142,19 +161,28 @@ const mypageEditEvent = () => {
 
       const formData = new FormData();
 
-      formData.append('selectImage', $fileImage.files[0]);
-      formData.append('filename', $fileImage.files[0].name);
+      if ($fileImage.files[0]) {
+        formData.append('selectImage', $fileImage.files[0]);
+        formData.append('filename', $fileImage.files[0].name);
 
-      await axios.post('/uploadImage', formData, config).then(response => {
-        if (response.status === 200) {
-          axios.patch(`/editUser/${user.userId}`, {
-            password: document.getElementById('password').value,
-            nickname: document.getElementById('nickname').value,
-            phone: document.getElementById('phone').value,
-            avartarUrl: $fileImage.files[0] ? `/src/assets/${$fileImage.files[0].name}` : user.avartarUrl,
-          });
-        }
-      });
+        await axios.post('/uploadImage', formData, config).then(response => {
+          if (response.status === 200) {
+            axios.patch(`/editUser/${user.userId}`, {
+              password: document.getElementById('password').value,
+              nickname: document.getElementById('nickname').value,
+              phone: document.getElementById('phone').value,
+              avatarUrl: $fileImage.files[0] ? `/src/assets/${$fileImage.files[0].name}` : user.avatarUrl,
+            });
+          }
+        });
+      } else {
+        axios.patch(`/editUser/${user.userId}`, {
+          password: document.getElementById('password').value,
+          nickname: document.getElementById('nickname').value,
+          phone: document.getElementById('phone').value,
+          avatarUrl: $fileImage.files[0] ? `/src/assets/${$fileImage.files[0].name}` : user.avatarUrl,
+        });
+      }
     } catch (e) {
       console.log(e);
     }

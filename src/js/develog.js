@@ -10,9 +10,10 @@ const develogHtml = `<header class="header">
       </form>
 
       <button class="button button--login">Login</button>
-      <div class="user hidden">
-        <img class="avatar" src="./assets/avatar.png" alt="avatar image" />
-      </div>
+  
+  <button class="button button--posting">Posting</button>
+
+  <div class="user hidden"></div>
 
       <nav class="nav-box hidden">
         <ul>
@@ -45,11 +46,9 @@ const develogEvent = userId => {
 
   document.querySelector('.develog-container').addEventListener('click', e => {
     if (e.target.className.split('__')[0] === 'post') {
-      console.log(e.target);
       history.pushState(null, null, `/detail/${e.target.closest('li').dataset.postId}`);
     } else if (e.target.classList.contains('see-more')) {
       postFunc.setUserPosts($allPostContainer, userId);
-      console.log(userId);
     }
   });
 };
