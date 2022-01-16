@@ -37,14 +37,14 @@ const iconChange = (index, isError) => {
   if (isError) {
     document.querySelectorAll('.complete')[index].classList.add('hidden');
     document.querySelectorAll('.error')[index].classList.remove('hidden');
-    if (index === 0 || index === 4) {
+    if (document.querySelectorAll('.input-box').length !== 2 && (index === 0 || index === 4)) {
       document.querySelectorAll('.double-check')[+!!index].setAttribute('disabled', '');
       document.querySelectorAll('.check-message')[+!!index].classList.add('hidden');
     }
   } else {
     document.querySelectorAll('.complete')[index].classList.remove('hidden');
     document.querySelectorAll('.error')[index].classList.add('hidden');
-    if (index === 0 || index === 4) {
+    if (document.querySelectorAll('.input-box').length !== 2 && (index === 0 || index === 4)) {
       if (document.querySelectorAll('.double-check').length > 1) {
         document.querySelectorAll('.double-check')[+!!index].removeAttribute('disabled');
       } else {
@@ -83,25 +83,24 @@ const checkIsCorrectForm = (reg, index, btn) => {
     if (
       document.querySelectorAll('.check-message')[+!!index] &&
       !document.querySelectorAll('.check-message')[+!!index].classList.contains('hidden') &&
-      (index === 0 || index === 4)
+      (document.querySelectorAll('.input-box').length !== 2 && (index === 0 || index === 4))
     ) {
       document.querySelectorAll('.check-message')[+!!index].classList.remove('hidden');
       document.querySelectorAll('.double-check')[+!!index].style.backgroundColor = 'red';
     }
-  } else {
-    if (
-      document.querySelector('.check-message') &&
-      !document.querySelector('.check-message').classList.contains('hidden') &&
-      (index === 0 || index === 4)
-    ) {
-      document.querySelector('.check-message').classList.remove('hidden');
-      document.querySelector('.double-check').style.backgroundColor = 'red';
-    }
+  } else if (
+    document.querySelector('.check-message') &&
+    !document.querySelector('.check-message').classList.contains('hidden') &&
+    (document.querySelectorAll('.input-box').length !== 2 && (index === 0 || index === 4))
+  ) {
+    document.querySelector('.check-message').classList.remove('hidden');
+    document.querySelector('.double-check').style.backgroundColor = 'red';
   }
   iconChange(index, reg);
   reg
-    ? document.querySelectorAll('.error-message')[index].classList.remove('hidden')
-    : document.querySelectorAll('.error-message')[index].classList.add('hidden');
+    ?
+    document.querySelectorAll('.error-message')[index].classList.remove('hidden') :
+    document.querySelectorAll('.error-message')[index].classList.add('hidden');
   activeSubmitButton(reg, index, btn);
 };
 
