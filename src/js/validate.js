@@ -1,125 +1,132 @@
-let check = 0;
+const reg = {
+  email: /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/,
+  password: /^[A-Za-z0-9]{6,12}$/,
+  name: /^[^\s]{1,}$/,
+  phone: /^01([0|1|6|7|8|9])-?([0-9]{3,4})-?([0-9]{4})$/
+};
 
-const isDuplicate = (index, isError) => {
-  if (isError) {
-    document.querySelectorAll('.complete')[index].classList.add('hidden');
-    document.querySelectorAll('.error')[index].classList.remove('hidden');
-    if (document.querySelectorAll('.double-check').length > 1) {
-      document.querySelectorAll('.check-message')[+!!index].classList.remove('hidden');
-      document.querySelectorAll('.double-check')[+!!index].style.backgroundColor = 'red';
+const activeSubmitButton = () => {
+  const complete = [...document.querySelectorAll('.complete')].filter(complete => complete.classList.contains('hidden')).length;
+  let check = 0;
+  if (document.querySelector('.double-check.emailVal')) check = [...document.querySelectorAll('.double-check')].filter(check => check.classList.contains('hidden')).length;
+  if (!complete && !check) {
+    document.querySelector('.sign-buttons button:last-child').removeAttribute('disabled');
+  }
+};
+
+const emailValidate = value => {
+  if (document.querySelector('.double-check.emailVal')) {
+    document.querySelector('.double-check.emailVal').classList.remove('checking');
+    document.querySelector('.check-message.emailVal').classList.add('hidden');
+  }
+  if (!reg.email.test(value)) {
+    document.querySelector('.complete.emailVal').classList.add('hidden');
+    document.querySelector('.error.emailVal').classList.remove('hidden');
+    document.querySelector('.error-message.emailVal').classList.remove('hidden');
+    if (document.querySelector('.double-check.emailVal')) document.querySelector('.double-check.emailVal').setAttribute('disabled', '');
+  } else {
+    document.querySelector('.complete.emailVal').classList.remove('hidden');
+    document.querySelector('.error.emailVal').classList.add('hidden');
+    document.querySelector('.error-message.emailVal').classList.add('hidden');
+    if (document.querySelector('.double-check.emailVal')) document.querySelector('.double-check.emailVal').removeAttribute('disabled');
+  }
+  activeSubmitButton();
+}
+
+const passwordValidate = (value1, value2) => {
+  if (!reg.password.test(value1)) {
+    document.querySelector('.complete.passwordVal').classList.add('hidden');
+    document.querySelector('.error.passwordVal').classList.remove('hidden');
+    document.querySelector('.error-message.passwordVal').classList.remove('hidden');
+  } else {
+    document.querySelector('.complete.passwordVal').classList.remove('hidden');
+    document.querySelector('.error.passwordVal').classList.add('hidden');
+    document.querySelector('.error-message.passwordVal').classList.add('hidden');
+  }
+  if (value2) {
+    if (!reg.password.test(value2) || value1 !== value2) {
+      document.querySelector('.complete.passwordConfirmVal').classList.add('hidden');
+      document.querySelector('.error.passwordConfirmVal').classList.remove('hidden');
+      document.querySelector('.error-message.passwordConfirmVal').classList.remove('hidden');
     } else {
-      document.querySelector('.check-message').classList.remove('hidden');
-      document.querySelector('.double-check').style.backgroundColor = 'red';
-    }
-    if (document.querySelectorAll('.complete').length > 2)
-      check = [...document.querySelectorAll('.double-check')].filter(
-        button => button.style.backgroundColor === 'green'
-      ).length;
-  } else {
-    document.querySelectorAll('.complete')[index].classList.remove('hidden');
-    document.querySelectorAll('.error')[index].classList.add('hidden');
-    if (document.querySelectorAll('.double-check').length > 1) {
-      document.querySelectorAll('.check-message')[+!!index].classList.add('hidden');
-      document.querySelectorAll('.double-check')[+!!index].style.backgroundColor = 'green';
-    } else {
-      document.querySelector('.check-message').classList.add('hidden');
-      document.querySelector('.double-check').style.backgroundColor = 'green';
+      document.querySelector('.complete.passwordConfirmVal').classList.remove('hidden');
+      document.querySelector('.error.passwordConfirmVal').classList.add('hidden');
+      document.querySelector('.error-message.passwordConfirmVal').classList.add('hidden');
     }
   }
-  // if (document.querySelectorAll('.complete').length > 2)
-  check = [...document.querySelectorAll('.double-check')].filter(
-    button => button.style.backgroundColor === 'green'
-  ).length;
-  console.log('check', check);
-};
+  activeSubmitButton();
+}
 
-const iconChange = (index, isError) => {
-  if (isError) {
-    document.querySelectorAll('.complete')[index].classList.add('hidden');
-    document.querySelectorAll('.error')[index].classList.remove('hidden');
-    if (document.querySelectorAll('.input-box').length !== 2 && (index === 0 || index === 4)) {
-      document.querySelectorAll('.double-check')[+!!index].setAttribute('disabled', '');
-      document.querySelectorAll('.check-message')[+!!index].classList.add('hidden');
-    }
+const nameValidate = value => {
+  if (!reg.name.test(value)) {
+    document.querySelector('.complete.nameVal').classList.add('hidden');
+    document.querySelector('.error.nameVal').classList.remove('hidden');
+    document.querySelector('.error-message.nameVal').classList.remove('hidden');
   } else {
-    document.querySelectorAll('.complete')[index].classList.remove('hidden');
-    document.querySelectorAll('.error')[index].classList.add('hidden');
-    if (document.querySelectorAll('.input-box').length !== 2 && (index === 0 || index === 4)) {
-      if (document.querySelectorAll('.double-check').length > 1) {
-        document.querySelectorAll('.double-check')[+!!index].removeAttribute('disabled');
-      } else {
-        document.querySelector('.double-check').removeAttribute('disabled');
-      }
-      // document.querySelectorAll('.check-message')[+!!index].classList.remove('hidden');
-    }
+    document.querySelector('.complete.nameVal').classList.remove('hidden');
+    document.querySelector('.error.nameVal').classList.add('hidden');
+    document.querySelector('.error-message.nameVal').classList.add('hidden');
   }
-};
+  activeSubmitButton();
+}
 
-const countCorrectInput = (arr, index, btn) => {
-  const cnt = arr.filter(idx =>
-    idx !== index ? !document.querySelectorAll('.complete')[idx].classList.contains('hidden') : false
-  ).length;
-  console.log(check);
-  if (document.querySelectorAll('.check-message').length > 1) {
-    if ((cnt === 1 || check === 2) && cnt === arr.length - 1) btn.removeAttribute('disabled');
+const nicknameValidate = value => {
+  if (document.querySelector('.double-check.nicknameVal')) {
+    document.querySelector('.double-check.nicknameVal').classList.remove('checking');
+    document.querySelector('.check-message.nicknameVal').classList.add('hidden');
+  }
+  if (!reg.name.test(value)) {
+    document.querySelector('.complete.nicknameVal').classList.add('hidden');
+    document.querySelector('.error.nicknameVal').classList.remove('hidden');
+    document.querySelector('.error-message.nicknameVal').classList.remove('hidden');
+    if (document.querySelector('.double-check.nicknameVal')) document.querySelector('.double-check.nicknameVal').setAttribute('disabled', '');
   } else {
-    if ((cnt === 1 || check === 1) && cnt === arr.length - 1) btn.removeAttribute('disabled');
+    document.querySelector('.complete.nicknameVal').classList.remove('hidden');
+    document.querySelector('.error.nicknameVal').classList.add('hidden');
+    document.querySelector('.error-message.nicknameVal').classList.add('hidden');
+    if (document.querySelector('.double-check.nicknameVal')) document.querySelector('.double-check.nicknameVal').removeAttribute('disabled');
   }
-};
+  activeSubmitButton();
+}
 
-const activeSubmitButton = (reg, index, btn) => {
-  if (reg) btn.setAttribute('disabled', '');
+const phoneValidate = value => {
+  if (!reg.phone.test(value)) {
+    document.querySelector('.complete.phoneVal').classList.add('hidden');
+    document.querySelector('.error.phoneVal').classList.remove('hidden');
+    document.querySelector('.error-message.phoneVal').classList.remove('hidden');
+  } else {
+    document.querySelector('.complete.phoneVal').classList.remove('hidden');
+    document.querySelector('.error.phoneVal').classList.add('hidden');
+    document.querySelector('.error-message.phoneVal').classList.add('hidden');
+  }
+  activeSubmitButton();
+}
+
+const isEmailDuplicate = duplicate => {
+  if (!duplicate) document.querySelector('.double-check.emailVal').classList.add('checking');
   else {
-    countCorrectInput(
-      [...document.querySelectorAll('.complete')].map((_, i) => i),
-      index,
-      btn
-    );
+    document.querySelector('.double-check.emailVal').classList.remove('checking');
+    document.querySelector('.check-message.emailVal').classList.remove('hidden');
   }
-};
+  activeSubmitButton();
+}
 
-const checkIsCorrectForm = (reg, index, btn) => {
-  if (document.querySelectorAll('.double-check').length > 1) {
-    if (
-      document.querySelectorAll('.check-message')[+!!index] &&
-      !document.querySelectorAll('.check-message')[+!!index].classList.contains('hidden') &&
-      document.querySelectorAll('.input-box').length !== 2 &&
-      (index === 0 || index === 4)
-    ) {
-      document.querySelectorAll('.check-message')[+!!index].classList.remove('hidden');
-      document.querySelectorAll('.double-check')[+!!index].style.backgroundColor = 'red';
-    }
-  } else if (
-    document.querySelector('.check-message') &&
-    !document.querySelector('.check-message').classList.contains('hidden') &&
-    document.querySelectorAll('.input-box').length !== 2 &&
-    (index === 0 || index === 4)
-  ) {
-    document.querySelector('.check-message').classList.remove('hidden');
-    document.querySelector('.double-check').style.backgroundColor = 'red';
+const isNicknameDuplicate = duplicate => {
+  if (!duplicate) document.querySelector('.double-check.nicknameVal').classList.add('checking');
+  else {
+    document.querySelector('.double-check.nicknameVal').classList.remove('checking');
+    document.querySelector('.check-message.nicknameVal').classList.remove('hidden');
   }
-  iconChange(index, reg);
+  activeSubmitButton();
+}
 
-  reg
-    ? document.querySelectorAll('.error-message')[index].classList.remove('hidden')
-    : document.querySelectorAll('.error-message')[index].classList.add('hidden');
-
-  activeSubmitButton(reg, index, btn);
-};
-
-const reg = [
-  /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/,
-  /^[A-Za-z0-9]{6,12}$/,
-  /^[A-Za-z0-9]{6,12}$/,
-  /^[^\s]{1,}$/,
-  /^[^\s]{1,}$/,
-  /^01([0|1|6|7|8|9])-?([0-9]{3,4})-?([0-9]{4})$/,
-];
 
 export default {
-  validate(inputValue, index, button) {
-    return checkIsCorrectForm(index === 2 ? inputValue : !reg[index].test(inputValue), index, button);
-  },
-  isDuplicate,
-  countCorrectInput,
+  emailValidate,
+  passwordValidate,
+  nameValidate,
+  nicknameValidate,
+  phoneValidate,
+  isEmailDuplicate,
+  isNicknameDuplicate
 };
