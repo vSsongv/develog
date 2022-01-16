@@ -248,6 +248,11 @@ app.get('/src/assets/:imageUrl', (req, res) => {
   res.sendFile(path.join(__dirname, `./src/assets/${img}`));
 });
 
+app.patch('/posts/likedUsers', (req, res) => {
+  const { userId } = req.body;
+  posts = posts.find(post => post.userId === userId).map();
+});
+
 app.delete('/posts/:postid', (req, res) => {
   const { postid } = req.params;
   console.log('postid: ', postid);
