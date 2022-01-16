@@ -1,12 +1,5 @@
 import axios from 'axios';
 
-let searchResult = [];
-const search = async input => {
-  const { data: filter } = await axios.get('/search/' + input);
-  console.log(...filter);
-  searchResult = filter; // search 사용
-};
-
 const headerEvent = () => {
   const searchInput = document.getElementById('search');
 
@@ -17,15 +10,15 @@ const headerEvent = () => {
   // enter로 검색 시
   searchInput.onkeyup = async e => {
     if (e.key !== 'Enter') return;
-    await search(e.target.value.trim());
     // 초기화
+    history.pushState(null, null, `/search/${e.target.value.trim()}`);
     searchInput.value = '';
     searchInput.classList.toggle('search--hidden');
   };
   document.querySelector('.search--form label').onclick = async () => {
     // icon click으로 검색 시
     if (!searchInput.classList.contains('search--hidden') && searchInput.value.trim()) {
-      await search(searchInput.value.trim());
+      history.pushState(null, null, `/search/${searchInput.value.trim()}`);
     }
     // 초기화
     searchInput.value = '';
@@ -53,7 +46,7 @@ const headerEvent = () => {
         });
 
         document.querySelector('.nav-box ul li:first-child').addEventListener('click', () => {
-          window.history.pushState({}, '', '/develog');
+          window.history.pushState({}, '', '/develog'); // 유저아이디 있어야함
         });
 
         document.querySelector('.nav-box ul li:nth-child(2)').addEventListener('click', () => {
@@ -88,5 +81,4 @@ const headerEvent = () => {
 
 export default {
   headerEvent,
-  searchResult,
 };
