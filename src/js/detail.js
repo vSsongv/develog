@@ -19,10 +19,12 @@ const setPostData = ({ post, user }, { userId: loginUserId }) => {
     <input id="search" class="search--hidden" type="text" />
     <label for="search" class="fas fa-search"></label>
   </form>
+  
   <button class="button button--login">Login</button>
-  <div class="user hidden">
-    <img class="avatar" src="./assets/avatar.png" alt="avatar image" />
-  </div>
+  
+  <button class="button button--posting">Posting</button>
+
+  <div class="user hidden"></div>
 
   <nav class="nav-box hidden">
     <ul>

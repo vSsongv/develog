@@ -18,7 +18,6 @@ posts.sort((a, b) => new Date(a.createAt) - new Date(b.createAt));
 const makeSplitedPosts = (posts, startIdx, endIdx) => {
   let splitedPosts = [];
   for (let i = startIdx; i < endIdx; i++) {
-    console.log(posts[i]);
     const user = users.filter(user => user.userId === posts[i].userId)[0];
     posts[i] = {
       ...posts[i],
@@ -225,20 +224,20 @@ app.post('/uploadImage', upload.single('selectImage'), (req, res) => {
   res.send(req.files);
 });
 
+// 회원 정보 수정
 app.patch('/editUser/:userId', (req, res) => {
   const { userId } = req.params;
-
-  console.log(req.body);
 
   users = users.map(user =>
     user.userId === +userId
       ? {
           ...user,
           ...req.body,
+          password: bcrypt.hashSync(req.body.password, 10),
         }
       : user
   );
-  res.sendStatus();
+  res.sendStatus(204);
 });
 
 app.get('/src/assets/:imageUrl', (req, res) => {
@@ -288,7 +287,7 @@ app.get('/posts/:postid', (req, res) => {
 
 app.get('/src/assets/:imageUrl', (req, res) => {
   const img = req.params.imageUrl;
-  console.log('img: ', img);
+  // console.log('img: ', img);
   res.sendFile(path.join(__dirname, `./src/assets/${img}`));
 });
 
