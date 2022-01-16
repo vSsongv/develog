@@ -27,6 +27,13 @@
 
   &__desc {
     font-size: rem(15px);
+    font-size: rem(20px);
+    display: -webkit-box;
+    word-wrap: break-word;
+    -webkit-line-clamp: 5;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
   transition: all 0.5s;
   transition-timing-function: ease;
