@@ -159,13 +159,8 @@ app.get('/users/createId', (req, res) => {
 // 검색
 app.get('/search/:searchInput', (req, res) => {
   const { searchInput } = req.params;
-  let filter;
-  try {
-    filter = posts.filter(post => post.title.includes(searchInput) || post.content.includes(searchInput));
-  } catch (e) {
-    console.error(e);
-  }
-  res.send(filter);
+  const filterPosts = posts.filter(post => post.title.includes(searchInput));
+  res.send(makeSplitedPosts(filterPosts, 0, filterPosts.length));
 });
 
 // 메인화면 초기 렌더링
@@ -287,7 +282,6 @@ app.get('/posts/:postid', (req, res) => {
 
 app.get('/src/assets/:imageUrl', (req, res) => {
   const img = req.params.imageUrl;
-  // console.log('img: ', img);
   res.sendFile(path.join(__dirname, `./src/assets/${img}`));
 });
 
