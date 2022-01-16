@@ -284,13 +284,18 @@ app.get('/posts/:postid', (req, res) => {
 
 app.get('/src/assets/:imageUrl', (req, res) => {
   const img = req.params.imageUrl;
-  console.log(img);
+  console.log('img: ', img);
   res.sendFile(path.join(__dirname, `./src/assets/${img}`));
 });
 
+app.patch('/posts/likedUsers', (req, res) => {
+  const { userId } = req.body;
+  posts = posts.find(post => post.userId === userId).map();
+});
+
 app.delete('/posts/:postid', (req, res) => {
-  console.log('test');
   const { postid } = req.params;
+  console.log('postid: ', postid);
   posts = posts.filter(post => post.postId !== +postid);
 });
 
