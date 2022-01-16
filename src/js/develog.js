@@ -46,11 +46,9 @@ const develogEvent = userId => {
 
   document.querySelector('.develog-container').addEventListener('click', e => {
     if (e.target.className.split('__')[0] === 'post') {
-      console.log(e.target);
       history.pushState(null, null, `/detail/${e.target.closest('li').dataset.postId}`);
     } else if (e.target.classList.contains('see-more')) {
       postFunc.setUserPosts($allPostContainer, userId);
-      console.log(userId);
     }
   });
 };
