@@ -8,9 +8,10 @@ const detailrender = _detailHtml => {
   $root.innerHTML = _detailHtml;
 };
 
-const setPostData = ({ post, user }) => {
+const setPostData = ({ post, user }, { userId: loginUserId }) => {
   // 로그인 된 사용자의
   // const likePost = post.likedUsers.find(id => )
+  // const loginUser = await axios.get('/checkAuth');
   const likePost = false;
   const _detailHtml = `<header class="header">
   <h1 class="header--logo">develog</h1>
@@ -45,10 +46,10 @@ const setPostData = ({ post, user }) => {
       <button class="${likePost ? '' : 'none '}fullheart heart-btn btn">
         <i class="fas fa-heart"></i>
       </button>
-      <button class="edit pencil-btn btn">
+      <button class="${loginUserId === post.userId ? '' : 'none '}edit pencil-btn btn">
         <i class="bx bx-pencil"></i>
       </button>
-      <button class="edit trash-btn btn">
+      <button class="${loginUserId === post.userId ? '' : 'none '}edit trash-btn btn">
         <i class="far fa-trash-alt"></i>
       </button>
     </div>
@@ -86,10 +87,10 @@ const setPostData = ({ post, user }) => {
       <div class="comment__text">
         <span> test </span>
       </div>
-      <button class="edit pencil-btn btn no-display">
+      <button class="none edit pencil-btn btn">
         <i class="bx bx-pencil"></i>
       </button>
-      <button class="edit trash-btn btn no-display">
+      <button class="none edit trash-btn btn">
         <i class="far fa-trash-alt"></i>
       </button>
     </div>
@@ -105,8 +106,10 @@ const detailUrlEvents = async () => {
 
   try {
     const postData = await axios.get(`/posts/${url[url.length - 1]}`);
+    const { data: user } = await axios.get('/checkAuth');
+    console.log(user);
     if (postData.status === 200) {
-      setPostData(postData.data);
+      setPostData(postData.data, user);
       // 로그인된 사용자가 heart 눌렀을 때 경우
     }
   } catch (err) {
@@ -147,13 +150,19 @@ const detailUrlEvents = async () => {
     if (e.target.classList.contains('avatar-button')) window.history.pushState('user', '', '/');
 
     if (e.target.classList.contains('fa-heart')) {
+      const { data: user } = await axios.get('/checkAuth');
+      if (!user) alert('좋아요를 누르시려면 로그인이 필요합니다.');
+      else {
+        await axios.patch('/posts/likedUsers', user);
+        $heartBtns.forEach(elem => elem.classList.toggle('none'));
+      }
+
       // 로그인한 사용자의 id로 patch
       // axios.patch
-      $heartBtns.forEach(elem => elem.classList.toggle('none'));
     }
 
     // 만약 로그인 했다면 edit 버튼들 활성화시키는 로직 추가
-    console.log(e.target.parentNode);
+
     if (e.target.parentNode.classList.contains('pencil-btn')) {
       window.history.pushState('edit', '', '/write');
     } else if (e.target.parentNode.classList.contains('trash-btn')) {
