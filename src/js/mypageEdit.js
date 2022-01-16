@@ -69,14 +69,14 @@ const mypageEditHtml = `<header>
   </fieldset>
 </form>
 </div>`;
-const userProfileSet = async avartar => {
+const userProfileSet = async avatar => {
   try {
     const { data: user } = await axios.get('/checkAuth');
     document.getElementById('nickname').value = user.nickname;
     document.getElementById('name').value = user.name;
     document.getElementById('email').value = user.email;
     document.getElementById('phone').value = user.phone;
-    avartar.style.backgroundImage = `url('/avatar/${user.userId}')`;
+    avatar.style.backgroundImage = `url('/avatar/${user.userId}')`;
   } catch (e) {
     console.error(e);
     // window.history.pushState({}, '', '/signin');
@@ -84,8 +84,8 @@ const userProfileSet = async avartar => {
 };
 
 const mypageEditEvent = () => {
-  const $avartar = document.querySelector('.mypageEdit--avatar');
-  userProfileSet($avartar);
+  const $avatar = document.querySelector('.mypageEdit--avatar');
+  userProfileSet($avatar);
 
   const $editBtn = document.querySelector('.button--editComplete');
 
@@ -100,7 +100,7 @@ const mypageEditEvent = () => {
 
   const reader = new FileReader();
   reader.onload = () => {
-    $avartar.style.backgroundImage = `url('${reader.result}')`;
+    $avatar.style.backgroundImage = `url('${reader.result}')`;
   };
   document.querySelector('#selectImage').onchange = e => {
     reader.readAsDataURL(e.target.files[0]);
@@ -142,19 +142,28 @@ const mypageEditEvent = () => {
 
       const formData = new FormData();
 
-      formData.append('selectImage', $fileImage.files[0]);
-      formData.append('filename', $fileImage.files[0].name);
+      if ($fileImage.files[0]) {
+        formData.append('selectImage', $fileImage.files[0]);
+        formData.append('filename', $fileImage.files[0].name);
 
-      await axios.post('/uploadImage', formData, config).then(response => {
-        if (response.status === 200) {
-          axios.patch(`/editUser/${user.userId}`, {
-            password: document.getElementById('password').value,
-            nickname: document.getElementById('nickname').value,
-            phone: document.getElementById('phone').value,
-            avartarUrl: $fileImage.files[0] ? `/src/assets/${$fileImage.files[0].name}` : user.avartarUrl,
-          });
-        }
-      });
+        await axios.post('/uploadImage', formData, config).then(response => {
+          if (response.status === 200) {
+            axios.patch(`/editUser/${user.userId}`, {
+              password: document.getElementById('password').value,
+              nickname: document.getElementById('nickname').value,
+              phone: document.getElementById('phone').value,
+              avatarUrl: $fileImage.files[0] ? `/src/assets/${$fileImage.files[0].name}` : user.avatarUrl,
+            });
+          }
+        });
+      } else {
+        axios.patch(`/editUser/${user.userId}`, {
+          password: document.getElementById('password').value,
+          nickname: document.getElementById('nickname').value,
+          phone: document.getElementById('phone').value,
+          avatarUrl: $fileImage.files[0] ? `/src/assets/${$fileImage.files[0].name}` : user.avatarUrl,
+        });
+      }
     } catch (e) {
       console.log(e);
     }
