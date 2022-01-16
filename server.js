@@ -175,7 +175,7 @@ app.get('/posts', (req, res) => {
   if (leftPostNum >= 10) {
     leftPostNum -= 10;
     res.send(makeSplitedPosts(posts, postIndex, 10 + postIndex));
-    postIndex += 9;
+    postIndex += 10;
   } else {
     res.send(makeSplitedPosts(posts, postIndex, leftPostNum + postIndex));
     leftPostNum = 0;
