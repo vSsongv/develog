@@ -8,6 +8,7 @@ import develog from './js/develog';
 import mypage from './js/mypage';
 import mypageEdit from './js/mypageEdit';
 import header from './js/header';
+import search from './js/search';
 import writeUrlEvents from './js/write';
 
 const history = require('history-events');
@@ -24,6 +25,10 @@ const switchDependsOnUrl = () => {
     const userId = path[2];
     render(develog.develogHtml);
     develog.develogEvent(userId);
+  } else if (/\/search\/*/.test(window.location.pathname)) {
+    const searchTitle = decodeURIComponent(path[2]);
+    render(search.searchHtml);
+    search.searchEvent(searchTitle);
   } else {
     const targetPath = '/' + path[1];
     switch (targetPath) {
