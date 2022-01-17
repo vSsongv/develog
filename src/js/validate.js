@@ -8,9 +8,11 @@ const reg = {
 const activeSubmitButton = () => {
   const complete = [...document.querySelectorAll('.complete')].filter(complete => complete.classList.contains('hidden')).length;
   let check = 0;
-  if (document.querySelector('.double-check.emailVal')) check = [...document.querySelectorAll('.double-check')].filter(check => check.classList.contains('hidden')).length;
+  if (document.querySelector('.double-check.nickname')) check = document.querySelectorAll('.double-check').length - [...document.querySelectorAll('.double-check')].filter(check => check.classList.contains('checking')).length;
   if (!complete && !check) {
     document.querySelector('.sign-buttons button:last-child').removeAttribute('disabled');
+  } else {
+    document.querySelector('.sign-buttons button:last-child').setAttribute('disabled', '');
   }
 };
 
