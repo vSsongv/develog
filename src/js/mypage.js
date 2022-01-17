@@ -13,6 +13,8 @@ const mypageHtml = `<div class="cover hidden"></div>
   </form>
 
   <button class="button button--login">Login</button>
+  
+  <button class="button button--posting">Posting</button>
 
   <div class="user hidden"></div>
 
@@ -88,7 +90,7 @@ const userProfileSet = async () => {
     document.getElementById('name').value = user.name;
     document.getElementById('email').value = user.email;
     document.getElementById('phone').value = user.phone;
-    document.querySelector('.user-profile-avatar').style.backgroundImage = `url('/avatar/${user.userId}')`;
+    document.querySelector('.user-profile-avatar').style.backgroundImage = `url('${user.avatarUrl}')`;
   } catch (e) {
     console.error(e);
     window.history.pushState({}, '', '/signin');

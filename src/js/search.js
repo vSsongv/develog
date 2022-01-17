@@ -1,7 +1,8 @@
+import axios from 'axios';
 import header from './header';
 import * as postFunc from './showPost';
 
-const indexHtml = ` <header class="header">
+const searchHtml = ` <header class="header">
 <h1 class="header--logo">develog</h1>
 
 <form class="search--form" action="">
@@ -25,15 +26,13 @@ const indexHtml = ` <header class="header">
 </header>
 <section class="main-container">
 <ul class="posts-container"></ul>
-<button class="see-more see-more--main">더보기</button>
-<span class="is-last-post hidden">더 이상 포스트가 없습니다.</span>
+<span class="is-last-post">마지막 포스트입니다.</span>
 </section>`;
 
-const indexEvent = () => {
+const searchEvent = searchTitle => {
   header.headerEvent();
 
-  postFunc.mainPageInitialRender(document.querySelector('.posts-container'));
-  document.querySelector('.see-more').addEventListener('click', postFunc.getMorePostsForMain);
+  postFunc.showSearchedPosts(searchTitle, document.querySelector('.posts-container'));
 
   document.querySelector('.main-container').addEventListener('click', e => {
     if (e.target.classList.contains('avatar-button') || e.target.classList.contains('user-nickname')) {
@@ -45,6 +44,6 @@ const indexEvent = () => {
 };
 
 export default {
-  indexHtml,
-  indexEvent,
+  searchHtml,
+  searchEvent,
 };

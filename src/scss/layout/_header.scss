@@ -81,9 +81,10 @@
 
   ul {
     li {
-      padding: rem(15px) rem(35px);
+      padding: rem(18px) rem(50px);
       cursor: pointer;
       text-align: center;
+      font-size: rem(20px);
 
       &:first-child:hover {
         border-radius: rem(10px) rem(10px) 0 0;

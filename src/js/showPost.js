@@ -1,5 +1,12 @@
 import axios from 'axios';
 
+const masonry = {
+  itemSelector: '.main-post',
+  columnWidth: '.main-post-sizer',
+  percentPosition: true,
+  gutter: 20,
+};
+
 const setPosts = posts =>
   posts
     .map(
@@ -25,12 +32,7 @@ const getMorePostsForMain = async () => {
       document.querySelector('.is-last-post').classList.remove('hidden');
     }
     document.querySelector('.posts-container').innerHTML += setPosts(data);
-    new Masonry('.posts-container', {
-      itemSelector: '.main-post',
-      columnWidth: '.main-post-sizer',
-      percentPosition: true,
-      gutter: 20,
-    });
+    new Masonry('.posts-container', masonry);
   } catch (e) {
     console.error(e);
   }
@@ -41,12 +43,7 @@ const mainPageInitialRender = async $postsContainer => {
     const { data } = await axios.get('/posts/init');
     const addedHtml = await setPosts(data);
     $postsContainer.innerHTML = `<li class="main-post-sizer"></li>` + addedHtml;
-    new Masonry('.posts-container', {
-      itemSelector: '.main-post',
-      columnWidth: '.main-post-sizer',
-      percentPosition: true,
-      gutter: 20,
-    });
+    new Masonry('.posts-container', masonry);
   } catch (e) {
     console.error(e);
   }
@@ -84,7 +81,6 @@ const addUserPosts = posts =>
     .join('');
 
 const setUserPosts = async ($allPostContainer, userId) => {
-  console.log(userId);
   try {
     const { data } = await axios.get(`/develog/${userId}/posts`);
 
@@ -115,4 +111,15 @@ const develogPageInitialRender = async ($populaPpostsContainer, $allPostContaine
   console.log('there', userId);
 };
 
-export { mainPageInitialRender, getMorePostsForMain, develogPageInitialRender, setUserPosts };
+const showSearchedPosts = async (input, $postsContainer) => {
+  try {
+    const { data } = await axios.get(`/search/${input}`);
+    const addedHtml = await setPosts(data);
+    $postsContainer.innerHTML = `<li class="main-post-sizer"></li>` + addedHtml;
+    new Masonry('.posts-container', masonry);
+  } catch (e) {
+    console.error(e);
+  }
+};
+
+export { mainPageInitialRender, getMorePostsForMain, develogPageInitialRender, setUserPosts, showSearchedPosts };
