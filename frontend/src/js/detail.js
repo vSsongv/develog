@@ -15,16 +15,15 @@ const setPostData = ({ post, user }, { userId: loginUserId }) => {
   // const likePost = post.likedUsers.find(id => )
   // const loginUser = await axios.get('/checkAuth');
   const likePost = false;
-  const _detailHtml = `<header class="header">
-  <h1 class="header--logo">develog</h1>
-  <form class="search--form" action="">
-    <input id="search" class="search--hidden" type="text" />
-    <label for="search" class="fas fa-search"></label>
-  </form>
-  
-  <button class="button button--login">Login</button>
-  
-  <button class="button button--posting">Posting</button>
+  const _detailHtml = `
+	<header class="header">
+  	<h1 class="header--logo">develog</h1>
+  	<form class="search--form" action="">
+    	<input id="search" class="search--hidden" type="text" />
+    	<label for="search" class="fas fa-search"></label>
+  	</form>
+		<button class="button button--login">Login</button>
+  	<button class="button button--posting">Posting</button>
 
   <div class="user hidden"></div>
 
