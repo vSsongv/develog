@@ -292,9 +292,15 @@ app.get('/src/assets/:imageUrl', (req, res) => {
 app.patch('/posts/likedUsers', (req, res) => {
   const { userId, isEmptyHeart } = req.body;
   console.log(userId, isEmptyHeart);
-  const { likedUsers } = posts.find(post => post.postId === userId);
-  // const update = isEmptyHeart ? : posts.
-  posts.find(post => post.userId === userId).comments = update;
+  posts = posts.map(post =>
+    post.userId === userId
+      ? {
+          ...post,
+          likedUsers: isEmptyHeart ? [...post.likedUsers, userId] : post.likedUsers.filter(id => id !== userId),
+        }
+      : post
+  );
+  console.log(posts.find(post => post.userId === userId).likedUsers);
 });
 
 app.delete('/posts/:postid', (req, res) => {
