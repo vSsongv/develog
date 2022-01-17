@@ -24,81 +24,77 @@ const setPostData = ({ post, user }, { userId: loginUserId }) => {
   	</form>
 		<button class="button button--login">Login</button>
   	<button class="button button--posting">Posting</button>
+  	<div class="user hidden"></div>
 
-  <div class="user hidden"></div>
-
-  <nav class="nav-box hidden">
-    <ul>
-      <li>내 블로그</li>
-      <li>마이페이지</li>
-      <li>로그아웃</li>
-    </ul>
-  </nav>
-</header>
-<main class="detail-container">
-  <section class="detail">
-    <h1 class="detail__title">${post.title}</h1>
-    <div class="detail__info">
-			<button class="btn">
-			<img class="avatar-button avatar-button--size" src="${user.avatarUrl}" alt="avatar-button" />
-			</button>
-      <span class="author">${user.nickname}</span>
-      <button class="${likePost ? 'none ' : ''}heart-btn btn">
-        <i class="far fa-heart"></i>
-      </button>
-      <button class="${likePost ? '' : 'none '}fullheart heart-btn btn">
-        <i class="fas fa-heart"></i>
-      </button>
-      <button class="${loginUserId === post.userId ? '' : 'none '}edit pencil-btn btn">
-        <i class="bx bx-pencil"></i>
-      </button>
-      <button class="${loginUserId === post.userId ? '' : 'none '}edit trash-btn btn">
-        <i class="far fa-trash-alt"></i>
-      </button>
-    </div>
-
-    <pre class="detail__content">${post.content}</pre>
-  </section>
-
-  <h2 class="comments-title">댓글</h2>
-  <section class="user-comment">
-    <div class="comment__user-info">
-			<button class="btn">
-      	<img class="avatar-button avatar-button--size" src="${user.avatarUrl}"  alt="user-avatar" />
-			</button>
-      <span class="user-id">${user.nickname}</span>
-    </div>
-
-    <div class="textarea-container">
-      <textarea class="textarea" id="input-box" rows="3" maxlength="100" placeholder="댓글을 입력해주세요."></textarea>
-      
-      <button class="textarea__cancel btn no-display">
-        <i class="fas fa-times"></i>
-      </button>
-    </div>
-    <button class="user-comment__upload button">등록</button>
-  </section>
-
-  <section class="comments">
-    <div class="comment">
-      <div class="comment__user-info">
+  	<nav class="nav-box hidden">
+	    <ul>
+	      <li>내 블로그</li>
+	      <li>마이페이지</li>
+	      <li>로그아웃</li>
+	    </ul>
+	  </nav>
+	</header>
+	<main class="detail-container">
+	  <section class="detail">
+	  	<h1 class="detail__title">${post.title}</h1>
+	    <div class="detail__info">
 				<button class="btn">
-					<img class="avatar-button avatar-button--size" src="${user.avatarUrl}" alt="user-avatar" />
+					<img class="avatar-button avatar-button--size" src="${user.avatarUrl}" alt="avatar-button" />
 				</button>
-        <span class="user-id">minsoftk</span>
-      </div>
-      <div class="comment__text">
-        <span> test </span>
-      </div>
-      <button class="none edit pencil-btn btn">
-        <i class="bx bx-pencil"></i>
-      </button>
-      <button class="none edit trash-btn btn">
-        <i class="far fa-trash-alt"></i>
-      </button>
-    </div>
-  </section>
-</main>
+	      <span class="author">${user.nickname}</span>
+	      <button class="${likePost ? 'none ' : ''}heart-btn btn">
+	        <i class="far fa-heart"></i>
+	      </button>
+	      <button class="${likePost ? '' : 'none '}fullheart heart-btn btn">
+	        <i class="fas fa-heart"></i>
+	      </button>
+	      <button class="${loginUserId === post.userId ? '' : 'none '}edit pencil-btn btn">
+	        <i class="bx bx-pencil"></i>
+	      </button>
+	      <button class="${loginUserId === post.userId ? '' : 'none '}edit trash-btn btn">
+	        <i class="far fa-trash-alt"></i>
+	      </button>
+	    </div>
+	    <pre class="detail__content">${post.content}</pre>
+	  </section>
+		
+	  <h2 class="comments-title">댓글</h2>
+	  <section class="user-comment">
+	    <div class="comment__user-info">
+				<button class="btn">
+	      	<img class="avatar-button avatar-button--size" src="${user.avatarUrl}"  alt="user-avatar" />
+				</button>
+	      <span class="user-id">${user.nickname}</span>
+	    </div>
+	    <div class="textarea-container">
+	      <textarea class="textarea" id="input-box" rows="3" maxlength="100" placeholder="댓글을 입력해주세요."></textarea>
+	      <button class="textarea__cancel btn no-display">
+	        <i class="fas fa-times"></i>
+	      </button>
+	    </div>
+	    <button class="user-comment__upload button">등록</button>
+	  </section>
+
+	  <section class="comments">
+	    <div class="comment">
+	      <div class="comment__user-info">
+					<button class="btn">
+						<img class="avatar-button avatar-button--size" src="${user.avatarUrl}" alt="user-avatar" />
+					</button>
+	        <span class="user-id">minsoftk</span>
+	      </div>
+	      <div class="comment__text">
+	        <span> test </span>
+	      </div>
+	      <button class="none edit pencil-btn btn">
+	        <i class="bx bx-pencil"></i>
+	      </button>
+	      <button class="none edit trash-btn btn">
+	        <i class="far fa-trash-alt"></i>
+	      </button>
+	    </div>
+	  </section>
+	</main>
 `;
   detailrender(_detailHtml);
 };
