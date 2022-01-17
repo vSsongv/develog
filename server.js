@@ -18,6 +18,7 @@ posts.sort((a, b) => new Date(a.createAt) - new Date(b.createAt));
 const makeSplitedPosts = (posts, startIdx, endIdx) => {
   let splitedPosts = [];
   for (let i = startIdx; i < endIdx; i++) {
+    console.log(posts[i]);
     const user = users.filter(user => user.userId === posts[i].userId)[0];
     posts[i] = {
       ...posts[i],
@@ -159,8 +160,13 @@ app.get('/users/createId', (req, res) => {
 // 검색
 app.get('/search/:searchInput', (req, res) => {
   const { searchInput } = req.params;
-  const filterPosts = posts.filter(post => post.title.includes(searchInput));
-  res.send(makeSplitedPosts(filterPosts, 0, filterPosts.length));
+  let filter;
+  try {
+    filter = posts.filter(post => post.title.includes(searchInput) || post.content.includes(searchInput));
+  } catch (e) {
+    console.error(e);
+  }
+  res.send(filter);
 });
 
 // 메인화면 초기 렌더링
@@ -175,7 +181,7 @@ app.get('/posts', (req, res) => {
   if (leftPostNum >= 10) {
     leftPostNum -= 10;
     res.send(makeSplitedPosts(posts, postIndex, 10 + postIndex));
-    postIndex += 10;
+    postIndex += 9;
   } else {
     res.send(makeSplitedPosts(posts, postIndex, leftPostNum + postIndex));
     leftPostNum = 0;
@@ -219,20 +225,17 @@ app.post('/uploadImage', upload.single('selectImage'), (req, res) => {
   res.send(req.files);
 });
 
-// 회원 정보 수정
 app.patch('/editUser/:userId', (req, res) => {
   const { userId } = req.params;
-
   users = users.map(user =>
     user.userId === +userId
       ? {
           ...user,
           ...req.body,
-          password: bcrypt.hashSync(req.body.password, 10),
         }
       : user
   );
-  res.sendStatus(204);
+  res.sendStatus();
 });
 
 app.get('/src/assets/:imageUrl', (req, res) => {
@@ -282,18 +285,16 @@ app.get('/posts/:postid', (req, res) => {
 
 app.get('/src/assets/:imageUrl', (req, res) => {
   const img = req.params.imageUrl;
+  console.log('img: ', img);
   res.sendFile(path.join(__dirname, `./src/assets/${img}`));
 });
 
 app.patch('/posts/likedUsers', (req, res) => {
   const { userId, isEmptyHeart } = req.body;
   console.log(userId, isEmptyHeart);
-  // const { likedUsers } = posts.find(post => post.userId === userId);
-  // const update = likedUsers.find(id => id === userId)
-  //   ? likedUsers.filter(id => id === userId)
-  //   : [...likedUsers, userId];
-  // console.log('update', update);
-  // posts.find(post => post.userId === userId).comments = update;
+  const { likedUsers } = posts.find(post => post.postId === userId);
+  // const update = isEmptyHeart ? : posts.
+  posts.find(post => post.userId === userId).comments = update;
 });
 
 app.delete('/posts/:postid', (req, res) => {

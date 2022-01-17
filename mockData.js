@@ -66,10 +66,6 @@ const posts = [
   {
     postId: 1,
     userId: 1,
-<<<<<<< HEAD
-    title: '제목1',
-    content: `teststesttsetsetsetsetset`,
-=======
     title: '진영이의글1',
     content: `Lorem ipsum dolor sit amet consectetur adipisicing elit. Rerum labore excepturi repudiandae earum nihil quis
 			numquam minus, natus corrupti molestiae blanditiis iure distinctio repellendus, praesentium tenetur! Nisi    tempore repudiandae commodi. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quae soluta doloremque
@@ -85,7 +81,6 @@ const posts = [
 			tempore repudiandae commodi. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quae soluta doloremque
 			harum adipisci aliquid quam, explicabo cumque eius, veniam iure quas repudiandae quo voluptatibus blanditiis
 			at eligendi dignissimos? Non, repellat.`,
->>>>>>> c3e99b7875fbd48b76560f5c39c46cb7f94d60a4
     createAt: '2021-01-01',
     likedUsers: [],
     comments: [
