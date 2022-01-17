@@ -2,6 +2,8 @@ import axios from 'axios';
 import header from './header';
 import detail from '../html/detail.html';
 
+console.log(detail);
+
 const $root = document.querySelector('.root');
 
 const detailrender = _detailHtml => {
@@ -156,12 +158,14 @@ const detailUrlEvents = async () => {
       if (!user) alert('좋아요를 누르시려면 로그인이 필요합니다.');
       else {
         const isEmptyHeart = e.target.classList.contains('far');
+        // axios.patch('/posts/likedUsers', { userId: user.userId, isEmptyHeart });
+        console.log('test2');
         $heartBtns.forEach(elem => elem.classList.toggle('none'));
-        try {
-          await axios.patch('/posts/likedUsers', { postId: url[url.length - 1], userId: user.userId, isEmptyHeart });
-        } catch (err) {
-          console.error(err);
-        }
+        // try {
+        //   await axios.patch('/posts/likedUsers', { postId: url[url.length - 1], userId: user.userId, isEmptyHeart });
+        // } catch (err) {
+        //   console.error(err);
+        // }
         console.log('test2');
       }
 

@@ -17,6 +17,7 @@ posts.sort((a, b) => new Date(a.createAt) - new Date(b.createAt));
 
 const makeSplitedPosts = (posts, startIdx, endIdx) => {
   let splitedPosts = [];
+
   for (let i = startIdx; i < endIdx; i++) {
     console.log(posts[i]);
     const user = users.filter(user => user.userId === posts[i].userId)[0];
@@ -27,13 +28,14 @@ const makeSplitedPosts = (posts, startIdx, endIdx) => {
     };
     splitedPosts = [...splitedPosts, posts[i]];
   }
+
   return splitedPosts;
 };
 
 const app = express();
 const PORT = 9000;
 
-app.use(express.static('build'));
+app.use(express.static('public'));
 app.use(express.json());
 app.use(cookieParser());
 
@@ -158,15 +160,10 @@ app.get('/users/createId', (req, res) => {
 });
 
 // 검색
-app.get('/search/:searchInput', (req, res) => {
+app.get('/search/:searchInput?page=2', (req, res) => {
   const { searchInput } = req.params;
-  let filter;
-  try {
-    filter = posts.filter(post => post.title.includes(searchInput) || post.content.includes(searchInput));
-  } catch (e) {
-    console.error(e);
-  }
-  res.send(filter);
+  const filterPosts = posts.filter(post => post.title.includes(searchInput));
+  res.send(makeSplitedPosts(filterPosts, 0, filterPosts.length));
 });
 
 // 메인화면 초기 렌더링
@@ -181,7 +178,7 @@ app.get('/posts', (req, res) => {
   if (leftPostNum >= 10) {
     leftPostNum -= 10;
     res.send(makeSplitedPosts(posts, postIndex, 10 + postIndex));
-    postIndex += 9;
+    postIndex += 10;
   } else {
     res.send(makeSplitedPosts(posts, postIndex, leftPostNum + postIndex));
     leftPostNum = 0;
@@ -304,13 +301,13 @@ app.patch('/posts/likedUsers', (req, res) => {
   );
 });
 
-app.delete('/posts/:postid', (req, res) => {
-  const { postid } = req.params;
-  console.log('postid: ', postid);
+app.delete('/posts/:id', (req, res) => {
+  const { id } = req.params;
+  console.log('postid: ', id);
   posts = posts.filter(post => post.postId !== +postid);
 });
 
-app.get('/*', (req, res) => {
+app.get('*', (req, res) => {
   console.log('sendFile', req.headers.referer);
   res.sendFile(path.join(__dirname, './build/index.html'));
 });

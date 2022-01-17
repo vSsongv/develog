@@ -1,4 +1,4 @@
-import index from './js/index';
+import index from './js/main';
 
 import detailUrlEvents from './js/detail';
 
@@ -13,7 +13,7 @@ import writeUrlEvents from './js/write';
 
 const history = require('history-events');
 
-const $root = document.querySelector('.root');
+const $root = document.getElementById('root');
 
 const render = html => {
   $root.innerHTML = html;
@@ -21,6 +21,8 @@ const render = html => {
 
 const switchDependsOnUrl = () => {
   const path = window.location.pathname.split('/');
+  console.log(path);
+
   if (/\/develog\/\d/.test(window.location.pathname)) {
     const userId = path[2];
     render(develog.develogHtml);
