@@ -290,8 +290,14 @@ app.get('/src/assets/:imageUrl', (req, res) => {
 });
 
 app.patch('/posts/likedUsers', (req, res) => {
-  const { userId } = req.body;
-  posts = posts.find(post => post.userId === userId).map();
+  const { userId, isEmptyHeart } = req.body;
+  console.log(userId, isEmptyHeart);
+  // const { likedUsers } = posts.find(post => post.userId === userId);
+  // const update = likedUsers.find(id => id === userId)
+  //   ? likedUsers.filter(id => id === userId)
+  //   : [...likedUsers, userId];
+  // console.log('update', update);
+  // posts.find(post => post.userId === userId).comments = update;
 });
 
 app.delete('/posts/:postid', (req, res) => {

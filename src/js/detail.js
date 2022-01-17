@@ -21,7 +21,7 @@ const setPostData = ({ post, user }, { userId: loginUserId }) => {
   </form>
   <button class="button button--login">Login</button>
   <div class="user hidden">
-    <img class="avatar" src="./assets/avatar.png" alt="avatar image" />
+    <img class="avatar" src="./src/assets/avatar.png" alt="avatar image" />
   </div>
 
   <nav class="nav-box hidden">
@@ -37,7 +37,7 @@ const setPostData = ({ post, user }, { userId: loginUserId }) => {
     <h1 class="detail__title">${post.title}</h1>
     <div class="detail__info">
 			<button class="btn">
-			<img class="avatar-button avatar-button--size" src="${user.avartarUrl}" alt="avatar-button" />
+			<img class="avatar-button avatar-button--size" src="${user.avatarUrl}" alt="avatar-button" />
 			</button>
       <span class="author">${user.nickname}</span>
       <button class="${likePost ? 'none ' : ''}heart-btn btn">
@@ -61,7 +61,7 @@ const setPostData = ({ post, user }, { userId: loginUserId }) => {
   <section class="user-comment">
     <div class="comment__user-info">
 			<button class="btn">
-      	<img class="avatar-button avatar-button--size" src="${user.avartarUrl}" class="user__avatar" alt="user-avatar" />
+      	<img class="avatar-button avatar-button--size" src="${user.avatarUrl}"  alt="user-avatar" />
 			</button>
       <span class="user-id">${user.nickname}</span>
     </div>
@@ -80,7 +80,7 @@ const setPostData = ({ post, user }, { userId: loginUserId }) => {
     <div class="comment">
       <div class="comment__user-info">
 				<button class="btn">
-					<img class="avatar-button avatar-button--size" src="${user.avartarUrl}" alt="user-avatar" />
+					<img class="avatar-button avatar-button--size" src="${user.avatarUrl}" alt="user-avatar" />
 				</button>
         <span class="user-id">minsoftk</span>
       </div>
@@ -103,11 +103,11 @@ const setPostData = ({ post, user }, { userId: loginUserId }) => {
 const detailUrlEvents = async () => {
   detailrender(detail);
   const url = window.location.pathname.split('/');
+  const { data: user } = await axios.get('/checkAuth');
 
   try {
     const postData = await axios.get(`/posts/${url[url.length - 1]}`);
-    const { data: user } = await axios.get('/checkAuth');
-    console.log(user);
+
     if (postData.status === 200) {
       setPostData(postData.data, user);
       // 로그인된 사용자가 heart 눌렀을 때 경우
@@ -150,10 +150,12 @@ const detailUrlEvents = async () => {
     if (e.target.classList.contains('avatar-button')) window.history.pushState('user', '', '/');
 
     if (e.target.classList.contains('fa-heart')) {
-      const { data: user } = await axios.get('/checkAuth');
+      console.log('test1');
       if (!user) alert('좋아요를 누르시려면 로그인이 필요합니다.');
       else {
-        await axios.patch('/posts/likedUsers', user);
+        const isEmptyHeart = e.target.classList.contains('far');
+        axios.patch('/posts/likedUsers', { userId: user.userId, isEmptyHeart });
+        console.log('test2');
         $heartBtns.forEach(elem => elem.classList.toggle('none'));
       }
 
