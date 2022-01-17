@@ -2,16 +2,31 @@ const reg = {
   email: /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/,
   password: /^[A-Za-z0-9]{6,12}$/,
   name: /^[^\s]{1,}$/,
-  phone: /^01([0|1|6|7|8|9])-?([0-9]{3,4})-?([0-9]{4})$/
+  phone: /^01([0|1|6|7|8|9])-?([0-9]{3,4})-?([0-9]{4})$/,
 };
 
 const activeSubmitButton = () => {
-  const complete = [...document.querySelectorAll('.complete')].filter(complete => complete.classList.contains('hidden')).length;
+  const complete = [...document.querySelectorAll('.complete')].filter(complete =>
+    complete.classList.contains('hidden')
+  ).length;
   let check = 0;
-  if (document.querySelector('.double-check.emailVal')) check = [...document.querySelectorAll('.double-check')].filter(check => check.classList.contains('hidden')).length;
-  if (!complete && !check) {
-    document.querySelector('.sign-buttons button:last-child').removeAttribute('disabled');
+
+  if (document.querySelector('.double-check.nicknameVal')) {
+    check =
+      document.querySelectorAll('.double-check').length -
+      [...document.querySelectorAll('.double-check')].filter(check => check.classList.contains('checking')).length;
   }
+
+  if (!complete && !check) {
+    if (document.querySelector('.sign-buttons button:last-child'))
+      document.querySelector('.sign-buttons button:last-child').removeAttribute('disabled');
+    else document.querySelector('.button--editComplete').removeAttribute('disabled');
+  } else {
+    if (document.querySelector('.sign-buttons button:last-child'))
+      document.querySelector('.sign-buttons button:last-child').setAttribute('disabled', '');
+    else document.querySelector('.button--editComplete').setAttribute('disabled', '');
+  }
+  console.log(complete, check);
 };
 
 const emailValidate = value => {
@@ -23,15 +38,17 @@ const emailValidate = value => {
     document.querySelector('.complete.emailVal').classList.add('hidden');
     document.querySelector('.error.emailVal').classList.remove('hidden');
     document.querySelector('.error-message.emailVal').classList.remove('hidden');
-    if (document.querySelector('.double-check.emailVal')) document.querySelector('.double-check.emailVal').setAttribute('disabled', '');
+    if (document.querySelector('.double-check.emailVal'))
+      document.querySelector('.double-check.emailVal').setAttribute('disabled', '');
   } else {
     document.querySelector('.complete.emailVal').classList.remove('hidden');
     document.querySelector('.error.emailVal').classList.add('hidden');
     document.querySelector('.error-message.emailVal').classList.add('hidden');
-    if (document.querySelector('.double-check.emailVal')) document.querySelector('.double-check.emailVal').removeAttribute('disabled');
+    if (document.querySelector('.double-check.emailVal'))
+      document.querySelector('.double-check.emailVal').removeAttribute('disabled');
   }
   activeSubmitButton();
-}
+};
 
 const passwordValidate = (value1, value2) => {
   if (!reg.password.test(value1)) {
@@ -55,7 +72,7 @@ const passwordValidate = (value1, value2) => {
     }
   }
   activeSubmitButton();
-}
+};
 
 const nameValidate = value => {
   if (!reg.name.test(value)) {
@@ -68,7 +85,7 @@ const nameValidate = value => {
     document.querySelector('.error-message.nameVal').classList.add('hidden');
   }
   activeSubmitButton();
-}
+};
 
 const nicknameValidate = value => {
   if (document.querySelector('.double-check.nicknameVal')) {
@@ -79,15 +96,17 @@ const nicknameValidate = value => {
     document.querySelector('.complete.nicknameVal').classList.add('hidden');
     document.querySelector('.error.nicknameVal').classList.remove('hidden');
     document.querySelector('.error-message.nicknameVal').classList.remove('hidden');
-    if (document.querySelector('.double-check.nicknameVal')) document.querySelector('.double-check.nicknameVal').setAttribute('disabled', '');
+    if (document.querySelector('.double-check.nicknameVal'))
+      document.querySelector('.double-check.nicknameVal').setAttribute('disabled', '');
   } else {
     document.querySelector('.complete.nicknameVal').classList.remove('hidden');
     document.querySelector('.error.nicknameVal').classList.add('hidden');
     document.querySelector('.error-message.nicknameVal').classList.add('hidden');
-    if (document.querySelector('.double-check.nicknameVal')) document.querySelector('.double-check.nicknameVal').removeAttribute('disabled');
+    if (document.querySelector('.double-check.nicknameVal'))
+      document.querySelector('.double-check.nicknameVal').removeAttribute('disabled');
   }
   activeSubmitButton();
-}
+};
 
 const phoneValidate = value => {
   if (!reg.phone.test(value)) {
@@ -100,7 +119,7 @@ const phoneValidate = value => {
     document.querySelector('.error-message.phoneVal').classList.add('hidden');
   }
   activeSubmitButton();
-}
+};
 
 const isEmailDuplicate = duplicate => {
   if (!duplicate) document.querySelector('.double-check.emailVal').classList.add('checking');
@@ -109,7 +128,7 @@ const isEmailDuplicate = duplicate => {
     document.querySelector('.check-message.emailVal').classList.remove('hidden');
   }
   activeSubmitButton();
-}
+};
 
 const isNicknameDuplicate = duplicate => {
   if (!duplicate) document.querySelector('.double-check.nicknameVal').classList.add('checking');
@@ -118,8 +137,7 @@ const isNicknameDuplicate = duplicate => {
     document.querySelector('.check-message.nicknameVal').classList.remove('hidden');
   }
   activeSubmitButton();
-}
-
+};
 
 export default {
   emailValidate,
@@ -128,5 +146,6 @@ export default {
   nicknameValidate,
   phoneValidate,
   isEmailDuplicate,
-  isNicknameDuplicate
+  isNicknameDuplicate,
+  activeSubmitButton,
 };
