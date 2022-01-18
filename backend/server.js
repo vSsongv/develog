@@ -20,7 +20,6 @@ const makeSplitedPosts = (posts, startIdx, endIdx) => {
   let splitedPosts = [];
 
   for (let i = startIdx; i < endIdx; i++) {
-    // console.log(posts[i]);
     const user = users.filter(user => user.userId === posts[i].userId)[0];
     posts[i] = {
       ...posts[i],
@@ -161,7 +160,7 @@ app.get('/users/createId', (req, res) => {
 });
 
 // 검색
-app.get('/search/:searchInput?page=2', (req, res) => {
+app.get('/search?title=:searchInput', (req, res) => {
   const { searchInput } = req.params;
   const filterPosts = posts.filter(post => post.title.includes(searchInput));
   res.send(makeSplitedPosts(filterPosts, 0, filterPosts.length));

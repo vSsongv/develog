@@ -1,24 +1,25 @@
-// import createHeaderNode from './js/header';
 import Main from './main';
-
-// import detailUrlEvents from './js/detail';
 import Signin from './signin';
 import Signup from './signup';
-// import develog from './js/develog';
+import Develog from './develog';
 // import mypage from './js/mypage';
 // import mypageEdit from './js/mypageEdit';
-// import search from './js/search';
+import Search from './search';
 // import writeUrlEvents from './js/write';
 // import { reduceRight } from '../../backend/data/posts';
 
-const routes = [
-  // { path: '/', component: render(mainNode) },
-  {
+const routes = [{
     path: '/',
     component: Main
   },
-  // { path: '/search', component: Search },
-  // { path: '/develog', component: Develog },
+  {
+    path: '/search',
+    component: Search
+  },
+  {
+    path: '/develog',
+    component: Develog
+  },
   // { path: '/detail', component: Detail },
   {
     path: '/signin',
@@ -37,8 +38,7 @@ const routes = [
 const router = () => {
   const path = window.location.pathname.split('/');
   const targetPath = '/' + path[1];
-
-  return [...routes.find(route => route.path === targetPath).component()];
+  return routes.find(route => route.path === targetPath).component();
 };
 
 export default router;

@@ -17,14 +17,14 @@ const createHeaderNode = async () => {
   $searchInput.onkeyup = async e => {
     if (e.key !== 'Enter') return;
     // 초기화
-    history.pushState(null, null, `/search/${e.target.value.trim()}`);
-    $searchInput.value = '';
-    $searchInput.classList.toggle('search--hidden');
+    window.history.pushState(null, null, `/search?title=${e.target.value.trim()}`);
+    searchInput.value = '';
+    searchInput.classList.toggle('search--hidden');
   };
   node.querySelector('.search--form label').onclick = async () => {
     // icon click으로 검색 시
-    if (!$searchInput.classList.contains('search--hidden') && $searchInput.value.trim()) {
-      history.pushState(null, null, `/search/${$searchInput.value.trim()}`);
+    if (!searchInput.classList.contains('search--hidden') && searchInput.value.trim()) {
+      window.history.pushState(null, null, `/search?title=${searchInput.value.trim()}`);
     }
     // 초기화
     $searchInput.value = '';
