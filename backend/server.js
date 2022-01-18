@@ -6,7 +6,8 @@ const cookieParser = require('cookie-parser');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const multer = require('multer');
-let { users, posts } = require('./mockData.js');
+let users = require('./data/users');
+let posts = require('./data/posts');
 
 let leftPostNum = posts.length - 10;
 let postIndex = 9;
@@ -19,7 +20,7 @@ const makeSplitedPosts = (posts, startIdx, endIdx) => {
   let splitedPosts = [];
 
   for (let i = startIdx; i < endIdx; i++) {
-    console.log(posts[i]);
+    // console.log(posts[i]);
     const user = users.filter(user => user.userId === posts[i].userId)[0];
     posts[i] = {
       ...posts[i],
@@ -282,7 +283,7 @@ app.get('/posts/:postid', (req, res) => {
 
 app.get('/src/assets/:imageUrl', (req, res) => {
   const img = req.params.imageUrl;
-  console.log('img: ', img);
+  // console.log('img: ', img);
   res.sendFile(path.join(__dirname, `./src/assets/${img}`));
 });
 
@@ -299,17 +300,18 @@ app.patch('/posts/likedUsers', (req, res) => {
         }
       : post
   );
+  // console.log(posts.find(post => post.userId === userId).likedUsers);
 });
 
 app.delete('/posts/:id', (req, res) => {
   const { id } = req.params;
-  console.log('postid: ', id);
+  // console.log('postid: ', id);
   posts = posts.filter(post => post.postId !== +postid);
 });
 
 app.get('*', (req, res) => {
-  console.log('sendFile', req.headers.referer);
-  res.sendFile(path.join(__dirname, './build/index.html'));
+  // console.log('sendFile', req.headers.referer);
+  res.sendFile(path.join(__dirname, './public/index.html'));
 });
 
 app.listen(PORT, () => {
