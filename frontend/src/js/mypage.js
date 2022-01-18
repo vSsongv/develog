@@ -1,31 +1,9 @@
-import header from './header';
 import axios from 'axios';
 
-const mypageHtml = `<div class="cover hidden"></div>
-<header class="header">
-  <h1 class="header--logo">
-    develog
-  </h1>
-
-  <form class="search--form" action="">
-    <input id="search" class="search--hidden" type="text">
-    <label for="search" class="fas fa-search "></label>
-  </form>
-
-  <button class="button button--login">Login</button>
-  
-  <button class="button button--posting">Posting</button>
-
-  <div class="user hidden"></div>
-
-  <nav class="nav-box hidden">
-    <ul>
-      <li>내 블로그</li>
-      <li>마이페이지</li>
-      <li>로그아웃</li>
-    </ul>
-  </nav>
-</header>
+const mypageNode = () => {
+  const node = document.createElement('div');
+  node.innerHTML = `
+<div class="cover hidden"></div>
 
 <div class="container">
   <section class="user-profile">
@@ -83,58 +61,48 @@ const mypageHtml = `<div class="cover hidden"></div>
   </section>
 </div>`;
 
-const userProfileSet = async () => {
-  try {
-    const { data: user } = await axios.get('/checkAuth');
-    document.querySelector('.nickname span').textContent = user.nickname;
-    document.getElementById('name').value = user.name;
-    document.getElementById('email').value = user.email;
-    document.getElementById('phone').value = user.phone;
-    document.querySelector('.user-profile-avatar').style.backgroundImage = `url('${user.avatarUrl}')`;
-  } catch (e) {
-    console.error(e);
-    window.history.pushState({}, '', '/signin');
-  }
-};
+  // Event
+  (async () => {
+    try {
+      const { data: user } = await axios.get('/checkAuth');
+      node.querySelector('.nickname span').textContent = user.nickname;
+      node.getElementById('name').value = user.name;
+      node.getElementById('email').value = user.email;
+      node.getElementById('phone').value = user.phone;
+      node.querySelector('.user-profile-avatar').style.backgroundImage = `url('${user.avatarUrl}')`;
+    } catch (e) {
+      console.error(e);
+      window.history.pushState({}, '', '/signin');
+    }
+  })();
 
-const mypageEvent = () => {
   let checkPasswordCnt = 0;
   userProfileSet();
 
   header.headerEvent();
 
   const withdrawalToggle = () => {
-    document.querySelector('.cover').classList.toggle('hidden');
-    document.querySelector('.withdrawal').classList.toggle('hidden');
+    node.querySelector('.cover').classList.toggle('hidden');
+    node.querySelector('.withdrawal').classList.toggle('hidden');
   };
 
   const editToggle = () => {
-    document.querySelector('.cover').classList.toggle('hidden');
-    document.querySelector('.profileEdit').classList.toggle('hidden');
+    node.querySelector('.cover').classList.toggle('hidden');
+    node.querySelector('.profileEdit').classList.toggle('hidden');
   };
 
-  document.querySelector('.button--withdrawal').onclick = withdrawalToggle;
-  document.querySelector('.withdrawal--close').onclick = withdrawalToggle;
-  document.querySelector('.button--edit').onclick = editToggle;
-  document.querySelector('.profileEdit--close').onclick = editToggle;
+  node.querySelector('.button--withdrawal').onclick = withdrawalToggle;
+  node.querySelector('.withdrawal--close').onclick = withdrawalToggle;
+  node.querySelector('.button--edit').onclick = editToggle;
+  node.querySelector('.profileEdit--close').onclick = editToggle;
 
-  // document.querySelector('.button--edit').addEventListener('click', e => {
-  //   window.history.pushState({ data: 'user' }, '', '/mypageEdit');
-  // });
+  const $error = node.querySelectorAll('.error-message');
 
-  const $error = document.querySelectorAll('.error-message');
-
-  // const deleteApi = async user => {
-  //   const data = await axios.post(`/delete/user/${user.userId}`, {
-  //     password: document.querySelector('.withdrawal--password').value,
-  //   });
-  // };
-
-  document.querySelector('.profileEdit-confirm').onclick = async restApi => {
+  node.querySelector('.profileEdit-confirm').onclick = async restApi => {
     try {
       const { data: user } = await axios.get('/checkAuth');
       const data = await axios.post(`/checkPassword/${user.userId}`, {
-        password: document.querySelector('.profileEdit--password').value,
+        password: node.querySelector('.profileEdit--password').value,
       });
       // console.log(data);
       if (data.status === 204) window.history.pushState({ data: 'user' }, '', '/mypageEdit');
@@ -153,11 +121,11 @@ const mypageEvent = () => {
     }
   };
 
-  document.querySelector('.withdrawal-confirm').onclick = async restApi => {
+  node.querySelector('.withdrawal-confirm').onclick = async restApi => {
     try {
       const { data: user } = await axios.get('/checkAuth');
       const data = await axios.post(`/delete/user/${user.userId}`, {
-        password: document.querySelector('.withdrawal--password').value,
+        password: node.querySelector('.withdrawal--password').value,
       });
       // console.log(data);
       if (data.status === 204) window.history.pushState({}, '', '/');
@@ -175,6 +143,8 @@ const mypageEvent = () => {
       console.log(e);
     }
   };
+
+  return node.children;
 };
 
-export default { mypageHtml, mypageEvent };
+export default mypageNode;

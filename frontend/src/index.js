@@ -7,6 +7,8 @@ const $root = document.getElementById('root');
 
 const render = async ele => {
   const headerNode = await createHeaderNode();
+  console.log(...headerNode);
+  console.log(...ele);
   $root.replaceChildren(...headerNode, ...ele);
   // $root.replaceChildren(...ele);
 };
