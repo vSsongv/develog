@@ -62,7 +62,7 @@ const addPopularPosts = posts =>
 
 const setPopularPosts = async ($populaPpostsContainer, userId) => {
   try {
-    const { data } = await axios.get(`develog/${userId}/popularposts`);
+    const { data } = await axios.get(`/develog/${userId}/popularposts`);
     const popularposts = addPopularPosts(data);
     $populaPpostsContainer.innerHTML = popularposts;
   } catch (e) {
@@ -107,9 +107,7 @@ const setUserPosts = async ($allPostContainer, userId) => {
 
 const develogPageInitialRender = async ($populaPpostsContainer, $allPostContainer, userId) => {
   await setPopularPosts($populaPpostsContainer, userId);
-  console.log('here', userId);
   await setUserPosts($allPostContainer, userId);
-  console.log('there', userId);
 };
 
 const showSearchedPosts = async (input, $postsContainer) => {
