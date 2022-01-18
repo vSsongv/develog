@@ -3,10 +3,12 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 module.exports = {
-  entry: ['./src/app.js', './src/scss/index.scss'],
+  entry: ['./src/index.js', './src/scss/index.scss'],
   output: {
-    path: path.resolve(__dirname, 'build'),
-    filename: 'js/app.js',
+    path: path.resolve(__dirname, '../backend/public'),
+    filename: 'js/index.js',
+    publicPath: '/',
+    assetModuleFilename: 'assets/[name][ext]',
     clean: true,
   },
   module: {
@@ -17,7 +19,7 @@ module.exports = {
       },
       {
         test: /\.js$/,
-        include: [path.resolve(__dirname, './app.js')],
+        include: [path.resolve(__dirname, './index.js')],
         exclude: /node_modules/,
         use: {
           loader: 'babel-loader',
@@ -42,12 +44,7 @@ module.exports = {
       },
       {
         test: /\.(png|svg|jpg|jpeg|gif)$/i,
-        loader: 'file-loader',
-        options: {
-          outputPath: 'img',
-          publicPath: 'img',
-          name: '[name].[ext]',
-        },
+        type: 'asset/resource',
       },
     ],
   },
