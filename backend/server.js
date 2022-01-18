@@ -42,7 +42,7 @@ app.use(cookieParser());
 
 const storage = multer.diskStorage({
   destination(req, file, cb) {
-    cb(null, 'src/assets/');
+    cb(null, 'public/assets/');
   },
   filename(req, file, cb) {
     cb(null, file.originalname);
@@ -236,10 +236,11 @@ app.patch('/editUser/:userId', (req, res) => {
   res.sendStatus();
 });
 
-app.get('/src/assets/:imageUrl', (req, res) => {
-  const img = req.params.imageUrl;
-  res.sendFile(path.join(__dirname, `./src/assets/${img}`));
-});
+// // avatar 저장하기
+// app.get('/src/assets/:imageUrl', (req, res) => {
+//   const img = req.params.imageUrl;
+//   res.sendFile(path.join(__dirname, `./public/assets/${img}`));
+// });
 
 // avatar 불러오기
 app.get('/avatar/:userId', (req, res) => {
@@ -281,11 +282,11 @@ app.get('/posts/:postid', (req, res) => {
   });
 });
 
-app.get('/src/assets/:imageUrl', (req, res) => {
-  const img = req.params.imageUrl;
-  // console.log('img: ', img);
-  res.sendFile(path.join(__dirname, `./src/assets/${img}`));
-});
+// app.get('/src/assets/:imageUrl', (req, res) => {
+//   const img = req.params.imageUrl;
+//   // console.log('img: ', img);
+//   res.sendFile(path.join(__dirname, `./src/assets/${img}`));
+// });
 
 app.patch('/posts/likedUsers', (req, res) => {
   const { userId, isEmptyHeart } = req.body;

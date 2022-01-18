@@ -76,7 +76,7 @@ const mypageEditNode = () => {
       document.querySelector('#name').value = user.name;
       document.querySelector('#email').value = user.email;
       document.querySelector('#phone').value = user.phone;
-      avatar.style.backgroundImage = `url('/avatar/${user.userId}')`;
+      avatar.style.backgroundImage = `url('/public/assets/${user.avatarUrl}')`;
     } catch (e) {
       console.error(e);
     }
@@ -144,6 +144,7 @@ const mypageEditNode = () => {
 
       const formData = new FormData();
 
+      // avatar를 수정했을때
       if ($fileImage.files[0]) {
         formData.append('selectImage', $fileImage.files[0]);
         formData.append('filename', $fileImage.files[0].name);
@@ -154,16 +155,17 @@ const mypageEditNode = () => {
               password: document.querySelector('#password').value,
               nickname: document.querySelector('#nickname').value,
               phone: document.querySelector('#phone').value,
-              avatarUrl: $fileImage.files[0] ? `/src/assets/${$fileImage.files[0].name}` : user.avatarUrl,
+              avatarUrl: $fileImage.files[0] ? `/public/assets/${$fileImage.files[0].name}` : user.avatarUrl,
             });
           }
         });
+        // avatar를 수정하지 않았을때
       } else {
         axios.patch(`/editUser/${user.userId}`, {
           password: document.querySelector('#password').value,
           nickname: document.querySelector('#nickname').value,
           phone: document.querySelector('#phone').value,
-          avatarUrl: $fileImage.files[0] ? `/src/assets/${$fileImage.files[0].name}` : user.avatarUrl,
+          avatarUrl: $fileImage.files[0] ? `/public/assets/${$fileImage.files[0].name}` : user.avatarUrl,
         });
       }
     } catch (e) {
