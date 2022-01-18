@@ -1,8 +1,7 @@
 import axios from 'axios';
 import header from './header';
 import detail from '../html/detail.html';
-
-console.log(detail);
+// console.log(detail);
 
 const $root = document.querySelector('.root');
 

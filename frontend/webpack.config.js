@@ -56,13 +56,13 @@ module.exports = {
       filename: 'css/style.css',
     }),
   ],
-  // devServer: {
-  //   open: true,
-  //   port: 'auto',
-  //   proxy: {
-  //     '/': 'http://localhost:9000',
-  //   },
-  // },
+  devServer: {
+    open: true,
+    port: 'auto',
+    proxy: {
+      '/': 'http://localhost:9000',
+    },
+  },
   devtool: 'source-map',
   mode: 'development',
 };
