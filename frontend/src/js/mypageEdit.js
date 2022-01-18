@@ -72,10 +72,10 @@ const mypageEditNode = () => {
   const userProfileSet = async avatar => {
     try {
       const { data: user } = await axios.get('/checkAuth');
-      document.querySelector('#nickname').value = user.nickname;
-      document.querySelector('#name').value = user.name;
-      document.querySelector('#email').value = user.email;
-      document.querySelector('#phone').value = user.phone;
+      node.querySelector('#nickname').value = user.nickname;
+      node.querySelector('#name').value = user.name;
+      node.querySelector('#email').value = user.email;
+      node.querySelector('#phone').value = user.phone;
       avatar.style.backgroundImage = `url('/public/assets/${user.avatarUrl}')`;
     } catch (e) {
       console.error(e);
@@ -140,14 +140,19 @@ const mypageEditNode = () => {
     try {
       const { data: user } = await axios.get('/checkAuth');
 
+      console.log(user.avatarUrl);
+
       const $fileImage = document.querySelector('#selectImage');
 
       const formData = new FormData();
 
+      console.log($fileImage.files[0]);
       // avatar를 수정했을때
       if ($fileImage.files[0]) {
         formData.append('selectImage', $fileImage.files[0]);
         formData.append('filename', $fileImage.files[0].name);
+
+        console.log(formData);
 
         await axios.post('/uploadImage', formData, config).then(response => {
           if (response.status === 200) {
@@ -161,6 +166,7 @@ const mypageEditNode = () => {
         });
         // avatar를 수정하지 않았을때
       } else {
+        console.log('else');
         axios.patch(`/editUser/${user.userId}`, {
           password: document.querySelector('#password').value,
           nickname: document.querySelector('#nickname').value,
@@ -171,7 +177,7 @@ const mypageEditNode = () => {
     } catch (e) {
       console.log(e);
     }
-    window.history.back(1);
+    // window.history.back(1);
   });
 
   return node.children;

@@ -65,30 +65,29 @@ const mypageNode = () => {
   (async () => {
     try {
       const { data: user } = await axios.get('/checkAuth');
+      console.log(node.querySelector('.nickname span'));
       node.querySelector('.nickname span').textContent = user.nickname;
-      node.getElementById('name').value = user.name;
-      node.getElementById('email').value = user.email;
-      node.getElementById('phone').value = user.phone;
+      node.querySelector('#name').value = user.name;
+      node.querySelector('#email').value = user.email;
+      node.querySelector('#phone').value = user.phone;
       node.querySelector('.user-profile-avatar').style.backgroundImage = `url('${user.avatarUrl}')`;
     } catch (e) {
       console.error(e);
-      window.history.pushState({}, '', '/signin');
+      // window.history.pushState({}, '', '/signin');
     }
   })();
 
   let checkPasswordCnt = 0;
-  userProfileSet();
-
-  header.headerEvent();
+  // userProfileSet();
 
   const withdrawalToggle = () => {
-    node.querySelector('.cover').classList.toggle('hidden');
-    node.querySelector('.withdrawal').classList.toggle('hidden');
+    document.querySelector('.cover').classList.toggle('hidden');
+    document.querySelector('.withdrawal').classList.toggle('hidden');
   };
 
   const editToggle = () => {
-    node.querySelector('.cover').classList.toggle('hidden');
-    node.querySelector('.profileEdit').classList.toggle('hidden');
+    document.querySelector('.cover').classList.toggle('hidden');
+    document.querySelector('.profileEdit').classList.toggle('hidden');
   };
 
   node.querySelector('.button--withdrawal').onclick = withdrawalToggle;
@@ -102,7 +101,7 @@ const mypageNode = () => {
     try {
       const { data: user } = await axios.get('/checkAuth');
       const data = await axios.post(`/checkPassword/${user.userId}`, {
-        password: node.querySelector('.profileEdit--password').value,
+        password: document.querySelector('.profileEdit--password').value,
       });
       // console.log(data);
       if (data.status === 204) window.history.pushState({ data: 'user' }, '', '/mypageEdit');

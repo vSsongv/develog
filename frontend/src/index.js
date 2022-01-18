@@ -5,12 +5,10 @@ const history = require('history-events');
 
 const $root = document.getElementById('root');
 
-const render = async ele => {
+const render = async elem => {
   const headerNode = await createHeaderNode();
-  console.log(...headerNode);
-  console.log(...ele);
-  $root.replaceChildren(...headerNode, ...ele);
-  // $root.replaceChildren(...ele);
+  $root.replaceChildren(...headerNode, ...elem);
+  // $root.replaceChildren(...elem);
 };
 
 render(App());
