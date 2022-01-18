@@ -28,39 +28,39 @@ const mypageEditHtml = `<header>
     <div class="input-box">
       <label for="password">password</label>
       <input id="password" class="input-box__input" type="password">
-      <i class="complete hidden fas fa-check-circle"></i>
-      <i class="error hidden fas fa-times-circle"></i>
-      <span class="error-message hidden">6~12자리의 비밀번호를 입력하세요.</span>
+      <i class="complete passwordVal hidden fas fa-check-circle"></i>
+      <i class="error passwordVal hidden fas fa-times-circle"></i>
+      <span class="error-message passwordVal hidden">6~12자리의 비밀번호를 입력하세요.</span>
     </div>
     <div class="input-box">
       <label for="confirmPassword">confirm password</label>
       <input id="confirmPassword" class="input-box__input" type="password">
-      <i class="complete hidden fas fa-check-circle"></i>
-      <i class="error hidden fas fa-times-circle"></i>
-      <span class="error-message hidden">비밀번호를 확인하세요.</span>
+      <i class="complete passwordConfirmVal hidden fas fa-check-circle"></i>
+      <i class="error passwordConfirmVal hidden fas fa-times-circle"></i>
+      <span class="error-message passwordConfirmVal hidden">비밀번호를 확인하세요.</span>
     </div>
     <div class="input-box">
       <label for="name">name</label>
       <input id="name" class="input-box__input" type="text">
-      <i class="complete fas fa-check-circle"></i>
-      <i class="error hidden fas fa-times-circle"></i>
-      <span class="error-message hidden">이름을 입력하세요.</span>
+      <i class="complete nameVal fas fa-check-circle"></i>
+      <i class="error nameVal hidden fas fa-times-circle"></i>
+      <span class="error-message nameVal hidden">이름을 입력하세요.</span>
     </div>
     <div class="input-box">
       <label for="nickname">nickname</label>
       <input id="nickname" class="input-box__input" type="text">
-      <button type="button" class="button double-check">중복확인</button>
-      <i class="complete fas fa-check-circle"></i>
-      <i class="error hidden fas fa-times-circle"></i>
-      <span class="error-message hidden">닉네임을 입력하세요.</span>
-      <span class="check-message hidden">다시 중복 확인하기!!!</span>
+      <button type="button" class="button double-check nicknameVal">중복확인</button>
+      <i class="complete nicknameVal fas fa-check-circle"></i>
+      <i class="error nicknameVal hidden fas fa-times-circle"></i>
+      <span class="error-message nicknameVal hidden">닉네임을 한 글자 이상 입력해주세요.</span>
+      <span class="check-message nicknameVal hidden">이미 사용 중인 닉네임입니다.</span>
     </div>
     <div class="input-box">
       <label for="phone">phone</label>
       <input id="phone" class="input-box__input" type="text">
-      <i class="complete fas fa-check-circle"></i>
-      <i class="error hidden fas fa-times-circle"></i>
-      <span class="error-message hidden">올바른 핸드폰 번호를 입력하세요.</span>
+      <i class="complete phoneVal fas fa-check-circle"></i>
+      <i class="error phoneVal hidden fas fa-times-circle"></i>
+      <span class="error-message phoneVal hidden">올바른 핸드폰 번호를 입력하세요.</span>
     </div>
     <div class="button-group">
       <button type="button" class="button button--back">돌아가기</button>
@@ -99,23 +99,28 @@ const mypageEditEvent = () => {
   const $input = document.querySelectorAll('.input-box__input');
 
   document.querySelector('.mypageEdit--form').oninput = e => {
-    $input.forEach((input, index) => {
-      if (e.target === input && (e.target.matches('#confirmPassword') || e.target.matches('#password'))) {
-        validate.validate(e.target.value, index, $editBtn);
-        validate.validate(
-          document.querySelector('#confirmPassword').value !== document.querySelector('#password').value,
-          2,
-          $editBtn
-        );
-        activeBtn();
-        return;
-      }
-      if (e.target === input) {
-        validate.validate(e.target.value, index, $editBtn);
-        activeBtn();
-        return;
-      }
-    });
+    if (e.target === document.querySelector('#email')) validate.emailValidate(e.target.value);
+    if (e.target === document.querySelector('#password'))
+      validate.passwordValidate(e.target.value, document.querySelector('#confirmPassword').value);
+    if (e.target === document.querySelector('#confirmPassword'))
+      validate.passwordValidate(document.querySelector('#password').value, e.target.value);
+    if (e.target === document.querySelector('#name')) validate.nameValidate(e.target.value);
+    if (e.target === document.querySelector('#nickname')) validate.nicknameValidate(e.target.value);
+    if (e.target === document.querySelector('#phone')) validate.phoneValidate(e.target.value);
+  };
+
+  $doubleCheckBtn.onclick = async e => {
+    const { data: user } = await axios.get('/checkAuth');
+    if (user.nickname === $nickName.value) {
+      document.querySelector('.check-message').classList.add('hidden');
+      $doubleCheckBtn.classList.add('checking');
+      validate.activeSubmitButton();
+    } else {
+      const { data: isDuplicate } = await axios.get('/check/nickname/' + $nickName.value);
+      validate.isNicknameDuplicate(isDuplicate.isDuplicate);
+    }
+    console.log(123);
+    // 이거 왜 출력안되?
   };
 
   const reader = new FileReader();
@@ -130,22 +135,6 @@ const mypageEditEvent = () => {
     e.preventDefault();
     window.history.back(1);
   });
-
-  $doubleCheckBtn.onclick = async e => {
-    const { data: user } = await axios.get('/checkAuth');
-    if (user.nickname === $nickName.value) {
-      document.querySelector('.check-message').classList.add('hidden');
-      $doubleCheckBtn.style.backgroundColor = 'green';
-    } else {
-      const { data: isDuplicate } = await axios.get('/check/nickname/' + $nickName.value);
-      validate.isDuplicate(4, isDuplicate.isDuplicate);
-    }
-    // const $checkComplete = [...document.querySelectorAll('.complete')].filter(i => !i.classList.contains('hidden'));
-    // console.log($checkComplete);
-    // if (($doubleCheckBtn.style.backgroundColor = 'green' && $checkComplete.length === 6))
-    //   $editBtn.removeAttribute('disabled');
-    activeBtn();
-  };
 
   document.querySelector('.button--editComplete').addEventListener('click', async e => {
     e.preventDefault();

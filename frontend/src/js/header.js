@@ -1,0 +1,101 @@
+import axios from 'axios';
+
+const createHeaderNode = async () => {
+  // const node = document.querySelector('.header');
+  const node = document.createElement('div');
+  node.innerHTML = `
+  <header class="header">
+    <h1 class="header--logo">develog</h1>
+
+    <form class="search--form" action="">
+      <input id="search" class="search--hidden" type="text">
+      <label for="search" class="fas fa-search "></label>
+    </form>
+
+    <button class="button button--login hidden">Login</button>
+
+    <button class="button button--posting hidden">Posting</button>
+
+    <div class="user hidden"></div>
+
+    <nav class="nav-box hidden">
+      <ul>
+        <li>내 블로그</li>
+        <li>마이페이지</li>
+        <li>로그아웃</li>
+      </ul>
+    </nav>
+  </header>
+  `;
+
+  const searchInput = node.querySelector('#search');
+
+  // search form submit 방지용
+  node.querySelector('.search--form').onsubmit = e => {
+    e.preventDefault();
+  };
+
+  // enter로 검색 시
+  searchInput.onkeyup = async e => {
+    if (e.key !== 'Enter') return;
+    // 초기화
+    history.pushState(null, null, `/search/${e.target.value.trim()}`);
+    searchInput.value = '';
+    searchInput.classList.toggle('search--hidden');
+  };
+  node.querySelector('.search--form label').onclick = async () => {
+    // icon click으로 검색 시
+    if (!searchInput.classList.contains('search--hidden') && searchInput.value.trim()) {
+      history.pushState(null, null, `/search/${searchInput.value.trim()}`);
+    }
+    // 초기화
+    searchInput.value = '';
+    searchInput.classList.toggle('search--hidden');
+  };
+  node.querySelector('.header--logo').addEventListener('click', () => {
+    window.history.pushState(null, null, '/');
+  });
+
+  node.querySelector('.button--login').addEventListener('click', () => {
+    window.history.pushState({}, '', '/signin');
+  });
+
+  try {
+    const { data: user } = await axios.get('/checkAuth');
+    if (user) {
+      node.querySelector('.user').classList.remove('hidden');
+      node.querySelector('.button--posting').classList.remove('hidden');
+      node.querySelector('.button--login').classList.add('hidden');
+
+      node.querySelector('.button--posting').addEventListener('click', () => {
+        window.history.pushState({}, '', '/write');
+      });
+
+      node.querySelector('.nav-box ul li:first-child').addEventListener('click', () => {
+        window.history.pushState({}, '', '/develog'); // 유저아이디 있어야함
+      });
+
+      node.querySelector('.nav-box ul li:nth-child(2)').addEventListener('click', () => {
+        window.history.pushState({}, '', '/mypage');
+      });
+
+      node.querySelector('.user').style.backgroundImage = `url('${user.avatarUrl}')`;
+
+      node.querySelector('.user').onclick = () => {
+        node.querySelector('.nav-box').classList.toggle('hidden');
+      };
+      node.querySelector('.nav-box ul li:last-child').onclick = async () => {
+        const check = await axios.get('/logout');
+        if (check.status === 204) window.history.pushState(null, null, '/');
+      };
+    } else {
+      node.querySelector('.button--login').classList.remove('hidden');
+      // if (window.location.pathname !== '/') window.history.pushState(null, null, '/');
+    }
+  } catch (e) {
+    console.error(e);
+  }
+  return node.children;
+};
+
+export default createHeaderNode;
