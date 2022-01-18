@@ -11,14 +11,14 @@ const mainNode = () => {
 
   // Event
   postFunc.mainPageInitialRender(node.querySelector('.posts-container'));
-  console.log(node.querySelector('.see-more'));
+
   node.querySelector('.see-more').addEventListener('click', postFunc.getMorePostsForMain);
 
   node.querySelector('.main-container').addEventListener('click', e => {
     if (e.target.classList.contains('avatar-button') || e.target.classList.contains('user-nickname')) {
-      history.pushState(null, null, `/develog/${e.target.parentNode.dataset.userId}`);
+      window.history.pushState(null, null, `/develog/${e.target.parentNode.dataset.userId}`);
     } else if (e.target.className.split('__')[0].includes('main-post')) {
-      history.pushState(null, null, `/detail/${e.target.closest('li').dataset.postId}`);
+      window.history.pushState(null, null, `/detail/${e.target.closest('li').dataset.postId}`);
     }
   });
 
