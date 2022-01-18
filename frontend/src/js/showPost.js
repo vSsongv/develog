@@ -110,9 +110,9 @@ const develogPageInitialRender = async ($populaPpostsContainer, $allPostContaine
   await setUserPosts($allPostContainer, userId);
 };
 
-const showSearchedPosts = async (input, $postsContainer) => {
+const showSearchedPosts = async (searchTitle, $postsContainer) => {
   try {
-    const { data } = await axios.get(`/search/${input}`);
+    const { data } = await axios.get(`/search?title=${searchTitle}`);
     const addedHtml = await setPosts(data);
     $postsContainer.innerHTML = `<li class="main-post-sizer"></li>` + addedHtml;
     new Masonry('.posts-container', masonry);
