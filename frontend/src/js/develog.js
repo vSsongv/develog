@@ -2,28 +2,7 @@ import * as postFunc from './showPost';
 
 const develogNode = () => {
   const node = document.createElement('div');
-  node.innerHTML = `<header class="header">
-       <h1 class="header--logo">develog</h1>
- 
-       <form class="search--form" action="">
-         <input id="search" class="search--hidden" type="text" />
-         <label for="search" class="fas fa-search"></label>
-       </form>
- 
-       <button class="button button--login">Login</button>
-   
-   <button class="button button--posting">Posting</button>
- 
-   <div class="user hidden"></div>
- 
-       <nav class="nav-box hidden">
-         <ul>
-           <li>내 블로그</li>
-           <li>마이페이지</li>
-           <li>로그아웃</li>
-         </ul>
-       </nav>
-     </header>
+  node.innerHTML = `
      <section class="develog-container">
        <span class="popular-posts__title">인기 포스트 TOP 3</span>
        <i class="fas fa-heart"></i>
