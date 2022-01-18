@@ -7,7 +7,6 @@ const signupNode = () => {
   node.innerHTML = signup;
 
   const $signupBtn = node.querySelector('.sign-buttons.signup .button');
-  const $input = node.querySelectorAll('.input-box__input');
 
   node.querySelector('.sign-form').oninput = e => {
     if (e.target === document.querySelector('#email')) validate.emailValidate(e.target.value)
@@ -21,14 +20,14 @@ const signupNode = () => {
   node.querySelector('.double-check.emailVal').onclick = async () => {
     const {
       data: isDuplicate
-    } = await axios.get('/check/email/' + $input[0].value);
+    } = await axios.get('/check/email/' + document.querySelector('#email').value);
     validate.isEmailDuplicate(isDuplicate.isDuplicate);
   };
 
   node.querySelector('.double-check.nicknameVal').onclick = async () => {
     const {
       data: isDuplicate
-    } = await axios.get('/check/nickname/' + $input[4].value);
+    } = await axios.get('/check/nickname/' + document.querySelector('#nickname').value);
     validate.isNicknameDuplicate(isDuplicate.isDuplicate);
   };
 
