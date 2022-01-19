@@ -38,6 +38,7 @@ const PORT = 9000;
 app.use(express.static('public'));
 app.use(express.json());
 app.use(cookieParser());
+app.use('/images', express.static('public/assets'));
 
 const storage = multer.diskStorage({
   destination(req, file, cb) {
@@ -225,7 +226,6 @@ app.post('/uploadImage', upload.single('selectImage'), (req, res) => {
 
 app.patch('/editUser/:userId', (req, res) => {
   const { userId } = req.params;
-  console.log(...req.body);
   users = users.map(user =>
     user.userId === +userId
       ? {
@@ -234,20 +234,7 @@ app.patch('/editUser/:userId', (req, res) => {
         }
       : user
   );
-  res.sendStatus();
-});
-
-// // avatar 저장하기
-// app.get('/src/assets/:imageUrl', (req, res) => {
-//   const img = req.params.imageUrl;
-//   res.sendFile(path.join(__dirname, `./public/assets/${img}`));
-// });
-
-// avatar 불러오기
-app.get('/avatar/:userId', (req, res) => {
-  const { userId } = req.params;
-  const user = users.find(user => user.userId === +userId);
-  res.sendFile(path.join(__dirname, `${user.avatarUrl}`));
+  res.sendStatus(200);
 });
 
 app.post('/checkPassword/:userId', async (req, res) => {
@@ -282,12 +269,6 @@ app.get('/posts/:postid', (req, res) => {
     user,
   });
 });
-
-// app.get('/src/assets/:imageUrl', (req, res) => {
-//   const img = req.params.imageUrl;
-//   // console.log('img: ', img);
-//   res.sendFile(path.join(__dirname, `./src/assets/${img}`));
-// });
 
 app.patch('/posts/likedUsers', (req, res) => {
   const { userId, isEmptyHeart } = req.body;

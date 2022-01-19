@@ -8,7 +8,7 @@ let users = [
     nickname: 'User1',
     name: '송진영',
     phone: '010-1234-5678',
-    avatarUrl: '/public/assets/진영.png',
+    avatarUrl: 'images/defaultAvatar.png',
   },
   {
     userId: 2,

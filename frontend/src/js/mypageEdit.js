@@ -76,7 +76,7 @@ const mypageEditNode = () => {
       node.querySelector('#name').value = user.name;
       node.querySelector('#email').value = user.email;
       node.querySelector('#phone').value = user.phone;
-      avatar.style.backgroundImage = `url('/public/assets/${user.avatarUrl}')`;
+      avatar.style.backgroundImage = `url('${user.avatarUrl}')`;
     } catch (e) {
       console.error(e);
     }
@@ -160,7 +160,7 @@ const mypageEditNode = () => {
               password: document.querySelector('#password').value,
               nickname: document.querySelector('#nickname').value,
               phone: document.querySelector('#phone').value,
-              avatarUrl: $fileImage.files[0] ? `/public/assets/${$fileImage.files[0].name}` : user.avatarUrl,
+              avatarUrl: $fileImage.files[0] ? `images/${$fileImage.files[0].name}` : user.avatarUrl,
             });
           }
         });
@@ -171,13 +171,13 @@ const mypageEditNode = () => {
           password: document.querySelector('#password').value,
           nickname: document.querySelector('#nickname').value,
           phone: document.querySelector('#phone').value,
-          avatarUrl: $fileImage.files[0] ? `/public/assets/${$fileImage.files[0].name}` : user.avatarUrl,
+          avatarUrl: $fileImage.files[0] ? `images/${$fileImage.files[0].name}` : user.avatarUrl,
         });
       }
     } catch (e) {
       console.log(e);
     }
-    // window.history.back(1);
+    window.history.back(1);
   });
 
   return node.children;
