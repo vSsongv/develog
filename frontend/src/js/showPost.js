@@ -14,7 +14,7 @@ const setPosts = posts =>
       post =>
         `<li class="main-post" data-post-id="${post.postId}">
     <div class="user-info" data-user-id="${post.userId}">
-      < class="avatar-button avatar-button--main" src="${post.userProfile}" alt="avatar-button"/><a class="user-nickname">${post.nickname}</a>
+      <img class="avatar-button avatar-button--main" src="${post.userProfile}" alt="avatar-button"/><a class="user-nickname">${post.nickname}</a>
     </div>
     <span class="main-post__title">${post.title}</span
     ><span class="main-post__desc">${post.content}</span>
