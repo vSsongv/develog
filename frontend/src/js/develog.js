@@ -12,8 +12,6 @@ const develogNode = () => {
 
   postFunc.develogPageInitialRender(node.querySelector('.popular-posts'), $allPostContainer, userId);
 
-  //  node.querySelector('.see-more').addEventListener('click', postFunc.setUserPosts());
-
   node.querySelector('.develog-container').addEventListener('click', e => {
     if (e.target.className.split('__')[0] === 'post') {
       window.history.pushState(null, null, `/detail/${e.target.closest('li').dataset.postId}`);
@@ -21,6 +19,7 @@ const develogNode = () => {
       postFunc.setUserPosts($allPostContainer, userId);
     }
   });
+
   return node.children;
 };
 
