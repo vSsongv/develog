@@ -31,6 +31,19 @@ const mypageEditNode = () => {
   const $editBtn = node.querySelector('.button--editComplete');
   const $nickName = node.querySelector('#nickname');
   const $doubleCheckBtn = node.querySelector('.double-check');
+  const $doubleCheckMsg = node.querySelector('.doubleCheck-message');
+  const $checkMsg = node.querySelector('.check-message');
+  const $errorMsg = node.querySelector('.error-message.nicknameVal');
+
+  const showDoubleCheckMsg = () => {
+    if (
+      $doubleCheckBtn.classList.contains('checking') ||
+      !$checkMsg.classList.contains('hidden') ||
+      !$errorMsg.classList.contains('hidden')
+    )
+      $doubleCheckMsg.classList.add('hidden');
+    else $doubleCheckMsg.classList.remove('hidden');
+  };
 
   node.querySelector('.mypageEdit--form').oninput = e => {
     if (e.target === document.querySelector('#password'))
@@ -40,18 +53,20 @@ const mypageEditNode = () => {
     if (e.target === document.querySelector('#name')) validate.nameValidate(e.target.value);
     if (e.target === document.querySelector('#nickname')) validate.nicknameValidate(e.target.value);
     if (e.target === document.querySelector('#phone')) validate.phoneValidate(e.target.value);
+    showDoubleCheckMsg();
   };
 
   $doubleCheckBtn.onclick = async () => {
     const { data: user } = await axios.get('/checkAuth');
     if (user.nickname === $nickName.value) {
-      document.querySelector('.check-message').classList.add('hidden');
+      $checkMsg.classList.add('hidden');
       $doubleCheckBtn.classList.add('checking');
       validate.activeSubmitButton();
     } else {
       const { data: isDuplicate } = await axios.get('/check/nickname/' + $nickName.value);
       validate.isNicknameDuplicate(isDuplicate.isDuplicate);
     }
+    showDoubleCheckMsg();
   };
 
   const reader = new FileReader();
