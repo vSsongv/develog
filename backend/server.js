@@ -287,6 +287,46 @@ app.delete('/posts/:id', (req, res) => {
   posts = posts.filter(post => post.postId !== +id);
 });
 
+// 포스트작성
+app.post('/post/write', (req, res) => {
+  const newPostId = Math.max(...posts.map(post => +post.postId)) + 1;
+  posts = [
+    {
+      ...req.body,
+      postId: newPostId,
+      createAt: new Date(),
+      likedUsers: [],
+      comments: [],
+    },
+    ...posts,
+  ];
+  res.send({ newPostId });
+});
+
+app.post('/checkPost/:postId', (req, res) => {
+  const { postId } = req.params;
+  console.log(postId);
+  const post = posts.find(post => post.postId === +postId);
+  console.log(post);
+  // 해당 포스트가 존재하지 않거나, 해당 유저의 페이지가 아닌경우
+  if (!post || !(post.userId === req.body.userId)) res.sendStatus(400);
+  else res.send(post);
+});
+
+// 포스트 수정
+app.patch('/post/write/:postId', (req, res) => {
+  const { postId } = req.params;
+  posts = posts.map(post =>
+    post.postId === +postId
+      ? {
+          ...post,
+          ...req.body,
+        }
+      : post
+  );
+  res.send(204);
+});
+
 app.get('*', (req, res) => {
   // console.log('sendFile', req.headers.referer);
   res.sendFile(path.join(__dirname, './public/index.html'));
