@@ -260,7 +260,7 @@ app.post('/delete/user/:userId', (req, res) => {
   }
 });
 
-// detail page
+// 포스트 정보
 app.get('/posts/:id', (req, res) => {
   const { id } = req.params;
   const post = posts.find(post => post.postId === +id);
@@ -272,14 +272,15 @@ app.get('/posts/:id', (req, res) => {
   });
 });
 
+// 좋아요 배열
 app.get('/posts/likedUsers/:id', (req, res) => {
-  // 로그인된 userId
   const { id } = req.params;
   const findPostLikedUsers = posts.find(post => post.postId === +id);
   // console.log(findPostLikedUsers);
   res.send(findPostLikedUsers);
 });
 
+// 좋아요 배열 수정
 app.patch('/posts/likedUsers/:id', (req, res) => {
   // 로그인된 userId
   const { id } = req.params;

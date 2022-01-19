@@ -8,6 +8,7 @@ const setPostData = ({ post, user }, loginUserId, userClickedHeart) =>
 	<div class="detail__info">
     <button class="avatar-button avatar-button--size" style="background-image:url('${user.avatarUrl}')"></button>
 		<span class="author">${user.nickname}</span>
+		<span class="date">${post.createAt}</span>
 		<button class="${userClickedHeart ? 'none ' : ''}fullheart heart-btn btn">
 			<i class="far fa-heart"></i>
 		</button>
@@ -28,7 +29,7 @@ const setPostData = ({ post, user }, loginUserId, userClickedHeart) =>
 <section class="user-comment">
 	<div class="comment__user-info">
     <button class="avatar-button avatar-button--size" style="background-image:url('${user.avatarUrl}')"></button>
-		<span class="user-id">${user.nickname}</span>
+		<span class="user-id">${loginUserId ? user.nickname : 'Guest'}</span>
 	</div>
 	<div class="textarea-container">
 		<textarea class="textarea" id="input-box" rows="3" maxlength="100" placeholder="댓글을 입력해주세요."></textarea>
@@ -40,21 +41,28 @@ const setPostData = ({ post, user }, loginUserId, userClickedHeart) =>
 </section>
 
 <section class="comments">
+	${post.comments
+    .map(
+      comment => `
 	<div class="comment">
 		<div class="comment__user-info">
-    <button class="avatar-button avatar-button--size" style="background-image:url('${user.avatarUrl}')"></button>
-			<span class="user-id"></span>
+			<button class="avatar-button avatar-button--size btn" style="background-image:url(${comment.avatarUrl}">
+			</button>
+			<span class="user-id">${comment.nickname}</span>
 		</div>
 		<div class="comment__text">
-			<span></span>
+			<span>${comment.comment}</span>
 		</div>
-		<button class="${loginUserId === post.userId ? '' : 'none '}edit pencil-btn btn">
+		<span class="date">${comment.createAt}</span>
+		<button class="${loginUserId === comment.userId ? '' : 'none '}edit pencil-btn btn">
 			<i class="far fa-edit"></i>
 		</button>
-		<button class="${loginUserId === post.userId ? '' : 'none '}edit trash-btn btn">
+		<button class="${loginUserId === comment.userId ? '' : 'none '}edit trash-btn btn">
 			<i class="far fa-trash-alt"></i>
 		</button>
-	</div>
+	</div>`
+    )
+    .join('')}
 </section>
 `;
 
@@ -79,6 +87,7 @@ const detailEvents = async $detailNode => {
     } = await axios.get(`/posts/likedUsers/${parseUrlPostId[parseUrlPostId.length - 1]}`);
     const userClickedHeart = likedUsers.find(elem => elem === +loginUserId) ? true : false;
 
+    console.log(commentData);
     $detailNode.innerHTML = setPostData(postData.data, loginUserId, userClickedHeart);
 
     // textarea evetns
