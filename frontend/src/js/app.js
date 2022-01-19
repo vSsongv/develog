@@ -9,9 +9,12 @@ import Search from './search';
 // import writeUrlEvents from './js/write';
 // import { reduceRight } from '../../backend/data/posts';
 
-const routes = [
-  {
+const routes = [{
     path: '/',
+    component: Main,
+  },
+  {
+    path: '/callback',
     component: Main,
   },
   {
@@ -23,10 +26,19 @@ const routes = [
     component: Develog,
   },
   // { path: '/detail', component: Detail },
-  { path: '/signin', component: Signin },
+  {
+    path: '/signin',
+    component: Signin
+  },
   // { path: '/signup', component: Signup },
-  { path: '/mypage', component: Mypage },
-  { path: '/mypageEdit', component: MypageEdit },
+  {
+    path: '/mypage',
+    component: Mypage
+  },
+  {
+    path: '/mypageEdit',
+    component: MypageEdit
+  },
 
   {
     path: '/signin',
