@@ -260,10 +260,10 @@ app.get('/check/nickname/:nickname', (req, res) => {
 
 // _id 생성(user, post)
 app.get('/users/createId', (req, res) => {
-  const maxId = Math.max(...users.map(user => user.userId), 0) + 1;
+  const maxId = Math.max(...users.map(user => +user.userId), 0) + 1;
 
   res.send({
-    maxId,
+    maxId
   });
 });
 
@@ -341,8 +341,7 @@ app.patch('/editUser/:userId', (req, res) => {
     userId
   } = req.params;
   users = users.map(user =>
-    user.userId === +userId ?
-    {
+    user.userId === +userId ? {
       ...user,
       ...req.body,
       password: bcrypt.hashSync(req.body.password, 10),
@@ -413,12 +412,9 @@ app.patch('/posts/likedUsers/:id', (req, res) => {
   } = req.body;
   // console.log('id:', id, 'loginUserId:', loginUserId, 'isFullHeart:', isFullHeart);
   posts = posts.map(post =>
-    post.postId === +id ?
-    {
+    post.postId === +id ? {
       ...post,
-      likedUsers: isFullHeart ?
-        [...post.likedUsers, loginUserId] :
-        post.likedUsers.filter(elem => elem !== loginUserId),
+      likedUsers: isFullHeart ? [...post.likedUsers, loginUserId] : post.likedUsers.filter(elem => elem !== loginUserId),
     } :
     post
   );
@@ -469,8 +465,7 @@ app.patch('/post/write/:postId', (req, res) => {
     postId
   } = req.params;
   posts = posts.map(post =>
-    post.postId === +postId ?
-    {
+    post.postId === +postId ? {
       ...post,
       ...req.body,
     } :
