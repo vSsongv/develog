@@ -6,18 +6,13 @@ const createHeaderNode = async () => {
   node.innerHTML = `
   <header class="header">
     <h1 class="header--logo">develog</h1>
-
     <form class="search--form" action="">
       <input id="search" class="search--hidden" type="text">
       <label for="search" class="fas fa-search "></label>
     </form>
-
     <button class="button button--login hidden">Login</button>
-
     <button class="button button--posting hidden">Posting</button>
-
     <div class="user hidden"></div>
-
     <nav class="nav-box hidden">
       <ul>
         <li>내 블로그</li>
