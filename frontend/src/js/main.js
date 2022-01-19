@@ -1,13 +1,9 @@
 import * as postFunc from './showPost';
+import main from '../html/main.html';
 
 const mainNode = () => {
   const node = document.createElement('div');
-  node.innerHTML = `
-<section class="main-container">
-  <ul class="posts-container"></ul>
-  <button class="see-more see-more--main">더보기</button>
-  <span class="is-last-post hidden">더 이상 포스트가 없습니다.</span>
-</section>`;
+  node.innerHTML = main;
 
   // Event
   postFunc.mainPageInitialRender(node.querySelector('.posts-container'));

@@ -23,8 +23,8 @@ const createHeaderNode = async () => {
   };
   node.querySelector('.search--form label').onclick = async () => {
     // icon click으로 검색 시
-    if (!$searchInput.classList.contains('search--hidden') && searchInput.value.trim()) {
-      window.history.pushState(null, null, `/search?title=${searchInput.value.trim()}`);
+    if (!$searchInput.classList.contains('search--hidden') && $searchInput.value.trim()) {
+      window.history.pushState(null, null, `/search?title=${$searchInput.value.trim()}`);
     }
     // 초기화
     $searchInput.value = '';

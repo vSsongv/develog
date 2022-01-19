@@ -1,19 +1,9 @@
 import * as postFunc from './showPost';
+import develog from '../html/develog.html';
 
 const develogNode = () => {
   const node = document.createElement('div');
-  node.innerHTML = `
-     <section class="develog-container">
-       <span class="popular-posts__title">인기 포스트 TOP 3</span>
-       <i class="fas fa-heart"></i>
-       <ul class="popular-posts">
-       </ul>
-       <span class="all-posts__title">전체 포스트</span>
-       <ul class="all-posts">
-         <li class="post-sizer"></li>
-         <button class="see-more see-more--develog">더보기</button>
-         </ul>
-     </section>`;
+  node.innerHTML = develog;
 
   // Event
   const userId = window.location.pathname.split('/')[2];
