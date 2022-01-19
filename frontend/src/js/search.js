@@ -1,12 +1,9 @@
 import * as postFunc from './showPost';
+import search from '../html/search.html';
 
 const searchNode = () => {
   const node = document.createElement('div');
-  node.innerHTML = `
-    <section class="main-container">
-      <ul class="posts-container"></ul>
-      <span class="is-last-post">마지막 포스트입니다.</span>
-    </section>`;
+  node.innerHTML = search;
 
   const searchTitle = window.location.pathname.split('/')[2];
 
