@@ -47,6 +47,7 @@ const writeNode = () => {
           title: title.value,
           content: content.value,
         });
+        history.pushState({}, '', `/detail/${postId}`);
       } catch (e) {
         console.error(e);
       }
