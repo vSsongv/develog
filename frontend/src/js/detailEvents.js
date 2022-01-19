@@ -11,9 +11,7 @@ const setPostData = ({ post, user }) =>
 		<section class="detail">
 			<h1 class="detail__title">${post.title}</h1>
 			<div class="detail__info">
-				<button class="btn">
-					<img class="avatar-button avatar-button--size" src="${user.avatarUrl}" alt="avatar-button" />
-				</button>
+        <button class="avatar-button avatar-button--size" style="background-image:url('${user.avatarUrl}')"></button>
 				<span class="author">${user.nickname}</span>
 				<button class="${likePost ? 'none ' : ''}heart-btn btn">
 					<i class="far fa-heart"></i>
@@ -34,9 +32,7 @@ const setPostData = ({ post, user }) =>
 		<h2 class="comments-title">댓글</h2>
 		<section class="user-comment">
 			<div class="comment__user-info">
-				<button class="btn">
-					<img class="avatar-button avatar-button--size" src="${user.avatarUrl}"  alt="user-avatar" />
-				</button>
+        <button class="avatar-button avatar-button--size" style="background-image:url('${user.avatarUrl}')"></button>
 				<span class="user-id">${user.nickname}</span>
 			</div>
 			<div class="textarea-container">
@@ -51,9 +47,7 @@ const setPostData = ({ post, user }) =>
 		<section class="comments">
 			<div class="comment">
 				<div class="comment__user-info">
-					<button class="btn">
-						<img class="avatar-button avatar-button--size" src="${user.avatarUrl}" alt="user-avatar" />
-					</button>
+        <button class="avatar-button avatar-button--size" style="background-image:url('${user.avatarUrl}')"></button>
 					<span class="user-id">minsoftk</span>
 				</div>
 				<div class="comment__text">
