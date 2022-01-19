@@ -2,7 +2,7 @@
 
 .header {
   width: 100%;
-  padding: 0 rem(50px);
+  padding: 0 rem(200px);
   height: rem(150px);
   display: flex;
   align-items: center;
@@ -10,6 +10,7 @@
   &--logo {
     justify-items: start;
     margin-right: auto;
+    font-weight: 700;
     cursor: pointer;
     font-size: rem(40px);
     img {
