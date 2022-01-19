@@ -10,9 +10,12 @@ import Write from './write';
 // import writeUrlEvents from './js/write';
 // import { reduceRight } from '../../backend/data/posts';
 
-const routes = [
-  {
+const routes = [{
     path: '/',
+    component: Main,
+  },
+  {
+    path: '/callback',
     component: Main,
   },
   {
@@ -23,10 +26,22 @@ const routes = [
     path: '/develog',
     component: Develog,
   },
-  { path: '/detail', component: Detail },
-  { path: '/write', component: Write },
-  { path: '/mypage', component: Mypage },
-  { path: '/mypageEdit', component: MypageEdit },
+  {
+    path: '/detail',
+    component: Detail
+  },
+  {
+    path: '/write',
+    component: Write
+  },
+  {
+    path: '/mypage',
+    component: Mypage
+  },
+  {
+    path: '/mypageEdit',
+    component: MypageEdit
+  },
 
   {
     path: '/signin',

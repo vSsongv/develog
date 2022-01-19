@@ -20,12 +20,16 @@ const signupNode = () => {
   };
 
   node.querySelector('.double-check.emailVal').onclick = async () => {
-    const { data: isDuplicate } = await axios.get('/check/email/' + document.querySelector('#email').value);
+    const {
+      data: isDuplicate
+    } = await axios.get('/check/email/' + document.querySelector('#email').value);
     validate.isEmailDuplicate(isDuplicate.isDuplicate);
   };
 
   node.querySelector('.double-check.nicknameVal').onclick = async () => {
-    const { data: isDuplicate } = await axios.get('/check/nickname/' + document.querySelector('#nickname').value);
+    const {
+      data: isDuplicate
+    } = await axios.get('/check/nickname/' + document.querySelector('#nickname').value);
     validate.isNicknameDuplicate(isDuplicate.isDuplicate);
   };
 
@@ -33,9 +37,13 @@ const signupNode = () => {
     e.preventDefault();
 
     try {
-      const { data: maxId } = await axios.get('/users');
+      const {
+        data: maxId
+      } = await axios.get('/users/createId');
       const newId = maxId.maxId;
-      const { data: user } = await axios.post('/signup', {
+      const {
+        data: user
+      } = await axios.post('/signup', {
         userId: newId,
         email: document.querySelector('#email').value,
         password: document.querySelector('#password').value,
