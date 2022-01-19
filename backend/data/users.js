@@ -1,7 +1,6 @@
 const bcrypt = require('bcrypt');
 
-let users = [
-  {
+let users = [{
     userId: 1,
     email: 'test1@gmail.com',
     password: '123123',
@@ -21,7 +20,7 @@ let users = [
   },
   {
     userId: 3,
-    email: '1410ahs@naver.com',
+    email: '1410ahs@gmail.com',
     password: 'gustj123',
     nickname: 'User3',
     name: '안현서',
