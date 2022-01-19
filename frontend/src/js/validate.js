@@ -13,19 +13,16 @@ const activeSubmitButton = () => {
 
   if (document.querySelector('.double-check.nicknameVal')) {
     check =
-      document.querySelectorAll('.double-check').length -
-      [...document.querySelectorAll('.double-check')].filter(check => check.classList.contains('checking')).length;
+      document.querySelectorAll('.double-check').length - [...document.querySelectorAll('.double-check')].filter(check => check.classList.contains('checking')).length;
   }
 
   if (!complete && !check) {
     if (document.querySelector('.sign-buttons button:last-child'))
       document.querySelector('.sign-buttons button:last-child').removeAttribute('disabled');
     else document.querySelector('.button--editComplete').removeAttribute('disabled');
-  } else {
-    if (document.querySelector('.sign-buttons button:last-child'))
-      document.querySelector('.sign-buttons button:last-child').setAttribute('disabled', '');
-    else document.querySelector('.button--editComplete').setAttribute('disabled', '');
-  }
+  } else if (document.querySelector('.sign-buttons button:last-child'))
+    document.querySelector('.sign-buttons button:last-child').setAttribute('disabled', '');
+  else document.querySelector('.button--editComplete').setAttribute('disabled', '');
   console.log(complete, check);
 };
 

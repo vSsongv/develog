@@ -1,34 +1,12 @@
 import axios from 'axios';
+import header from '../html/header.html';
 
 const createHeaderNode = async () => {
   // const node = document.querySelector('.header');
   const node = document.createElement('div');
-  node.innerHTML = `
-  <header class="header">
-    <h1 class="header--logo">develog</h1>
+  node.innerHTML = header;
 
-    <form class="search--form" action="">
-      <input id="search" class="search--hidden" type="text">
-      <label for="search" class="fas fa-search "></label>
-    </form>
-
-    <button class="button button--login hidden">Login</button>
-
-    <button class="button button--posting hidden">Posting</button>
-
-    <div class="user hidden"></div>
-
-    <nav class="nav-box hidden">
-      <ul>
-        <li>내 블로그</li>
-        <li>마이페이지</li>
-        <li>로그아웃</li>
-      </ul>
-    </nav>
-  </header>
-  `;
-
-  const searchInput = node.querySelector('#search');
+  const $searchInput = node.querySelector('#search');
 
   // search form submit 방지용
   node.querySelector('.search--form').onsubmit = e => {
@@ -36,21 +14,21 @@ const createHeaderNode = async () => {
   };
 
   // enter로 검색 시
-  searchInput.onkeyup = async e => {
+  $searchInput.onkeyup = async e => {
     if (e.key !== 'Enter') return;
     // 초기화
-    history.pushState(null, null, `/search/${e.target.value.trim()}`);
-    searchInput.value = '';
-    searchInput.classList.toggle('search--hidden');
+    window.history.pushState(null, null, `/search?title=${e.target.value.trim()}`);
+    $searchInput.value = '';
+    $searchInput.classList.toggle('search--hidden');
   };
   node.querySelector('.search--form label').onclick = async () => {
     // icon click으로 검색 시
-    if (!searchInput.classList.contains('search--hidden') && searchInput.value.trim()) {
-      history.pushState(null, null, `/search/${searchInput.value.trim()}`);
+    if (!$searchInput.classList.contains('search--hidden') && searchInput.value.trim()) {
+      window.history.pushState(null, null, `/search?title=${searchInput.value.trim()}`);
     }
     // 초기화
-    searchInput.value = '';
-    searchInput.classList.toggle('search--hidden');
+    $searchInput.value = '';
+    $searchInput.classList.toggle('search--hidden');
   };
   node.querySelector('.header--logo').addEventListener('click', () => {
     window.history.pushState(null, null, '/');
@@ -82,7 +60,7 @@ const createHeaderNode = async () => {
       node.querySelector('.user').style.backgroundImage = `url('${user.avatarUrl}')`;
 
       node.querySelector('.user').onclick = () => {
-        node.querySelector('.nav-box').classList.toggle('hidden');
+        document.querySelector('.nav-box').classList.toggle('hidden');
       };
       node.querySelector('.nav-box ul li:last-child').onclick = async () => {
         const check = await axios.get('/logout');
