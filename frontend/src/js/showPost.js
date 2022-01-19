@@ -1,12 +1,12 @@
 import axios from 'axios';
-// import Masonry from 'masonry-layout';
+import Masonry from 'masonry-layout';
 
-const masonry = {
+const masonry = new Masonry(document.querySelector('.posts-container'), {
   itemSelector: '.main-post',
   columnWidth: '.main-post-sizer',
   percentPosition: true,
   gutter: 20,
-};
+});
 
 const setPosts = posts =>
   posts
@@ -14,7 +14,7 @@ const setPosts = posts =>
       post =>
         `<li class="main-post" data-post-id="${post.postId}">
     <div class="user-info" data-user-id="${post.userId}">
-      <img class="avatar-button avatar-button--main" src="${post.userProfile}" alt="avatar-button"/><a class="user-nickname">${post.nickname}</a>
+      < class="avatar-button avatar-button--main" src="${post.userProfile}" alt="avatar-button"/><a class="user-nickname">${post.nickname}</a>
     </div>
     <span class="main-post__title">${post.title}</span
     ><span class="main-post__desc">${post.content}</span>
@@ -33,7 +33,7 @@ const getMorePostsForMain = async () => {
       document.querySelector('.is-last-post').classList.remove('hidden');
     }
     document.querySelector('.posts-container').innerHTML += setPosts(data);
-    new Masonry('.posts-container', masonry);
+    masonry.layout();
   } catch (e) {
     console.error(e);
   }
@@ -42,9 +42,14 @@ const getMorePostsForMain = async () => {
 const mainPageInitialRender = async $postsContainer => {
   try {
     const { data } = await axios.get('/posts/init');
-    const addedHtml = await setPosts(data);
+    const addedHtml = setPosts(data);
     $postsContainer.innerHTML = `<li class="main-post-sizer"></li>` + addedHtml;
-    new Masonry('.posts-container', masonry);
+    document.querySelector('.posts-container').Masonry({
+      itemSelector: '.main-post',
+      columnWidth: '.main-post-sizer',
+      percentPosition: true,
+      gutter: 20,
+    });
   } catch (e) {
     console.error(e);
   }
@@ -94,6 +99,7 @@ const setUserPosts = async ($allPostContainer, userId) => {
     }
     const userPosts = addUserPosts(data);
     $allPostContainer.innerHTML += userPosts;
+
     new Masonry('.all-posts', {
       itemSelector: '.post',
       columnWidth: '.post-sizer',
@@ -113,7 +119,7 @@ const develogPageInitialRender = async ($populaPpostsContainer, $allPostContaine
 const showSearchedPosts = async (searchTitle, $postsContainer) => {
   try {
     const { data } = await axios.get(`/search?title=${searchTitle}`);
-    const addedHtml = await setPosts(data);
+    const addedHtml = setPosts(data);
     $postsContainer.innerHTML = `<li class="main-post-sizer"></li>` + addedHtml;
     new Masonry('.posts-container', masonry);
   } catch (e) {
