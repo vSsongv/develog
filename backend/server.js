@@ -272,21 +272,14 @@ app.get('/posts/:postid', (req, res) => {
   });
 });
 
-app.patch('/posts/likedUsers', (req, res) => {
-  const { postId, userId, isEmptyHeart } = req.body;
-  console.log(postId, userId, isEmptyHeart);
+app.get('/posts/likedUsers/:id', (req, res) => {
   // 로그인된 userId
-  const findPostLikedUsers = posts.find(post => post.postId === postId);
-  posts = posts.map(post =>
-    post.postId === +postId
-      ? {
-          ...post,
-          likedUsers: isEmptyHeart ? [...post.likedUsers, userId] : findPostLikedUsers.filter(id => id !== userId),
-        }
-      : post
-  );
-  // console.log(posts.find(post => post.userId === userId).likedUsers);
+  const { id } = req.params;
+  const findPostLikedUsers = posts.find(post => post.postId === +id);
+  res.send(findPostLikedUsers);
 });
+
+// 댓글 데이터
 
 app.delete('/posts/:id', (req, res) => {
   const { id } = req.params;

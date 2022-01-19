@@ -1,10 +1,9 @@
 import axios from 'axios';
 
-const setPostData = ({ post, user }) =>
+const setPostData = ({ post, user }, loginUserId, isclickedHeart) =>
   // 로그인 된 사용자의
   {
-    const likePost = false;
-    const loginUserId = 1;
+    let likePost = true;
     // const likePost = post.likedUsers.find(id => )
     // console.log(post.title, user);
     return `
@@ -15,14 +14,14 @@ const setPostData = ({ post, user }) =>
 					<img class="avatar-button avatar-button--size" src="${user.avatarUrl}" alt="avatar-button" />
 				</button>
 				<span class="author">${user.nickname}</span>
-				<button class="${likePost ? 'none ' : ''}heart-btn btn">
+				<button class="${isclickedHeart ? 'none ' : ''}heart-btn btn">
 					<i class="far fa-heart"></i>
 				</button>
-				<button class="${likePost ? '' : 'none '}fullheart heart-btn btn">
+				<button class="${isclickedHeart ? '' : 'none '}fullheart heart-btn btn">
 					<i class="fas fa-heart"></i>
 				</button>
 				<button class="${loginUserId === post.userId ? '' : 'none '}edit pencil-btn btn">
-					<i class="bx bx-pencil"></i>
+					<i class="far fa-edit"></i>
 				</button>
 				<button class="${loginUserId === post.userId ? '' : 'none '}edit trash-btn btn">
 					<i class="far fa-trash-alt"></i>
@@ -59,10 +58,10 @@ const setPostData = ({ post, user }) =>
 				<div class="comment__text">
 					<span> test </span>
 				</div>
-				<button class="none edit pencil-btn btn">
-					<i class="bx bx-pencil"></i>
+				<button class="${loginUserId === post.userId ? '' : 'none '}edit pencil-btn btn">
+					<i class="far fa-edit"></i>
 				</button>
-				<button class="none edit trash-btn btn">
+				<button class="${loginUserId === post.userId ? '' : 'none '}edit trash-btn btn">
 					<i class="far fa-trash-alt"></i>
 				</button>
 			</div>
@@ -71,15 +70,27 @@ const setPostData = ({ post, user }) =>
   };
 
 const detailEvents = async $detailNode => {
-  const parseUrlUserId = window.location.pathname;
+  const parseUrlPostId = window.location.pathname;
   let postUserId;
+  let isEmptyHeart;
+  let loginUser;
   try {
-    let postUserId = 0;
+    postUserId = 0;
     const url = window.location.pathname.split('/');
-    const { data: user } = await axios.get('/checkAuth');
-    const postData = await axios.get(`/posts/${parseUrlUserId[parseUrlUserId.length - 1]}`);
+    const {
+      data: { userId: loginUserId },
+    } = await axios.get('/checkAuth');
+    loginUser = loginUserId;
+
+    const postData = await axios.get(`/posts/${parseUrlPostId[parseUrlPostId.length - 1]}`);
+    const commentData = await axios.get(`/comments/${parseUrlPostId[parseUrlPostId.length - 1]}`);
+    const {
+      data: { likedUsers },
+    } = await axios.get(`/posts/likedUsers/${parseUrlPostId[parseUrlPostId.length - 1]}`);
+
+    const isclickedHeart = loginUserId ? likedUsers.find(elem => elem === loginUserId) : false;
     postUserId = postData.data.post.userId;
-    $detailNode.innerHTML = setPostData(postData.data);
+    $detailNode.innerHTML = setPostData(postData.data, loginUserId, isclickedHeart);
 
     // textarea evetns
     $detailNode.querySelector('.textarea').addEventListener('focus', () => {
@@ -104,16 +115,20 @@ const detailEvents = async $detailNode => {
 
     $detailNode.querySelector('.detail__info').addEventListener('click', async e => {
       if (e.target.classList.contains('detail__info') || e.target.classList.contains('author')) return;
-      // move to post's user page
       if (e.target.classList.contains('avatar-button')) window.history.pushState('user', '', `/develog/${postUserId}`);
       if (e.target.classList.contains('fa-heart')) {
-        if (!user) alert('좋아요를 누르시려면 로그인이 필요합니다.');
+        if (!loginUser) alert('좋아요를 누르시려면 로그인이 필요합니다.');
         else {
-          const isEmptyHeart = e.target.classList.contains('far');
-          axios.patch('/posts/likedUsers', { userId: user.userId, isEmptyHeart });
-          $heartBtns.forEach(elem => elem.classList.toggle('none'));
+          isEmptyHeart = e.target.classList.contains('far');
+          // const result = await axios.patch('/posts/likedUsers', { userId: user.userId, isEmptyHeart });
 
-          await axios.patch('/posts/likedUsers', { postId: url[url.length - 1], userId: user.userId, isEmptyHeart });
+          console.log(document.querySelectorAll('.heart-btn'));
+          document.querySelectorAll('.heart-btn').forEach(elem => {
+            console.log(elem);
+            elem.classList.toggle('none');
+          });
+
+          // await axios.patch('/posts/likedUsers', { postId: url[url.length - 1], userId: user.userId, isEmptyHeart });
         }
 
         // 로그인한 사용자의 id로 patch
