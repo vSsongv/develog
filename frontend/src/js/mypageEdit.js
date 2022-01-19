@@ -1,73 +1,10 @@
 import validate from './validate.js';
 import axios from 'axios';
+import mypageEdit from '../html/mypageEdit.html';
 
 const mypageEditNode = () => {
   const node = document.createElement('div');
-  node.innerHTML = `
-<div class="container">
-  <form class="image--form" method="post" enctype="multipart/form-data">
-  </form>
-
-  <form class="mypageEdit" action="/upload" enctype="multipart/form-data">
-  <label class="label--avatar" for="selectImage">
-    <div class="mypageEdit--avatar">
-      <i class='plusIcon bx bx-plus-circle'></i>
-    </div>
-  </label>
-  <input type="file" class="a11yHidden " name="selectImage" id="selectImage" accept="image/*">
-    <fieldset class="mypageEdit--form">
-      <legend class="a11yHidden">user profile edit form</legend>
-      <div class="input-box">
-        <label for="email">email</label>
-        <input id="email" class="input-box__input" type="email" disabled>
-        <i class="complete fas fa-check-circle"></i>
-        <i class="error hidden fas fa-times-circle"></i>
-        <span class="error-message hidden">이메일 형식에 맞게 입력하세요.</span>
-      </div>
-      <div class="input-box">
-        <label for="password">password</label>
-        <input id="password" class="input-box__input" type="password">
-        <i class="complete passwordVal hidden fas fa-check-circle"></i>
-        <i class="error passwordVal hidden fas fa-times-circle"></i>
-        <span class="error-message passwordVal hidden">6~12자리의 비밀번호를 입력하세요.</span>
-      </div>
-      <div class="input-box">
-        <label for="confirmPassword">confirm password</label>
-        <input id="confirmPassword" class="input-box__input" type="password">
-        <i class="complete passwordConfirmVal hidden fas fa-check-circle"></i>
-        <i class="error passwordConfirmVal hidden fas fa-times-circle"></i>
-        <span class="error-message passwordConfirmVal hidden">비밀번호를 확인하세요.</span>
-      </div>
-      <div class="input-box">
-        <label for="name">name</label>
-        <input id="name" class="input-box__input" type="text">
-        <i class="complete nameVal fas fa-check-circle"></i>
-        <i class="error nameVal hidden fas fa-times-circle"></i>
-        <span class="error-message nameVal hidden">이름을 입력하세요.</span>
-      </div>
-      <div class="input-box">
-        <label for="nickname">nickname</label>
-        <input id="nickname" class="input-box__input" type="text">
-        <button type="button" class="button double-check nicknameVal">중복확인</button>
-        <i class="complete nicknameVal fas fa-check-circle"></i>
-        <i class="error nicknameVal hidden fas fa-times-circle"></i>
-        <span class="error-message nicknameVal hidden">닉네임을 한 글자 이상 입력해주세요.</span>
-        <span class="check-message nicknameVal hidden">이미 사용 중인 닉네임입니다.</span>
-      </div>
-      <div class="input-box">
-        <label for="phone">phone</label>
-        <input id="phone" class="input-box__input" type="text">
-        <i class="complete phoneVal fas fa-check-circle"></i>
-        <i class="error phoneVal hidden fas fa-times-circle"></i>
-        <span class="error-message phoneVal hidden">올바른 핸드폰 번호를 입력하세요.</span>
-      </div>
-      <div class="button-group">
-        <button type="button" class="button button--back">돌아가기</button>
-        <button type="button" class="button button--editComplete" disabled >수정완료</button>
-      </div>
-    </fieldset>
-  </form>
-</div>`;
+  node.innerHTML = mypageEdit;
 
   const userProfileSet = async avatar => {
     try {
@@ -94,6 +31,19 @@ const mypageEditNode = () => {
   const $editBtn = node.querySelector('.button--editComplete');
   const $nickName = node.querySelector('#nickname');
   const $doubleCheckBtn = node.querySelector('.double-check');
+  const $doubleCheckMsg = node.querySelector('.doubleCheck-message');
+  const $checkMsg = node.querySelector('.check-message');
+  const $errorMsg = node.querySelector('.error-message.nicknameVal');
+
+  const showDoubleCheckMsg = () => {
+    if (
+      $doubleCheckBtn.classList.contains('checking') ||
+      !$checkMsg.classList.contains('hidden') ||
+      !$errorMsg.classList.contains('hidden')
+    )
+      $doubleCheckMsg.classList.add('hidden');
+    else $doubleCheckMsg.classList.remove('hidden');
+  };
 
   node.querySelector('.mypageEdit--form').oninput = e => {
     if (e.target === document.querySelector('#password'))
@@ -103,18 +53,20 @@ const mypageEditNode = () => {
     if (e.target === document.querySelector('#name')) validate.nameValidate(e.target.value);
     if (e.target === document.querySelector('#nickname')) validate.nicknameValidate(e.target.value);
     if (e.target === document.querySelector('#phone')) validate.phoneValidate(e.target.value);
+    showDoubleCheckMsg();
   };
 
   $doubleCheckBtn.onclick = async () => {
     const { data: user } = await axios.get('/checkAuth');
     if (user.nickname === $nickName.value) {
-      document.querySelector('.check-message').classList.add('hidden');
+      $checkMsg.classList.add('hidden');
       $doubleCheckBtn.classList.add('checking');
       validate.activeSubmitButton();
     } else {
       const { data: isDuplicate } = await axios.get('/check/nickname/' + $nickName.value);
       validate.isNicknameDuplicate(isDuplicate.isDuplicate);
     }
+    showDoubleCheckMsg();
   };
 
   const reader = new FileReader();

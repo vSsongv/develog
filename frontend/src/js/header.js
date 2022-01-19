@@ -50,7 +50,7 @@ const createHeaderNode = async () => {
       });
 
       node.querySelector('.nav-box ul li:first-child').addEventListener('click', () => {
-        window.history.pushState({}, '', '/develog'); // 유저아이디 있어야함
+        window.history.pushState({}, '', `/develog/${user.userId}`); // 유저아이디 있어야함
       });
 
       node.querySelector('.nav-box ul li:nth-child(2)').addEventListener('click', () => {

@@ -10,7 +10,7 @@ const multer = require('multer');
 let users = require('./data/users');
 let posts = require('./data/posts');
 
-let leftPostNum = posts.length - 10;
+let leftPostNum = posts.length - 12;
 let postIndex = 9;
 let leftUserPostNum = 0;
 let userPostIndex = 0;
@@ -194,9 +194,9 @@ app.post('/signin', (req, res) => {
       error: '사용자 아이디 또는 패스워드가 전달되지 않았습니다.',
     });
   }
-
   const user = users.find(user => email === user.email && bcrypt.compareSync(password, user.password));
 
+  console.log('user', user);
   if (!user) {
     return res.status(401).send({
       error: '등록되지 않은 사용자입니다.',
@@ -278,17 +278,17 @@ app.get('/search?title=:searchInput', (req, res) => {
 
 // 메인화면 초기 렌더링
 app.get('/posts/init', (req, res) => {
-  leftPostNum = posts.length - 10;
-  postIndex = 9;
-  res.send(makeSplitedPosts(posts, 0, 10));
+  leftPostNum = posts.length - 12;
+  postIndex = 11;
+  res.send(makeSplitedPosts(posts, 0, 12));
 });
 
 // 메인화면 더보기 버튼 클릭
 app.get('/posts', (req, res) => {
-  if (leftPostNum >= 10) {
-    leftPostNum -= 10;
-    res.send(makeSplitedPosts(posts, postIndex, 10 + postIndex));
-    postIndex += 10;
+  if (leftPostNum >= 12) {
+    leftPostNum -= 12;
+    res.send(makeSplitedPosts(posts, postIndex, 12 + postIndex));
+    postIndex += 12;
   } else {
     res.send(makeSplitedPosts(posts, postIndex, leftPostNum + postIndex));
     leftPostNum = 0;
@@ -341,30 +341,18 @@ app.patch('/editUser/:userId', (req, res) => {
     userId
   } = req.params;
   users = users.map(user =>
-    user.userId === +userId ? {
+    user.userId === +userId ?
+    {
       ...user,
       ...req.body,
+      password: bcrypt.hashSync(req.body.password, 10),
     } :
     user
   );
-  res.sendStatus();
+  res.sendStatus(204);
 });
 
-app.get('/src/assets/:imageUrl', (req, res) => {
-  const img = req.params.imageUrl;
-  res.sendFile(path.join(__dirname, `./src/assets/${img}`));
-});
-
-// avatar 불러오기
-app.get('/avatar/:userId', (req, res) => {
-  const {
-    userId
-  } = req.params;
-  const user = users.find(user => user.userId === +userId);
-  res.sendFile(path.join(__dirname, `${user.avatarUrl}`));
-});
-
-app.post('/checkPassword/:userId', async (req, res) => {
+app.post('/checkPassword/:userId', (req, res) => {
   const {
     userId
   } = req.params;
@@ -375,7 +363,7 @@ app.post('/checkPassword/:userId', async (req, res) => {
 });
 
 // 유저 탈퇴
-app.post('/delete/user/:userId', async (req, res) => {
+app.post('/delete/user/:userId', (req, res) => {
   const {
     userId
   } = req.params;
@@ -391,46 +379,104 @@ app.post('/delete/user/:userId', async (req, res) => {
 });
 
 // detail page
-app.get('/posts/:postid', (req, res) => {
+app.get('/posts/:id', (req, res) => {
   const {
-    postid
+    id
   } = req.params;
-  const post = posts.find(elem => elem.postId === +postid);
-  const user = users.find(user => user.userId === +post.userId);
+  const post = posts.find(post => post.postId === +id);
+  const user = users.find(user => user.userId === post.userId);
+  // console.log('post : ', post, 'user :', user);
   res.send({
     post,
     user,
   });
 });
 
-app.get('/src/assets/:imageUrl', (req, res) => {
-  const img = req.params.imageUrl;
-  // console.log('img: ', img);
-  res.sendFile(path.join(__dirname, `./src/assets/${img}`));
+app.get('/posts/likedUsers/:id', (req, res) => {
+  // 로그인된 userId
+  const {
+    id
+  } = req.params;
+  const findPostLikedUsers = posts.find(post => post.postId === +id);
+  // console.log(findPostLikedUsers);
+  res.send(findPostLikedUsers);
 });
 
-app.patch('/posts/likedUsers', (req, res) => {
+app.patch('/posts/likedUsers/:id', (req, res) => {
+  // 로그인된 userId
   const {
-    userId,
-    isEmptyHeart
+    id
+  } = req.params;
+  const {
+    loginUserId,
+    isFullHeart
   } = req.body;
-  // console.log(userId, isEmptyHeart);
+  // console.log('id:', id, 'loginUserId:', loginUserId, 'isFullHeart:', isFullHeart);
   posts = posts.map(post =>
-    post.userId === userId ? {
+    post.postId === +id ?
+    {
       ...post,
-      likedUsers: isEmptyHeart ? [...post.likedUsers, userId] : post.likedUsers.filter(id => id !== userId),
+      likedUsers: isFullHeart ?
+        [...post.likedUsers, loginUserId] :
+        post.likedUsers.filter(elem => elem !== loginUserId),
     } :
     post
   );
-  // console.log(posts.find(post => post.userId === userId).likedUsers);
 });
+
+// 댓글 데이터
 
 app.delete('/posts/:id', (req, res) => {
   const {
     id
   } = req.params;
   // console.log('postid: ', id);
-  posts = posts.filter(post => post.postId !== +postid);
+  posts = posts.filter(post => post.postId !== +id);
+});
+
+// 포스트작성
+app.post('/post/write', (req, res) => {
+  const newPostId = Math.max(...posts.map(post => +post.postId)) + 1;
+  posts = [{
+      ...req.body,
+      postId: newPostId,
+      createAt: new Date(),
+      likedUsers: [],
+      comments: [],
+    },
+    ...posts,
+  ];
+  res.send({
+    newPostId
+  });
+});
+
+app.post('/checkPost/:postId', (req, res) => {
+  const {
+    postId
+  } = req.params;
+  console.log(postId);
+  const post = posts.find(post => post.postId === +postId);
+  console.log(post);
+  // 해당 포스트가 존재하지 않거나, 해당 유저의 페이지가 아닌경우
+  if (!post || !(post.userId === req.body.userId)) res.sendStatus(400);
+  else res.send(post);
+});
+
+// 포스트 수정
+app.patch('/post/write/:postId', (req, res) => {
+  const {
+    postId
+  } = req.params;
+  posts = posts.map(post =>
+    post.postId === +postId ?
+    {
+      ...post,
+      ...req.body,
+    } :
+    post
+  );
+  res.send(204);
 });
 
 app.get('*', (req, res) => {

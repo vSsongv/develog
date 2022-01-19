@@ -1,4 +1,4 @@
-import * as postFunc from './showPost';
+import postFunc from './showPost';
 import main from '../html/main.html';
 
 const mainNode = () => {
@@ -7,6 +7,7 @@ const mainNode = () => {
   window.history.pushState(null, null, '/');
   console.log('test');
   // Event
+
   postFunc.mainPageInitialRender(node.querySelector('.posts-container'));
 
   node.querySelector('.see-more').addEventListener('click', postFunc.getMorePostsForMain);
