@@ -1,4 +1,4 @@
-import * as postFunc from './showPost';
+import postFunc from './showPost';
 import develog from '../html/develog.html';
 
 const develogNode = () => {

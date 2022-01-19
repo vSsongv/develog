@@ -1,4 +1,4 @@
-import * as postFunc from './showPost';
+import postFunc from './showPost';
 import main from '../html/main.html';
 
 const mainNode = () => {
@@ -6,6 +6,7 @@ const mainNode = () => {
   node.innerHTML = main;
 
   // Event
+
   postFunc.mainPageInitialRender(node.querySelector('.posts-container'));
 
   node.querySelector('.see-more').addEventListener('click', postFunc.getMorePostsForMain);
