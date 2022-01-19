@@ -261,11 +261,11 @@ app.post('/delete/user/:userId', (req, res) => {
 });
 
 // detail page
-app.get('/posts/:postid', (req, res) => {
-  const { postid } = req.params;
-  const post = posts.find(elem => elem.postId === +postid);
-  const user = users.find(user => user.userId === +post.userId);
-  console.log('post : ', post, 'user :', user);
+app.get('/posts/:id', (req, res) => {
+  const { id } = req.params;
+  const post = posts.find(post => post.postId === +id);
+  const user = users.find(user => user.userId === post.userId);
+  // console.log('post : ', post, 'user :', user);
   res.send({
     post,
     user,
@@ -276,7 +276,25 @@ app.get('/posts/likedUsers/:id', (req, res) => {
   // 로그인된 userId
   const { id } = req.params;
   const findPostLikedUsers = posts.find(post => post.postId === +id);
+  // console.log(findPostLikedUsers);
   res.send(findPostLikedUsers);
+});
+
+app.patch('/posts/likedUsers/:id', (req, res) => {
+  // 로그인된 userId
+  const { id } = req.params;
+  const { loginUserId, isFullHeart } = req.body;
+  // console.log('id:', id, 'loginUserId:', loginUserId, 'isFullHeart:', isFullHeart);
+  posts = posts.map(post =>
+    post.postId === +id
+      ? {
+          ...post,
+          likedUsers: isFullHeart
+            ? [...post.likedUsers, loginUserId]
+            : post.likedUsers.filter(elem => elem !== loginUserId),
+        }
+      : post
+  );
 });
 
 // 댓글 데이터
