@@ -1,11 +1,12 @@
 import Main from './main';
 import Signin from './signin';
-
 import Mypage from './mypage';
 import MypageEdit from './mypageEdit';
 import Signup from './signup';
 import Develog from './develog';
 import Search from './search';
+import Detail from './detail';
+import Write from './write';
 // import writeUrlEvents from './js/write';
 // import { reduceRight } from '../../backend/data/posts';
 
@@ -22,9 +23,8 @@ const routes = [
     path: '/develog',
     component: Develog,
   },
-  // { path: '/detail', component: Detail },
-  { path: '/signin', component: Signin },
-  // { path: '/signup', component: Signup },
+  { path: '/detail', component: Detail },
+  { path: '/write', component: Write },
   { path: '/mypage', component: Mypage },
   { path: '/mypageEdit', component: MypageEdit },
 
@@ -36,7 +36,7 @@ const routes = [
     path: '/signup',
     component: Signup,
   },
-  // { path: '/write', component: Write },
+
   // { path: '**', component: NotFound },
 ];
 

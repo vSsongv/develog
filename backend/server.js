@@ -264,6 +264,7 @@ app.get('/posts/:postid', (req, res) => {
   const { postid } = req.params;
   const post = posts.find(elem => elem.postId === +postid);
   const user = users.find(user => user.userId === +post.userId);
+  console.log('post : ', post, 'user :', user);
   res.send({
     post,
     user,
@@ -271,13 +272,15 @@ app.get('/posts/:postid', (req, res) => {
 });
 
 app.patch('/posts/likedUsers', (req, res) => {
-  const { userId, isEmptyHeart } = req.body;
-  // console.log(userId, isEmptyHeart);
+  const { postId, userId, isEmptyHeart } = req.body;
+  console.log(postId, userId, isEmptyHeart);
+  // 로그인된 userId
+  const findPostLikedUsers = posts.find(post => post.postId === postId);
   posts = posts.map(post =>
-    post.userId === userId
+    post.postId === +postId
       ? {
           ...post,
-          likedUsers: isEmptyHeart ? [...post.likedUsers, userId] : post.likedUsers.filter(id => id !== userId),
+          likedUsers: isEmptyHeart ? [...post.likedUsers, userId] : findPostLikedUsers.filter(id => id !== userId),
         }
       : post
   );
