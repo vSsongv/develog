@@ -1,37 +1,42 @@
 import Main from './main';
 import Signin from './signin';
+import Mypage from './mypage';
+import MypageEdit from './mypageEdit';
 import Signup from './signup';
 import Develog from './develog';
-// import mypage from './js/mypage';
-// import mypageEdit from './js/mypageEdit';
 import Search from './search';
+import Detail from './detail';
+import Write from './write';
 // import writeUrlEvents from './js/write';
 // import { reduceRight } from '../../backend/data/posts';
 
-const routes = [{
+const routes = [
+  {
     path: '/',
-    component: Main
+    component: Main,
   },
   {
     path: '/search',
-    component: Search
+    component: Search,
   },
   {
     path: '/develog',
-    component: Develog
+    component: Develog,
   },
-  // { path: '/detail', component: Detail },
+  { path: '/detail', component: Detail },
+  { path: '/write', component: Write },
+  { path: '/mypage', component: Mypage },
+  { path: '/mypageEdit', component: MypageEdit },
+
   {
     path: '/signin',
-    component: Signin
+    component: Signin,
   },
   {
     path: '/signup',
-    component: Signup
+    component: Signup,
   },
-  // { path: '/mypage', component: Mypage },
-  // { path: '/mypageEdit', component: MypageEdit },
-  // { path: '/write', component: Write },
+
   // { path: '**', component: NotFound },
 ];
 

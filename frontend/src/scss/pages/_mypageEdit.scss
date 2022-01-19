@@ -48,7 +48,8 @@
   }
 
   .input-box {
-    width: 100%;
+    width: rem(60%);
+    min-width: rem(350px);
   }
 }
 .button-group {
