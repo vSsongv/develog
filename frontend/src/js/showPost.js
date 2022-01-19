@@ -43,9 +43,10 @@ const getMorePostsForMain = async () => {
 const mainPageInitialRender = async $postsContainer => {
   try {
     const { data } = await axios.get('/posts/init');
-    const addedHtml = await setPosts(data);
+    const addedHtml = setPosts(data);
     $postsContainer.innerHTML = `<li class="main-post-sizer"></li>` + addedHtml;
-    new Masonry('.posts-container', masonry);
+    // masonry($postsContainer, document.querySelector('.main-post'), document.querySelector('.main-post-sizer'));
+    new Masonry($postsContainer, masonry);
   } catch (e) {
     console.error(e);
   }
@@ -95,31 +96,31 @@ const setUserPosts = async ($allPostContainer, userId) => {
     }
     const userPosts = addUserPosts(data);
     $allPostContainer.innerHTML += userPosts;
-    new Masonry('.all-posts', {
-      itemSelector: '.post',
-      columnWidth: '.post-sizer',
-      percentPosition: true,
-      gutter: 40,
-    });
   } catch (e) {
     console.error(e);
   }
 };
 
-const develogPageInitialRender = async ($populaPpostsContainer, $allPostContainer, userId) => {
-  await setPopularPosts($populaPpostsContainer, userId);
-  await setUserPosts($allPostContainer, userId);
+const develogPageInitialRender = ($populaPpostsContainer, $allPostContainer, userId) => {
+  setPopularPosts($populaPpostsContainer, userId);
+  setUserPosts($allPostContainer, userId);
 };
 
 const showSearchedPosts = async (searchTitle, $postsContainer) => {
   try {
     const { data } = await axios.get(`/search?title=${searchTitle}`);
-    const addedHtml = await setPosts(data);
+    const addedHtml = setPosts(data);
     $postsContainer.innerHTML = `<li class="main-post-sizer"></li>` + addedHtml;
-    new Masonry('.posts-container', masonry);
+    new Masonry($postsContainer, masonry);
   } catch (e) {
     console.error(e);
   }
 };
 
-export { mainPageInitialRender, getMorePostsForMain, develogPageInitialRender, setUserPosts, showSearchedPosts };
+export default {
+  mainPageInitialRender,
+  getMorePostsForMain,
+  develogPageInitialRender,
+  setUserPosts,
+  showSearchedPosts,
+};
