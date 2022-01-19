@@ -16,7 +16,6 @@
   border-radius: rem(5px);
   word-break: break-all;
   border: 2px solid $gray;
-  grid-area: post;
 
   &__title {
     display: block;
@@ -65,7 +64,8 @@
   justify-content: center;
 
   .post {
-    width: rem(250%);
+    padding: rem(20px);
+    width: rem(300%);
     margin: rem(5%) rem(20px) 0;
   }
 }
@@ -76,15 +76,13 @@
 
 .all-posts {
   width: 100%;
-  display: flex;
-  flex-wrap: wrap;
-  .post-sizer,
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px 30px;
   .post {
-    margin: 0 rem(15px) rem(25px) rem(30px);
-    @media all and (max-width: 1950px) {
-      margin: 0 rem(10px) rem(25px) rem(10px);
-    }
-    width: 22%;
+    padding: rem(20px) rem(25px);
+    margin: rem(15px) auto;
+    width: 100%;
   }
   &__title {
     display: block;
