@@ -48,6 +48,11 @@
       font-size: rem(20px);
     }
 
+    .date::before {
+      font-size: rem(20px);
+      content: ' - ';
+    }
+
     i {
       font-size: rem(25px);
     }
@@ -107,6 +112,7 @@
     border: none;
     overflow: hidden;
     position: relative;
+    border-radius: rem(5px);
 
     font-size: rem(20px);
     margin-right: rem(30px);
@@ -159,8 +165,9 @@
 //  comment part
 .comment {
   margin-bottom: 0;
-  border: 1px solid black;
-  margin: 0 0 rem(100px) 0;
+  border: 1px solid rgba(0, 0, 0, 0.6);
+  margin: 0 0 rem(20px) 0;
+  border-radius: rem(10px);
 
   display: flex;
   align-items: center;
@@ -191,7 +198,7 @@
 
   &__text {
     display: block;
-    width: 100%;
+    width: 60%;
     height: 100%;
     box-sizing: content-box;
 
@@ -215,6 +222,11 @@
       padding: 0 rem(20px);
     }
   }
+  .date {
+    padding: rem(10px);
+    white-space: nowrap;
+  }
+
   .edit {
     position: absolute;
     right: rem(10px);
