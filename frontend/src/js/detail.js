@@ -1,5 +1,3 @@
-import axios from 'axios';
-import header from './header';
 import detail from '../html/detail.html';
 import detailEvents from './detailEvents';
 // console.log(detail);
