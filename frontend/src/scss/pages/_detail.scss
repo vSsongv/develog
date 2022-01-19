@@ -43,11 +43,6 @@
       margin-right: rem(15px);
     }
 
-    .avatar-button {
-      width: rem(60px);
-      height: rem(60px);
-    }
-
     // 동적데이터
     .author {
       font-size: rem(20px);
@@ -78,6 +73,13 @@
     // word-break: break-all;
     white-space: pre-wrap;
   }
+}
+.avatar-button {
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: 50% 50%;
+  width: rem(60px);
+  height: rem(60px);
 }
 
 .comments-title {
