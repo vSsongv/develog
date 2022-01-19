@@ -91,9 +91,9 @@ app.post('/signin', (req, res) => {
       error: '사용자 아이디 또는 패스워드가 전달되지 않았습니다.',
     });
   }
-
   const user = users.find(user => email === user.email && bcrypt.compareSync(password, user.password));
 
+  console.log('user', user);
   if (!user) {
     return res.status(401).send({
       error: '등록되지 않은 사용자입니다.',
@@ -231,13 +231,14 @@ app.patch('/editUser/:userId', (req, res) => {
       ? {
           ...user,
           ...req.body,
+          password: bcrypt.hashSync(req.body.password, 10),
         }
       : user
   );
-  res.sendStatus(200);
+  res.sendStatus(204);
 });
 
-app.post('/checkPassword/:userId', async (req, res) => {
+app.post('/checkPassword/:userId', (req, res) => {
   const { userId } = req.params;
   const user = users.find(user => user.userId === +userId);
 
@@ -246,7 +247,7 @@ app.post('/checkPassword/:userId', async (req, res) => {
 });
 
 // 유저 탈퇴
-app.post('/delete/user/:userId', async (req, res) => {
+app.post('/delete/user/:userId', (req, res) => {
   const { userId } = req.params;
   const user = users.find(user => user.userId === +userId);
 
@@ -287,7 +288,7 @@ app.patch('/posts/likedUsers', (req, res) => {
 app.delete('/posts/:id', (req, res) => {
   const { id } = req.params;
   // console.log('postid: ', id);
-  posts = posts.filter(post => post.postId !== +postid);
+  posts = posts.filter(post => post.postId !== +id);
 });
 
 app.get('*', (req, res) => {

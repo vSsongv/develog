@@ -22,7 +22,6 @@ const mypageNode = () => {
   })();
 
   let checkPasswordCnt = 0;
-  // userProfileSet();
 
   const withdrawalToggle = () => {
     document.querySelector('.cover').classList.toggle('hidden');
@@ -41,13 +40,14 @@ const mypageNode = () => {
 
   const $error = node.querySelectorAll('.error-message');
 
-  node.querySelector('.profileEdit-confirm').onclick = async restApi => {
+  node.querySelector('.profileEdit').onsubmit = async e => {
+    e.preventDefault();
+
     try {
       const { data: user } = await axios.get('/checkAuth');
       const data = await axios.post(`/checkPassword/${user.userId}`, {
         password: document.querySelector('.profileEdit--password').value,
       });
-      // console.log(data);
       if (data.status === 204) window.history.pushState({ data: 'user' }, '', '/mypageEdit');
       else if (data.data === 'failed') {
         checkPasswordCnt += 1;
@@ -64,17 +64,19 @@ const mypageNode = () => {
     }
   };
 
-  node.querySelector('.withdrawal-confirm').onclick = async restApi => {
+  node.querySelector('.withdrawal').onsubmit = async e => {
+    e.preventDefault();
+
     try {
       const { data: user } = await axios.get('/checkAuth');
       const data = await axios.post(`/delete/user/${user.userId}`, {
-        password: node.querySelector('.withdrawal--password').value,
+        password: document.querySelector('.withdrawal--password').value,
       });
-      // console.log(data);
       if (data.status === 204) window.history.pushState({}, '', '/');
       else if (data.data === 'failed') {
         checkPasswordCnt += 1;
         if (checkPasswordCnt < 4) {
+          console.log($error);
           $error[0].textContent = `비밀번호가 일치하지 않습니다. 4회 이상 틀리면 로그아웃됩니다. (${checkPasswordCnt}/4)`;
         } else {
           const check = await axios.get('/logout');
