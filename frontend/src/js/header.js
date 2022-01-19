@@ -39,9 +39,7 @@ const createHeaderNode = async () => {
   });
 
   try {
-    const {
-      data: user
-    } = await axios.get('/checkAuth');
+    const { data: user } = await axios.get('/checkAuth');
     if (user) {
       node.querySelector('.user').classList.remove('hidden');
       node.querySelector('.button--posting').classList.remove('hidden');
