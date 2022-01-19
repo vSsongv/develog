@@ -1,12 +1,13 @@
 import axios from 'axios';
 import Masonry from 'masonry-layout';
 
-const masonry = new Masonry(document.querySelector('.posts-container'), {
-  itemSelector: '.main-post',
-  columnWidth: '.main-post-sizer',
-  percentPosition: true,
-  gutter: 20,
-});
+const masonry = (container, item, columnWidth) =>
+  new Masonry(container, {
+    itemSelector: item,
+    columnWidth,
+    percentPosition: true,
+    gutter: 20,
+  });
 
 const setPosts = posts =>
   posts
@@ -33,7 +34,12 @@ const getMorePostsForMain = async () => {
       document.querySelector('.is-last-post').classList.remove('hidden');
     }
     document.querySelector('.posts-container').innerHTML += setPosts(data);
-    masonry.layout();
+    // new Masonry(document.querySelector('.posts-container'), masonry);
+    masonry(
+      document.querySelector('.posts-container'),
+      document.querySelector('.main-post'),
+      document.querySelector('.main-post-sizer')
+    );
   } catch (e) {
     console.error(e);
   }
@@ -44,12 +50,8 @@ const mainPageInitialRender = async $postsContainer => {
     const { data } = await axios.get('/posts/init');
     const addedHtml = setPosts(data);
     $postsContainer.innerHTML = `<li class="main-post-sizer"></li>` + addedHtml;
-    document.querySelector('.posts-container').Masonry({
-      itemSelector: '.main-post',
-      columnWidth: '.main-post-sizer',
-      percentPosition: true,
-      gutter: 20,
-    });
+    // new Masonry($postsContainer, masonry);
+    masonry($postsContainer, document.querySelector('.main-post'), document.querySelector('.main-post-sizer'));
   } catch (e) {
     console.error(e);
   }
@@ -89,6 +91,7 @@ const addUserPosts = posts =>
 const setUserPosts = async ($allPostContainer, userId) => {
   try {
     const { data } = await axios.get(`/develog/${userId}/posts`);
+    console.log(data.length);
 
     if (data.length === 0) {
       document.querySelector('.see-more').classList.add('hidden');
@@ -99,21 +102,14 @@ const setUserPosts = async ($allPostContainer, userId) => {
     }
     const userPosts = addUserPosts(data);
     $allPostContainer.innerHTML += userPosts;
-
-    new Masonry('.all-posts', {
-      itemSelector: '.post',
-      columnWidth: '.post-sizer',
-      percentPosition: true,
-      gutter: 40,
-    });
   } catch (e) {
     console.error(e);
   }
 };
 
-const develogPageInitialRender = async ($populaPpostsContainer, $allPostContainer, userId) => {
-  await setPopularPosts($populaPpostsContainer, userId);
-  await setUserPosts($allPostContainer, userId);
+const develogPageInitialRender = ($populaPpostsContainer, $allPostContainer, userId) => {
+  setPopularPosts($populaPpostsContainer, userId);
+  setUserPosts($allPostContainer, userId);
 };
 
 const showSearchedPosts = async (searchTitle, $postsContainer) => {
@@ -121,7 +117,7 @@ const showSearchedPosts = async (searchTitle, $postsContainer) => {
     const { data } = await axios.get(`/search?title=${searchTitle}`);
     const addedHtml = setPosts(data);
     $postsContainer.innerHTML = `<li class="main-post-sizer"></li>` + addedHtml;
-    new Masonry('.posts-container', masonry);
+    new Masonry($postsContainer, masonry);
   } catch (e) {
     console.error(e);
   }
