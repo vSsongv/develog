@@ -1,13 +1,12 @@
 import axios from 'axios';
 import Masonry from 'masonry-layout';
 
-const masonry = (container, item, columnWidth) =>
-  new Masonry(container, {
-    itemSelector: item,
-    columnWidth,
-    percentPosition: true,
-    gutter: 20,
-  });
+const masonry = {
+  itemSelector: '.main-post',
+  columnWidth: '.main-post-sizer',
+  percentPosition: true,
+  gutter: 20,
+};
 
 const setPosts = posts =>
   posts
@@ -34,12 +33,7 @@ const getMorePostsForMain = async () => {
       document.querySelector('.is-last-post').classList.remove('hidden');
     }
     document.querySelector('.posts-container').innerHTML += setPosts(data);
-    // new Masonry(document.querySelector('.posts-container'), masonry);
-    masonry(
-      document.querySelector('.posts-container'),
-      document.querySelector('.main-post'),
-      document.querySelector('.main-post-sizer')
-    );
+    new Masonry('.posts-container', masonry);
   } catch (e) {
     console.error(e);
   }
@@ -50,8 +44,8 @@ const mainPageInitialRender = async $postsContainer => {
     const { data } = await axios.get('/posts/init');
     const addedHtml = setPosts(data);
     $postsContainer.innerHTML = `<li class="main-post-sizer"></li>` + addedHtml;
-    // new Masonry($postsContainer, masonry);
-    masonry($postsContainer, document.querySelector('.main-post'), document.querySelector('.main-post-sizer'));
+    // masonry($postsContainer, document.querySelector('.main-post'), document.querySelector('.main-post-sizer'));
+    new Masonry($postsContainer, masonry);
   } catch (e) {
     console.error(e);
   }
@@ -91,7 +85,6 @@ const addUserPosts = posts =>
 const setUserPosts = async ($allPostContainer, userId) => {
   try {
     const { data } = await axios.get(`/develog/${userId}/posts`);
-    console.log(data.length);
 
     if (data.length === 0) {
       document.querySelector('.see-more').classList.add('hidden');
@@ -123,4 +116,10 @@ const showSearchedPosts = async (searchTitle, $postsContainer) => {
   }
 };
 
-export { mainPageInitialRender, getMorePostsForMain, develogPageInitialRender, setUserPosts, showSearchedPosts };
+export default {
+  mainPageInitialRender,
+  getMorePostsForMain,
+  develogPageInitialRender,
+  setUserPosts,
+  showSearchedPosts,
+};
