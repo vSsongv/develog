@@ -5,15 +5,14 @@ const history = require('history-events');
 
 const $root = document.getElementById('root');
 
-const render = async ele => {
+const render = async elem => {
   const headerNode = await createHeaderNode();
-  $root.replaceChildren(...headerNode, ...ele);
+  $root.replaceChildren(...headerNode, ...elem);
   // $root.replaceChildren(...ele);
 };
 
 render(App());
 
-render(index.temp);
 // url 변경감지
 window.addEventListener('changestate', () => {
   render(App());

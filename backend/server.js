@@ -275,6 +275,7 @@ app.get('/posts/:postid', (req, res) => {
   const { postid } = req.params;
   const post = posts.find(elem => elem.postId === +postid);
   const user = users.find(user => user.userId === +post.userId);
+  console.log('post : ', post, 'user :', user);
   res.send({
     post,
     user,
