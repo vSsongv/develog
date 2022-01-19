@@ -75,6 +75,7 @@
 
 .nav-box {
   position: absolute;
+  z-index: 100;
   right: rem(20px);
   top: rem(130px);
   border-radius: rem(10px);
