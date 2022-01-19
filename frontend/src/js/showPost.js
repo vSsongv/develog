@@ -14,7 +14,8 @@ const setPosts = posts =>
       post =>
         `<li class="main-post" data-post-id="${post.postId}">
     <div class="user-info" data-user-id="${post.userId}">
-      <img class="avatar-button avatar-button--main" src="${post.userProfile}" alt="avatar-button"/><a class="user-nickname">${post.nickname}</a>
+      <button class="avatar-button avatar-button--main" style="background-image:url('${post.userProfile}')"></button>
+      <a class="user-nickname">${post.nickname}</a>
     </div>
     <span class="main-post__title">${post.title}</span
     ><span class="main-post__desc">${post.content}</span>
@@ -62,7 +63,7 @@ const addPopularPosts = posts =>
 
 const setPopularPosts = async ($populaPpostsContainer, userId) => {
   try {
-    const { data } = await axios.get(`develog/${userId}/popularposts`);
+    const { data } = await axios.get(`/develog/${userId}/popularposts`);
     const popularposts = addPopularPosts(data);
     $populaPpostsContainer.innerHTML = popularposts;
   } catch (e) {
@@ -107,14 +108,12 @@ const setUserPosts = async ($allPostContainer, userId) => {
 
 const develogPageInitialRender = async ($populaPpostsContainer, $allPostContainer, userId) => {
   await setPopularPosts($populaPpostsContainer, userId);
-  console.log('here', userId);
   await setUserPosts($allPostContainer, userId);
-  console.log('there', userId);
 };
 
-const showSearchedPosts = async (input, $postsContainer) => {
+const showSearchedPosts = async (searchTitle, $postsContainer) => {
   try {
-    const { data } = await axios.get(`/search/${input}`);
+    const { data } = await axios.get(`/search?title=${searchTitle}`);
     const addedHtml = await setPosts(data);
     $postsContainer.innerHTML = `<li class="main-post-sizer"></li>` + addedHtml;
     new Masonry('.posts-container', masonry);

@@ -66,6 +66,7 @@
   width: rem(45px);
   height: rem(45px);
   border-radius: 50%;
+  background-image: url('../assets/defaultAvatar.png');
   background-repeat: no-repeat;
   background-size: cover;
   background-position: 50% 50%;
@@ -74,6 +75,7 @@
 
 .nav-box {
   position: absolute;
+  z-index: 100;
   right: rem(20px);
   top: rem(130px);
   border-radius: rem(10px);
