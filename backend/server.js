@@ -9,7 +9,7 @@ const multer = require('multer');
 let users = require('./data/users');
 let posts = require('./data/posts');
 
-let leftPostNum = posts.length - 10;
+let leftPostNum = posts.length - 12;
 let postIndex = 9;
 let leftUserPostNum = 0;
 let userPostIndex = 0;
@@ -169,17 +169,17 @@ app.get('/search?title=:searchInput', (req, res) => {
 
 // 메인화면 초기 렌더링
 app.get('/posts/init', (req, res) => {
-  leftPostNum = posts.length - 10;
-  postIndex = 9;
-  res.send(makeSplitedPosts(posts, 0, 10));
+  leftPostNum = posts.length - 12;
+  postIndex = 11;
+  res.send(makeSplitedPosts(posts, 0, 12));
 });
 
 // 메인화면 더보기 버튼 클릭
 app.get('/posts', (req, res) => {
-  if (leftPostNum >= 10) {
-    leftPostNum -= 10;
-    res.send(makeSplitedPosts(posts, postIndex, 10 + postIndex));
-    postIndex += 10;
+  if (leftPostNum >= 12) {
+    leftPostNum -= 12;
+    res.send(makeSplitedPosts(posts, postIndex, 12 + postIndex));
+    postIndex += 12;
   } else {
     res.send(makeSplitedPosts(posts, postIndex, leftPostNum + postIndex));
     leftPostNum = 0;
