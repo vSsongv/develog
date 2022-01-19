@@ -70,16 +70,21 @@
   }
 }
 
+.all-posts-container {
+  position: relative;
+}
+
 .all-posts {
   width: 100%;
-  position: relative;
+  display: flex;
+  flex-wrap: wrap;
   .post-sizer,
   .post {
-    margin-bottom: rem(25px);
-    width: 22%;
-    @media all and (min-width: 1000px) and (max-width: 1520px) {
-      // width: 30%;
+    margin: 0 rem(15px) rem(25px) rem(30px);
+    @media all and (max-width: 1950px) {
+      margin: 0 rem(10px) rem(25px) rem(10px);
     }
+    width: 22%;
   }
   &__title {
     display: block;

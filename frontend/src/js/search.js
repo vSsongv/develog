@@ -1,4 +1,4 @@
-import * as postFunc from './showPost';
+import postFunc from './showPost';
 import search from '../html/search.html';
 
 const searchNode = () => {
