@@ -1,12 +1,4 @@
 import axios from 'axios';
-import Masonry from 'masonry-layout';
-
-const masonry = {
-  itemSelector: '.main-post',
-  columnWidth: '.main-post-sizer',
-  percentPosition: true,
-  gutter: 20,
-};
 
 const setPosts = posts =>
   posts
@@ -34,7 +26,6 @@ const getMorePostsForMain = async () => {
       document.querySelector('.is-last-post').classList.remove('hidden');
     }
     document.querySelector('.posts-container').innerHTML += setPosts(data);
-    new Masonry('.posts-container', masonry);
   } catch (e) {
     console.error(e);
   }
@@ -44,9 +35,7 @@ const mainPageInitialRender = async $postsContainer => {
   try {
     const { data } = await axios.get('/posts/init');
     const addedHtml = setPosts(data);
-    $postsContainer.innerHTML = `<li class="main-post-sizer"></li>` + addedHtml;
-    // masonry($postsContainer, document.querySelector('.main-post'), document.querySelector('.main-post-sizer'));
-    new Masonry($postsContainer, masonry);
+    $postsContainer.innerHTML = addedHtml;
   } catch (e) {
     console.error(e);
   }
@@ -110,8 +99,7 @@ const showSearchedPosts = async (searchTitle, $postsContainer) => {
   try {
     const { data } = await axios.get(`/search?title=${searchTitle}`);
     const addedHtml = setPosts(data);
-    $postsContainer.innerHTML = `<li class="main-post-sizer"></li>` + addedHtml;
-    new Masonry($postsContainer, masonry);
+    $postsContainer.innerHTML = addedHtml;
   } catch (e) {
     console.error(e);
   }
