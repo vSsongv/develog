@@ -7,9 +7,9 @@ const cookieParser = require('cookie-parser');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const multer = require('multer');
+const secureRandom = require('secure-random');
 let users = require('./data/users');
 let posts = require('./data/posts');
-const secureRandom = require('secure-random');
 
 const makeSplitedPosts = (posts, startIdx, endIdx) => {
   const splitedPosts = posts
@@ -68,13 +68,13 @@ const createToken = (userId, expirePeriod) =>
 const client_id = '9P02ghMjMhgetbYuaf91';
 const client_secret = 'iFNUotrjCS';
 const state = secureRandom(10, {
-  type: 'Buffer'
+  type: 'Buffer',
 }).join('');
 const redirectURI = encodeURI('http://localhost:8080/callback');
 
 console.log(state);
 // login button
-app.get('/naverlogin', function (req, res) {
+app.get('/naverlogin', (req, res) => {
   res.send(state);
   // const api_url = 'https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=' + client_id + '&redirect_uri=' + redirectURI + '&state=' + state;
   // res.writeHead(200, {
@@ -281,8 +281,10 @@ app.get('/develog/:userId/posts/:develogIndex', (req, res) => {
   userId = Number(userId);
   develogIndex = Number(develogIndex);
   const userPost = posts.filter(post => post.userId === userId);
-  res.send(makeSplitedPosts(userPost, develogIndex * 8, develogIndex * 8 + 8));
+  res.send([makeSplitedPosts(userPost, develogIndex * 8, develogIndex * 8 + 8), userPost.length]);
 });
+
+app.get('/develog/userPostsNum', (req, res) => {});
 
 app.post('/uploadImage', upload.single('selectImage'), (req, res) => {
   res.send(req.files);
