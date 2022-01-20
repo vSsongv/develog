@@ -6,15 +6,31 @@ const mypageNode = () => {
   node.innerHTML = mypage;
 
   // Event
+  const $likePostCnt = node.querySelector('.postNum span:nth-child(2)');
+  const $likePosts = node.querySelector('.likePostList');
+
   (async () => {
     try {
       const { data: user } = await axios.get('/checkAuth');
-      console.log(node.querySelector('.nickname span'));
       node.querySelector('.nickname span').textContent = user.nickname;
       node.querySelector('#name').value = user.name;
       node.querySelector('#email').value = user.email;
       node.querySelector('#phone').value = user.phone;
       node.querySelector('.user-profile-avatar').style.backgroundImage = `url('${user.avatarUrl}')`;
+
+      const { data: likePosts } = await axios.get(`/likePostCnt/${user.userId}`);
+      $likePostCnt.textContent = likePosts.length;
+
+      $likePosts.innerHTML = likePosts
+        .map(
+          post =>
+            `<li data-postid=${post.postId}><div class="heart--icon"><i class="fas fa-heart"></div></i> ${post.title}</li>`
+        )
+        .join(' ');
+
+      $likePosts.onclick = e => {
+        history.pushState({}, '', `/detail/${e.target.dataset.postid}`);
+      };
     } catch (e) {
       console.error(e);
       // window.history.pushState({}, '', '/signin');
