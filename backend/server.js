@@ -51,7 +51,7 @@ const storage = multer.diskStorage({
 });
 
 const upload = multer({
-  storage
+  storage,
 });
 
 app.get('/checkAuth', (req, res) => {
@@ -65,10 +65,12 @@ app.get('/checkAuth', (req, res) => {
 });
 
 const createToken = (userId, expirePeriod) =>
-  jwt.sign({
+  jwt.sign(
+    {
       userId,
     },
-    process.env.JWT_SECRET_KEY, {
+    process.env.JWT_SECRET_KEY,
+    {
       expiresIn: expirePeriod,
     }
   );
@@ -92,37 +94,25 @@ const checkCode = async (req, res, next) => {
   try {
     const code = req.query.code;
     const state = req.query.state;
-    const api_url = 'https://nid.naver.com/oauth2.0/token'
+    const api_url = 'https://nid.naver.com/oauth2.0/token';
 
     const {
-      data: {
-        access_token,
-        refresh_token,
-        token_type,
-        expires_in
-      }
+      data: { access_token, refresh_token, token_type, expires_in },
     } = await axios.post(api_url, null, {
       params: {
         client_id: client_id,
         client_secret: client_secret,
         grant_type: 'authorization_code',
         state: state,
-        code: code
-      }
+        code: code,
+      },
     });
 
     console.log('access_token:', access_token, expires_in);
 
     const {
       data: {
-        response: {
-          email,
-          nickname,
-          profile_image,
-          id,
-          name,
-          mobile
-        },
+        response: { email, nickname, profile_image, id, name, mobile },
       },
     } = await axios.post('https://openapi.naver.com/v1/nid/me', null, {
       headers: {
@@ -175,21 +165,17 @@ const checkCode = async (req, res, next) => {
       message: '로그인이 되지 않았습니다.\n로그인을 다시 시도해주세요.',
     });
   }
-}
+};
 
 app.get('/callback', checkCode, function (req, res) {
   res.sendFile(path.join(__dirname, './public/index.html'));
 
   // res.send();
-
 });
 
 // 로그인
 app.post('/signin', (req, res) => {
-  const {
-    email,
-    password
-  } = req.body;
+  const { email, password } = req.body;
   if (!email || !password) {
     return res.status(401).send({
       error: '사용자 아이디 또는 패스워드가 전달되지 않았습니다.',
@@ -218,7 +204,9 @@ app.post('/signin', (req, res) => {
 
 // 로그아웃
 app.get('/logout', (req, res) => {
-  req.cookies.accessToken ? res.clearCookie('accessToken').sendStatus(204) : res.clearCookie('naverToken').sendStatus(204);
+  req.cookies.accessToken
+    ? res.clearCookie('accessToken').sendStatus(204)
+    : res.clearCookie('naverToken').sendStatus(204);
 });
 
 // 회원가입
@@ -236,9 +224,7 @@ app.post('/signup', (req, res) => {
 
 // 중복확인(이메일, 닉네임)
 app.get('/check/email/:email', (req, res) => {
-  const {
-    email
-  } = req.params;
+  const { email } = req.params;
   const user = users.find(user => user.email === email);
   const isDuplicate = !!user;
 
@@ -248,9 +234,7 @@ app.get('/check/email/:email', (req, res) => {
 });
 
 app.get('/check/nickname/:nickname', (req, res) => {
-  const {
-    nickname
-  } = req.params;
+  const { nickname } = req.params;
   const user = users.find(user => user.nickname === nickname);
   const isDuplicate = !!user;
 
@@ -264,15 +248,13 @@ app.get('/users/createId', (req, res) => {
   const maxId = Math.max(...users.map(user => +user.userId), 0) + 1;
 
   res.send({
-    maxId
+    maxId,
   });
 });
 
 // 검색
 app.get('/search?title=:searchInput', (req, res) => {
-  const {
-    searchInput
-  } = req.params;
+  const { searchInput } = req.params;
   const filterPosts = posts.filter(post => post.title.includes(searchInput));
   res.send(makeSplitedPosts(filterPosts, 0, filterPosts.length));
 });
@@ -297,9 +279,7 @@ app.get('/posts', (req, res) => {
 });
 
 app.get('/develog/:userId/popularposts', (req, res) => {
-  let {
-    userId
-  } = req.params;
+  let { userId } = req.params;
   userId = Number(userId);
   const userPost = posts.filter(post => post.userId === userId);
   leftUserPostNum = 0;
@@ -313,9 +293,7 @@ app.get('/develog/:userId/popularposts', (req, res) => {
 });
 
 app.get('/develog/:userId/posts', (req, res) => {
-  let {
-    userId
-  } = req.params;
+  let { userId } = req.params;
   userId = Number(userId);
   const userPost = posts.filter(post => post.userId === userId);
   const userPostLen = userPost.length;
@@ -338,24 +316,21 @@ app.post('/uploadImage', upload.single('selectImage'), (req, res) => {
 });
 
 app.patch('/editUser/:userId', (req, res) => {
-  const {
-    userId
-  } = req.params;
+  const { userId } = req.params;
   users = users.map(user =>
-    user.userId === +userId ? {
-      ...user,
-      ...req.body,
-      password: bcrypt.hashSync(req.body.password, 10),
-    } :
-    user
+    user.userId === +userId
+      ? {
+          ...user,
+          ...req.body,
+          password: bcrypt.hashSync(req.body.password, 10),
+        }
+      : user
   );
   res.sendStatus(204);
 });
 
 app.post('/checkPassword/:userId', (req, res) => {
-  const {
-    userId
-  } = req.params;
+  const { userId } = req.params;
   const user = users.find(user => user.userId === +userId);
 
   if (bcrypt.compareSync(req.body.password, user.password)) res.sendStatus(204);
@@ -364,9 +339,7 @@ app.post('/checkPassword/:userId', (req, res) => {
 
 // 유저 탈퇴
 app.post('/delete/user/:userId', (req, res) => {
-  const {
-    userId
-  } = req.params;
+  const { userId } = req.params;
   const user = users.find(user => user.userId === +userId);
 
   if (bcrypt.compareSync(req.body.password, user.password)) {
@@ -380,9 +353,7 @@ app.post('/delete/user/:userId', (req, res) => {
 
 // 포스트 정보
 app.get('/posts/:id', (req, res) => {
-  const {
-    id
-  } = req.params;
+  const { id } = req.params;
   const post = posts.find(post => post.postId === +id);
   const user = users.find(user => user.userId === post.userId);
   // console.log('post : ', post, 'user :', user);
@@ -394,9 +365,7 @@ app.get('/posts/:id', (req, res) => {
 
 // 좋아요 배열
 app.get('/posts/likedUsers/:id', (req, res) => {
-  const {
-    id
-  } = req.params;
+  const { id } = req.params;
   const findPostLikedUsers = posts.find(post => post.postId === +id);
   // console.log(findPostLikedUsers);
   res.send(findPostLikedUsers);
@@ -405,29 +374,25 @@ app.get('/posts/likedUsers/:id', (req, res) => {
 // 좋아요 배열 수정
 app.patch('/posts/likedUsers/:id', (req, res) => {
   // 로그인된 userId
-  const {
-    id
-  } = req.params;
-  const {
-    loginUserId,
-    isFullHeart
-  } = req.body;
+  const { id } = req.params;
+  const { loginUserId, isFullHeart } = req.body;
   // console.log('id:', id, 'loginUserId:', loginUserId, 'isFullHeart:', isFullHeart);
   posts = posts.map(post =>
-    post.postId === +id ? {
-      ...post,
-      likedUsers: isFullHeart ? [...post.likedUsers, loginUserId] : post.likedUsers.filter(elem => elem !== loginUserId),
-    } :
-    post
+    post.postId === +id
+      ? {
+          ...post,
+          likedUsers: isFullHeart
+            ? [...post.likedUsers, loginUserId]
+            : post.likedUsers.filter(elem => elem !== loginUserId),
+        }
+      : post
   );
 });
 
 // 댓글 데이터
 
 app.delete('/posts/:id', (req, res) => {
-  const {
-    id
-  } = req.params;
+  const { id } = req.params;
   // console.log('postid: ', id);
   posts = posts.filter(post => post.postId !== +id);
 });
@@ -435,7 +400,8 @@ app.delete('/posts/:id', (req, res) => {
 // 포스트작성
 app.post('/post/write', (req, res) => {
   const newPostId = Math.max(...posts.map(post => +post.postId)) + 1;
-  posts = [{
+  posts = [
+    {
       ...req.body,
       postId: newPostId,
       createAt: new Date(),
@@ -445,14 +411,12 @@ app.post('/post/write', (req, res) => {
     ...posts,
   ];
   res.send({
-    newPostId
+    newPostId,
   });
 });
 
 app.post('/checkPost/:postId', (req, res) => {
-  const {
-    postId
-  } = req.params;
+  const { postId } = req.params;
   console.log(postId);
   const post = posts.find(post => post.postId === +postId);
   console.log(post);
@@ -463,17 +427,22 @@ app.post('/checkPost/:postId', (req, res) => {
 
 // 포스트 수정
 app.patch('/post/write/:postId', (req, res) => {
-  const {
-    postId
-  } = req.params;
+  const { postId } = req.params;
   posts = posts.map(post =>
-    post.postId === +postId ? {
-      ...post,
-      ...req.body,
-    } :
-    post
+    post.postId === +postId
+      ? {
+          ...post,
+          ...req.body,
+        }
+      : post
   );
   res.send(204);
+});
+
+app.get('/likePostCnt/:userId', (req, res) => {
+  const { userId } = req.params;
+  const likePost = posts.filter(post => post.likedUsers.includes(+userId));
+  res.send(likePost);
 });
 
 app.get('*', (req, res) => {
