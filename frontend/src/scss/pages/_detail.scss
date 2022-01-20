@@ -48,11 +48,6 @@
       font-size: rem(20px);
     }
 
-    .date::before {
-      font-size: rem(20px);
-      content: ' - ';
-    }
-
     i {
       font-size: rem(25px);
     }
@@ -81,7 +76,7 @@
     margin-bottom: rem(100px);
     font-size: rem(25px);
     line-height: 1.3;
-    // word-break: break-all;
+    word-break: break-all;
     white-space: pre-wrap;
   }
 }
@@ -105,7 +100,7 @@
   align-items: center;
   position: relative;
   margin-bottom: rem(50px);
-
+  width: 90%;
   .textarea {
     display: inline-block;
     resize: none;
@@ -171,7 +166,16 @@
 
   display: flex;
   align-items: center;
-  width: 100%;
+  @media screen and (max-width: 700px) {
+    width: 90%;
+    text-align: center;
+  }
+  @media screen and (min-width: 701px) and (max-width: 1000px) {
+    width: 80%;
+  }
+  @media screen and (min-width: 1001px) {
+    width: 90%;
+  }
   height: 100%;
   // min-width: rem(550px);
   position: relative;
@@ -180,6 +184,7 @@
     display: flex;
     align-items: center;
     padding: rem(15px);
+
     &--border {
       border-right: 1px solid black;
     }
@@ -198,7 +203,7 @@
 
   &__text {
     display: block;
-    width: 60%;
+    width: 100%;
     height: 100%;
     box-sizing: content-box;
 
@@ -211,28 +216,30 @@
     }
     @media screen and (max-width: 600px) {
       width: 30%;
-      padding: 0 rem(20px);
+      padding: 0 rem(80px) 0 rem(20px);
     }
     @media screen and (max-width: 800px) {
       width: 50%;
-      padding: 0 rem(20px);
+      padding: 0 rem(80px) 0 rem(20px);
     }
     @media screen and (min-width: 801px) {
       width: 60%;
-      padding: 0 rem(20px);
+      padding: 0 rem(80px) 0 rem(20px);
     }
   }
   .date {
-    padding: rem(10px);
+    padding-right: rem(40px);
     white-space: nowrap;
   }
 
   .edit {
     position: absolute;
+
     right: rem(10px);
-    font-size: rem(20px);
+    padding: rem(5px);
+    font-size: rem(15px);
   }
   .pencil-btn {
-    right: rem(50px);
+    right: rem(150px);
   }
 }

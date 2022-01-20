@@ -9,6 +9,7 @@ const bcrypt = require('bcrypt');
 const multer = require('multer');
 let users = require('./data/users');
 let posts = require('./data/posts');
+const secureRandom = require('secure-random');
 
 const makeSplitedPosts = (posts, startIdx, endIdx) => {
   const splitedPosts = posts
@@ -66,17 +67,23 @@ const createToken = (userId, expirePeriod) =>
 // social login
 const client_id = '9P02ghMjMhgetbYuaf91';
 const client_secret = 'iFNUotrjCS';
-const state = 1234;
+const state = secureRandom(10, {
+  type: 'Buffer'
+}).join('');
 const redirectURI = encodeURI('http://localhost:8080/callback');
 
+console.log(state);
 // login button
-// app.get('/naverlogin', function (req, res) {
-//   const api_url = 'https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=' + client_id + '&redirect_uri=' + redirectURI + '&state=' + state;
-//   res.writeHead(200, {
-//     'Content-Type': 'text/html;charset=utf-8'
-//   });
-//   res.end("<a href='" + api_url + "'><img height='50' src='http://static.nid.naver.com/oauth/small_g_in.PNG'/></a>");
-// });
+app.get('/naverlogin', function (req, res) {
+  res.send(state);
+  // const api_url = 'https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=' + client_id + '&redirect_uri=' + redirectURI + '&state=' + state;
+  // res.writeHead(200, {
+  //   'Content-Type': 'text/html;charset=utf-8'
+  // });
+  // console.log(api_url);
+  // res.end(`<a href="` + api_url + `" class="naver--link"><img class="naver--button" height="50" src="../assets/naverBtn.png"/></a>`);
+  // res.end("<a href='" + api_url + "'><img height='50' src='http://static.nid.naver.com/oauth/small_g_in.PNG'/></a>");
+});
 
 const checkCode = async (req, res, next) => {
   try {
@@ -317,6 +324,13 @@ app.post('/delete/user/:userId', (req, res) => {
   }
 });
 
+// User 정보
+app.get('/users/:nickname', (req, res) => {
+  const { nickname } = req.params;
+  const { userId } = users.find(user => user.nickname === nickname);
+  res.send(`${userId}`);
+});
+
 // 포스트 정보
 app.get('/posts/:id', (req, res) => {
   const { id } = req.params;
@@ -355,8 +369,52 @@ app.patch('/posts/likedUsers/:id', (req, res) => {
   );
 });
 
-// 댓글 데이터
+// 댓글 등록
+app.post('/comment/:userId', (req, res) => {
+  const { userId: loginUserId } = req.params;
+  const { postId, userComment } = req.body;
+  const user = users.find(user => user.userId === +loginUserId);
+  const date = new Date();
+  const { userId, nickname, avatarUrl } = user;
+  posts = posts.map(post =>
+    post.postId === +postId
+      ? {
+          ...post,
+          comments: [
+            {
+              userId,
+              nickname,
+              commentId: Math.max(...post.comments.map(comment => comment.commentId)) + 1,
+              comment: userComment,
+              createAt: `${date.getFullYear()}-${(date.getMonth() + 1).toString().padStart(2, '0')}-${date
+                .getDate()
+                .toString()
+                .padStart(2, '0')}`,
+              avatarUrl,
+            },
+            ...post.comments,
+          ],
+        }
+      : post
+  );
+  const post = posts.find(post => post.postId === +postId);
+  // console.log(post.comments);
+  res.send(post.comments);
+});
 
+// 댓글 삭제
+app.delete('/posts/:id/:commentId', (req, res) => {
+  const { id: postId, commentId } = req.params;
+  console.log(postId, commentId);
+  posts = posts.map(post =>
+    post.postId === +postId
+      ? { ...post, comments: post.comments.filter(comment => comment.commentId !== +commentId) }
+      : post
+  );
+  res.send(posts.find(post => post.postId === +postId).comments);
+});
+
+// 글 삭제
 app.delete('/posts/:id', (req, res) => {
   const { id } = req.params;
   // console.log('postid: ', id);

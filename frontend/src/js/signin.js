@@ -37,24 +37,13 @@ const signinNode = () => {
 		}
 	};
 
-	(async () => {
-		try {
-			const {
-				data: test
-			} = await axios.get('/naverlogin');
-			console.log('test try');
-			const $div = document.createElement('div');
-			$div.innerHTML = test;
-			console.log($div);
-			$div.style.height = '100%';
-
-			node.appendChild($div);
-		} catch (e) {
-			console.log('test error');
-			console.error(e);
-		}
-	})();
-
+	node.querySelector('.naver--button').onclick = async e => {
+		console.log('naver login');
+		const {
+			data: state
+		} = await axios.get('/naverLogin');
+		window.location.href = `https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=9P02ghMjMhgetbYuaf91&redirect_uri=http://localhost:8080/callback&state=${state}`;
+	}
 
 	return node.children;
 };
