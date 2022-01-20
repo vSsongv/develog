@@ -78,9 +78,11 @@
   position: absolute;
   z-index: 100;
   right: rem(20px);
+  transform: translateX(rem(50px));
   top: rem(130px);
   border-radius: rem(10px);
   background-color: aliceblue;
+  margin-right: 15%;
 
   ul {
     li {

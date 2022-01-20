@@ -14,7 +14,7 @@ const createHeaderNode = async () => {
   };
 
   // enter로 검색 시
-  $searchInput.onkeyup = async e => {
+  $searchInput.onkeyup = e => {
     if (e.key !== 'Enter') return;
     // 초기화
     window.history.pushState(null, null, `/search?title=${e.target.value.trim()}`);
