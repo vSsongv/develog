@@ -400,16 +400,18 @@ app.delete('/posts/:id', (req, res) => {
 // 포스트작성
 app.post('/post/write', (req, res) => {
   const newPostId = Math.max(...posts.map(post => +post.postId)) + 1;
+  const date = new Date();
   posts = [
     {
       ...req.body,
       postId: newPostId,
-      createAt: new Date(),
+      createAt: `${date.getFullYear()}-${(date.getMonth() + 1).toString().padStart(2, '0')}-${date.getDate()}`,
       likedUsers: [],
       comments: [],
     },
     ...posts,
   ];
+  // console.log(posts)
   res.send({
     newPostId,
   });
