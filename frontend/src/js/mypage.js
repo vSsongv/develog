@@ -22,7 +22,10 @@ const mypageNode = () => {
       $likePostCnt.textContent = likePosts.length;
 
       $likePosts.innerHTML = likePosts
-        .map(post => `<li data-postid=${post.postId}> <i class="fas fa-clipboard"></i> ${post.title}</li>`)
+        .map(
+          post =>
+            `<li data-postid=${post.postId}><div class="heart--icon"><i class="fas fa-heart"></div></i> ${post.title}</li>`
+        )
         .join(' ');
 
       $likePosts.onclick = e => {
