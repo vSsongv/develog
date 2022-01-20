@@ -38,6 +38,11 @@
       outline: none;
     }
   }
+  .fa-search {
+    width: 35px;
+    height: 35px;
+    padding: 5px;
+  }
 
   .search--hidden {
     width: 0 !important;
@@ -78,9 +83,11 @@
   position: absolute;
   z-index: 100;
   right: rem(20px);
+  transform: translateX(rem(50px));
   top: rem(130px);
   border-radius: rem(10px);
   background-color: aliceblue;
+  margin-right: 15%;
 
   ul {
     li {
