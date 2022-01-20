@@ -7,6 +7,7 @@ let users = [{
     nickname: 'User1',
     name: '송진영',
     phone: '010-1234-5678',
+    social: false,
     avatarUrl: '/images/defaultAvatar.png',
   },
   {
@@ -16,6 +17,7 @@ let users = [{
     nickname: 'User2',
     name: '김민성',
     phone: '010-2345-6789',
+    social: false,
     avatarUrl: '/images/defaultAvatar.png',
   },
   {
@@ -25,6 +27,7 @@ let users = [{
     nickname: 'User3',
     name: '안현서',
     phone: '010-3456-7890',
+    social: false,
     avatarUrl: '/images/defaultAvatar.png',
   },
   {
@@ -34,6 +37,7 @@ let users = [{
     nickname: 'User4',
     name: '원종빈',
     phone: '010-4567-8901',
+    social: false,
     avatarUrl: '/images/defaultAvatar.png',
   },
   {
@@ -43,6 +47,7 @@ let users = [{
     nickname: 'User5',
     name: '앤트맨',
     phone: '010-4362-1156',
+    social: false,
     avatarUrl: '/images/defaultAvatar.png',
   },
   {
@@ -52,6 +57,7 @@ let users = [{
     nickname: 'User6',
     name: '원종빈',
     phone: '010-4782-4367',
+    social: false,
     avatarUrl: '/images/defaultAvatar.png',
   },
 ];
