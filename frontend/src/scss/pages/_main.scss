@@ -20,15 +20,6 @@
 .main-post {
   margin: rem(20px) rem(30px) rem(10px) 0;
   width: 100%;
-  @media all and (min-width: 890px) and (max-width: 1200px) {
-    width: 30%;
-  }
-  @media all and (min-width: 620px) and (max-width: 889px) {
-    width: 40%;
-  }
-  @media all and (max-width: 619px) {
-    width: 100%;
-  }
 }
 .main-post {
   border: 2px solid $gray;
