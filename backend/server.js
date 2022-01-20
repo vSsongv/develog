@@ -16,7 +16,11 @@ const makeSplitedPosts = (posts, startIdx, endIdx) => {
     .filter((post, i) => i >= startIdx && i < endIdx)
     .map(post => {
       const user = users.filter(user => user.userId === post.userId)[0];
-      return { ...post, userProfile: user.avatarUrl, nickname: user.nickname };
+      return {
+        ...post,
+        userProfile: user.avatarUrl,
+        nickname: user.nickname,
+      };
     });
 
   return splitedPosts;
@@ -32,7 +36,7 @@ app.use('/images', express.static('public/assets'));
 
 const storage = multer.diskStorage({
   destination(req, file, cb) {
-    cb(null, 'src/assets/');
+    cb(null, 'public/assets/');
   },
   filename(req, file, cb) {
     cb(null, file.originalname);
@@ -137,6 +141,7 @@ const checkCode = async (req, res, next) => {
         name,
         nickname,
         phone: mobile,
+        social: true,
         avatarUrl: profile_image,
       };
       users = [...users, user];
@@ -210,11 +215,22 @@ app.post('/signup', (req, res) => {
     ...users,
     {
       ...req.body,
+      social: false,
       password: bcrypt.hashSync(req.body.password, 10),
     },
   ];
 
   res.send(users);
+});
+
+app.get('/check/social/:id', (req, res) => {
+  const { id } = req.params;
+  const user = users.find(user => user.id === id);
+  const isSocial = user.social;
+
+  res.send({
+    isSocial,
+  });
 });
 
 // 중복확인(이메일, 닉네임)
@@ -317,7 +333,8 @@ app.post('/delete/user/:userId', (req, res) => {
   const { userId } = req.params;
   const user = users.find(user => user.userId === +userId);
 
-  if (bcrypt.compareSync(req.body.password, user.password)) {
+  if (user.social) res.clearCookie('accessToken').sendStatus(204);
+  else if (bcrypt.compareSync(req.body.password, user.password)) {
     users = users.filter(user => user.userId !== +userId);
     posts = posts.filter(post => post.userId !== +userId);
     res.clearCookie('accessToken').sendStatus(204);
@@ -410,7 +427,10 @@ app.delete('/posts/:id/:commentId', (req, res) => {
   console.log(postId, commentId);
   posts = posts.map(post =>
     post.postId === +postId
-      ? { ...post, comments: post.comments.filter(comment => comment.commentId !== +commentId) }
+      ? {
+          ...post,
+          comments: post.comments.filter(comment => comment.commentId !== +commentId),
+        }
       : post
   );
   res.send(posts.find(post => post.postId === +postId).comments);
@@ -431,7 +451,10 @@ app.post('/post/write', (req, res) => {
     {
       ...req.body,
       postId: newPostId,
-      createAt: `${date.getFullYear()}-${(date.getMonth() + 1).toString().padStart(2, '0')}-${date.getDate()}`,
+      createAt: `${date.getFullYear()}-${(date.getMonth() + 1).toString().padStart(2, '0')}-${date
+        .getDate()
+        .toString()
+        .padStart(2, '0')}`,
       likedUsers: [],
       comments: [],
     },
