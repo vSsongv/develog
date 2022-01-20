@@ -10,15 +10,17 @@ const posts = [
     likedUsers: [1],
     comments: [
       {
-        userid: 3,
-        nickname: 'User3',
+        userId: 1,
+        nickname: 'User1',
+        commentId: 1,
         comment: '잘봤습니당!',
         createAt: '2021-01-05',
         avatarUrl: '/images/defaultAvatar.png',
       },
       {
-        userid: 4,
+        userId: 4,
         nickname: 'User4',
+        commentId: 2,
         comment: '굳굳 !!',
         createAt: '2021-01-05',
         avatarUrl: '/images/defaultAvatar.png',
@@ -35,15 +37,17 @@ const posts = [
     likedUsers: [2, 3, 1],
     comments: [
       {
-        userid: 2,
+        userId: 2,
         nickname: 'User2',
+        commentId: 1,
         comment: '고맙습니당!',
         createAt: '2021-01-03',
         avatarUrl: '/images/defaultAvatar.png',
       },
       {
-        userid: 4,
+        userId: 4,
         nickname: 'User4',
+        commentId: 2,
         comment: '굳굳 !!',
         createAt: '2021-01-05',
         avatarUrl: '/images/defaultAvatar.png',
@@ -59,15 +63,17 @@ const posts = [
     likedUsers: [2, 1],
     comments: [
       {
-        userid: 2,
+        userId: 2,
         nickname: 'User2',
+        commentId: 1,
         comment: '고맙습니당!',
         createAt: '2021-01-03',
         avatarUrl: '/images/defaultAvatar.png',
       },
       {
-        userid: 4,
+        userId: 4,
         nickname: 'User4',
+        commentId: 2,
         comment: '굳굳 !!',
         createAt: '2021-01-06',
         avatarUrl: '/images/defaultAvatar.png',
@@ -84,15 +90,17 @@ const posts = [
     likedUsers: [],
     comments: [
       {
-        userid: 2,
+        userId: 2,
         nickname: 'User2',
+        commentId: 1,
         comment: '고맙습니당!',
         createAt: '2021-01-04',
         avatarUrl: '/images/defaultAvatar.png',
       },
       {
-        userid: 1,
+        userId: 1,
         nickname: 'User1',
+        commentId: 2,
         comment: '굳굳 !!',
         createAt: '2021-01-06',
         avatarUrl: '/images/defaultAvatar.png',
@@ -109,15 +117,17 @@ const posts = [
     likedUsers: [3, 6],
     comments: [
       {
-        userid: 2,
+        userId: 2,
         nickname: 'User2',
+        commentId: 1,
         comment: '고맙습니당!',
         createAt: '2021-01-08',
         avatarUrl: '/images/defaultAvatar.png',
       },
       {
-        userid: 1,
+        userId: 1,
         nickname: 'User1',
+        commentId: 2,
         comment: '굳굳 !!',
         createAt: '2021-01-06',
         avatarUrl: '/images/defaultAvatar.png',
@@ -133,15 +143,17 @@ const posts = [
     likedUsers: [],
     comments: [
       {
-        userid: 2,
+        userId: 2,
         nickname: 'User2',
+        commentId: 1,
         comment: '고맙습니당!',
         createAt: '2021-01-09',
         avatarUrl: '/images/defaultAvatar.png',
       },
       {
-        userid: 1,
+        userId: 1,
         nickname: 'User1',
+        commentId: 2,
         comment: '굳굳 !!',
         createAt: '2021-01-06',
         avatarUrl: '/images/defaultAvatar.png',
@@ -158,15 +170,17 @@ const posts = [
     likedUsers: [],
     comments: [
       {
-        userid: 2,
+        userId: 2,
         nickname: 'User2',
+        commentId: 1,
         comment: '고맙습니당!',
         createAt: '2021-01-08',
         avatarUrl: '/images/defaultAvatar.png',
       },
       {
-        userid: 1,
+        userId: 1,
         nickname: 'User1',
+        commentId: 2,
         comment: '굳굳 !!',
         createAt: '2021-01-18',
         avatarUrl: '/images/defaultAvatar.png',
@@ -183,15 +197,17 @@ const posts = [
     likedUsers: [],
     comments: [
       {
-        userid: 2,
+        userId: 2,
         nickname: 'User2',
+        commentId: 1,
         comment: '고맙습니당!',
         createAt: '2021-01-11',
         avatarUrl: '/images/defaultAvatar.png',
       },
       {
-        userid: 1,
+        userId: 1,
         nickname: 'User1',
+        commentId: 2,
         comment: '굳굳 !!',
         createAt: '2021-01-13',
         avatarUrl: '/images/defaultAvatar.png',
@@ -207,15 +223,17 @@ const posts = [
     likedUsers: [],
     comments: [
       {
-        userid: 3,
+        userId: 3,
         nickname: 'User3',
+        commentId: 1,
         comment: '고맙습니당!',
         createAt: '2021-01-10',
         avatarUrl: '/images/defaultAvatar.png',
       },
       {
-        userid: 1,
+        userId: 1,
         nickname: 'User1',
+        commentId: 2,
         comment: '굳굳 !!',
         createAt: '2021-01-21',
         avatarUrl: '/images/defaultAvatar.png',
@@ -232,15 +250,17 @@ const posts = [
     likedUsers: [],
     comments: [
       {
-        userid: 2,
+        userId: 2,
         nickname: 'User2',
+        commentId: 1,
         comment: '고맙습니당!',
         createAt: '2021-01-10',
         avatarUrl: '/images/defaultAvatar.png',
       },
       {
-        userid: 1,
+        userId: 1,
         nickname: 'User2',
+        commentId: 2,
         comment: '굳굳 !!',
         createAt: '2021-01-21',
         avatarUrl: '/images/defaultAvatar.png',
@@ -257,15 +277,17 @@ const posts = [
     likedUsers: [],
     comments: [
       {
-        userid: 2,
+        userId: 2,
         nickname: 'User2',
+        commentId: 1,
         comment: '고맙습니당!',
         createAt: '2021-01-15',
         avatarUrl: '/images/defaultAvatar.png',
       },
       {
-        userid: 1,
+        userId: 1,
         nickname: 'User2',
+        commentId: 2,
         comment: '굳굳 !!',
         createAt: '2021-01-21',
         avatarUrl: '/images/defaultAvatar.png',
@@ -281,15 +303,17 @@ const posts = [
     likedUsers: [],
     comments: [
       {
-        userid: 2,
+        userId: 2,
         nickname: 'User2',
+        commentId: 1,
         comment: '고맙습니당!',
         createAt: '2021-01-15',
         avatarUrl: '/images/defaultAvatar.png',
       },
       {
-        userid: 1,
+        userId: 1,
         nickname: 'User2',
+        commentId: 2,
         comment: '굳굳 !!',
         createAt: '2021-01-21',
         avatarUrl: '/images/defaultAvatar.png',
@@ -306,15 +330,17 @@ const posts = [
     likedUsers: [],
     comments: [
       {
-        userid: 2,
+        userId: 2,
         nickname: 'User2',
+        commentId: 1,
         comment: '고맙습니당!',
         createAt: '2021-01-17',
         avatarUrl: '/images/defaultAvatar.png',
       },
       {
-        userid: 1,
+        userId: 1,
         nickname: 'User2',
+        commentId: 2,
         comment: '굳굳 !!',
         createAt: '2021-01-21',
         avatarUrl: '/images/defaultAvatar.png',
@@ -331,15 +357,17 @@ const posts = [
     likedUsers: [],
     comments: [
       {
-        userid: 2,
+        userId: 2,
         nickname: 'User2',
+        commentId: 1,
         comment: '고맙습니당!',
         createAt: '2021-01-19',
         avatarUrl: '/images/defaultAvatar.png',
       },
       {
-        userid: 1,
+        userId: 1,
         nickname: 'User2',
+        commentId: 2,
         comment: '굳굳 !!',
         createAt: '2021-01-21',
         avatarUrl: '/images/defaultAvatar.png',
@@ -355,15 +383,17 @@ const posts = [
     likedUsers: [],
     comments: [
       {
-        userid: 2,
+        userId: 2,
         nickname: 'User2',
+        commentId: 1,
         comment: '고맙습니당!',
         createAt: '2021-01-15',
         avatarUrl: '/images/defaultAvatar.png',
       },
       {
-        userid: 1,
+        userId: 1,
         nickname: 'User2',
+        commentId: 2,
         comment: '굳굳 !!',
         createAt: '2021-01-21',
         avatarUrl: '/images/defaultAvatar.png',
@@ -380,15 +410,17 @@ const posts = [
     likedUsers: [],
     comments: [
       {
-        userid: 2,
+        userId: 2,
         nickname: 'User2',
+        commentId: 1,
         comment: '고맙습니당!',
         createAt: '2021-01-18',
         avatarUrl: '/images/defaultAvatar.png',
       },
       {
-        userid: 1,
+        userId: 1,
         nickname: 'User2',
+        commentId: 2,
         comment: '굳굳 !!',
         createAt: '2021-01-21',
         avatarUrl: '/images/defaultAvatar.png',
@@ -405,15 +437,17 @@ const posts = [
     likedUsers: [1, 2],
     comments: [
       {
-        userid: 2,
+        userId: 2,
         nickname: 'User2',
+        commentId: 1,
         comment: '고맙습니당!',
         createAt: '2021-01-10',
         avatarUrl: '/images/defaultAvatar.png',
       },
       {
-        userid: 1,
+        userId: 1,
         nickname: 'User2',
+        commentId: 2,
         comment: '굳굳 !!',
         createAt: '2021-01-21',
         avatarUrl: '/images/defaultAvatar.png',
@@ -430,15 +464,17 @@ const posts = [
     likedUsers: [],
     comments: [
       {
-        userid: 2,
+        userId: 2,
         nickname: 'User2',
+        commentId: 1,
         comment: '고맙습니당!',
         createAt: '2021-01-10',
         avatarUrl: '/images/defaultAvatar.png',
       },
       {
-        userid: 1,
+        userId: 1,
         nickname: 'User2',
+        commentId: 2,
         comment: '굳굳 !!',
         createAt: '2021-01-21',
         avatarUrl: '/images/defaultAvatar.png',
@@ -454,15 +490,17 @@ const posts = [
     likedUsers: [],
     comments: [
       {
-        userid: 2,
+        userId: 2,
         nickname: 'User2',
+        commentId: 1,
         comment: '고맙습니당!',
         createAt: '2021-01-10',
         avatarUrl: '/images/defaultAvatar.png',
       },
       {
-        userid: 1,
+        userId: 1,
         nickname: 'User2',
+        commentId: 2,
         comment: '굳굳 !!',
         createAt: '2021-01-21',
         avatarUrl: '/images/defaultAvatar.png',
@@ -479,15 +517,17 @@ const posts = [
     likedUsers: [1, 2, 4],
     comments: [
       {
-        userid: 2,
+        userId: 2,
         nickname: 'User2',
+        commentId: 1,
         comment: '고맙습니당!',
         createAt: '2021-01-10',
         avatarUrl: '/images/defaultAvatar.png',
       },
       {
-        userid: 1,
+        userId: 1,
         nickname: 'User2',
+        commentId: 2,
         comment: '굳굳 !!',
         createAt: '2021-01-21',
         avatarUrl: '/images/defaultAvatar.png',
@@ -504,15 +544,17 @@ const posts = [
     likedUsers: [],
     comments: [
       {
-        userid: 2,
+        userId: 2,
         nickname: 'User2',
+        commentId: 1,
         comment: '고맙습니당!',
         createAt: '2021-01-10',
         avatarUrl: '/images/defaultAvatar.png',
       },
       {
-        userid: 1,
+        userId: 1,
         nickname: 'User2',
+        commentId: 2,
         comment: '굳굳 !!',
         createAt: '2021-01-21',
         avatarUrl: '/images/defaultAvatar.png',
@@ -528,15 +570,17 @@ const posts = [
     likedUsers: [2, 5, 1, 3],
     comments: [
       {
-        userid: 2,
+        userId: 2,
         nickname: 'User2',
+        commentId: 1,
         comment: '고맙습니당!',
         createAt: '2021-01-10',
         avatarUrl: '/images/defaultAvatar.png',
       },
       {
-        userid: 1,
+        userId: 1,
         nickname: 'User2',
+        commentId: 2,
         comment: '굳굳 !!',
         createAt: '2021-01-21',
         avatarUrl: '/images/defaultAvatar.png',
@@ -553,15 +597,17 @@ const posts = [
     likedUsers: [],
     comments: [
       {
-        userid: 2,
+        userId: 2,
         nickname: 'User2',
+        commentId: 1,
         comment: '고맙습니당!',
         createAt: '2021-01-10',
         avatarUrl: '/images/defaultAvatar.png',
       },
       {
-        userid: 1,
+        userId: 1,
         nickname: 'User2',
+        commentId: 2,
         comment: '굳굳 !!',
         createAt: '2021-01-21',
         avatarUrl: '/images/defaultAvatar.png',
@@ -578,15 +624,17 @@ const posts = [
     likedUsers: [],
     comments: [
       {
-        userid: 2,
+        userId: 2,
         nickname: 'User2',
+        commentId: 1,
         comment: '고맙습니당!',
         createAt: '2021-01-10',
         avatarUrl: '/images/defaultAvatar.png',
       },
       {
-        userid: 1,
+        userId: 1,
         nickname: 'User2',
+        commentId: 2,
         comment: '굳굳 !!',
         createAt: '2021-01-21',
         avatarUrl: '/images/defaultAvatar.png',
@@ -602,15 +650,17 @@ const posts = [
     likedUsers: [],
     comments: [
       {
-        userid: 2,
+        userId: 2,
         nickname: 'User2',
+        commentId: 1,
         comment: '고맙습니당!',
         createAt: '2021-01-10',
         avatarUrl: '/images/defaultAvatar.png',
       },
       {
-        userid: 1,
+        userId: 1,
         nickname: 'User2',
+        commentId: 2,
         comment: '굳굳 !!',
         createAt: '2021-01-21',
         avatarUrl: '/images/defaultAvatar.png',
@@ -627,15 +677,17 @@ const posts = [
     likedUsers: [],
     comments: [
       {
-        userid: 2,
+        userId: 2,
         nickname: 'User2',
+        commentId: 1,
         comment: '고맙습니당!',
         createAt: '2021-01-10',
         avatarUrl: '/images/defaultAvatar.png',
       },
       {
-        userid: 1,
+        userId: 1,
         nickname: 'User2',
+        commentId: 2,
         comment: '굳굳 !!',
         createAt: '2021-01-21',
         avatarUrl: '/images/defaultAvatar.png',
@@ -652,15 +704,17 @@ const posts = [
     likedUsers: [],
     comments: [
       {
-        userid: 2,
+        userId: 2,
         nickname: 'User2',
+        commentId: 1,
         comment: '고맙습니당!',
         createAt: '2021-01-10',
         avatarUrl: '/images/defaultAvatar.png',
       },
       {
-        userid: 1,
+        userId: 1,
         nickname: 'User2',
+        commentId: 2,
         comment: '굳굳 !!',
         createAt: '2021-01-21',
         avatarUrl: '/images/defaultAvatar.png',
@@ -676,15 +730,17 @@ const posts = [
     likedUsers: [],
     comments: [
       {
-        userid: 2,
+        userId: 2,
         nickname: 'User2',
+        commentId: 1,
         comment: '고맙습니당!',
         createAt: '2021-01-10',
         avatarUrl: '/images/defaultAvatar.png',
       },
       {
-        userid: 1,
+        userId: 1,
         nickname: 'User2',
+        commentId: 2,
         comment: '굳굳 !!',
         createAt: '2021-01-21',
         avatarUrl: '/images/defaultAvatar.png',
@@ -701,15 +757,17 @@ const posts = [
     likedUsers: [],
     comments: [
       {
-        userid: 2,
+        userId: 2,
         nickname: 'User2',
+        commentId: 1,
         comment: '고맙습니당!',
         createAt: '2021-01-10',
         avatarUrl: '/images/defaultAvatar.png',
       },
       {
-        userid: 1,
+        userId: 1,
         nickname: 'User2',
+        commentId: 2,
         comment: '굳굳 !!',
         createAt: '2021-01-21',
         avatarUrl: '/images/defaultAvatar.png',
@@ -726,15 +784,17 @@ const posts = [
     likedUsers: [],
     comments: [
       {
-        userid: 2,
+        userId: 2,
         nickname: 'User2',
+        commentId: 1,
         comment: '고맙습니당!',
         createAt: '2021-01-10',
         avatarUrl: '/images/defaultAvatar.png',
       },
       {
-        userid: 1,
+        userId: 1,
         nickname: 'User2',
+        commentId: 2,
         comment: '굳굳 !!',
         createAt: '2021-01-21',
         avatarUrl: '/images/defaultAvatar.png',
@@ -750,15 +810,17 @@ const posts = [
     likedUsers: [],
     comments: [
       {
-        userid: 2,
+        userId: 2,
         nickname: 'User2',
+        commentId: 1,
         comment: '고맙습니당!',
         createAt: '2021-01-10',
         avatarUrl: '/images/defaultAvatar.png',
       },
       {
-        userid: 1,
+        userId: 1,
         nickname: 'User2',
+        commentId: 2,
         comment: '굳굳 !!',
         createAt: '2021-01-21',
         avatarUrl: '/images/defaultAvatar.png',
@@ -775,15 +837,17 @@ const posts = [
     likedUsers: [],
     comments: [
       {
-        userid: 2,
+        userId: 2,
         nickname: 'User2',
+        commentId: 1,
         comment: '고맙습니당!',
         createAt: '2021-01-10',
         avatarUrl: '/images/defaultAvatar.png',
       },
       {
-        userid: 1,
+        userId: 1,
         nickname: 'User2',
+        commentId: 2,
         comment: '굳굳 !!',
         createAt: '2021-01-21',
         avatarUrl: '/images/defaultAvatar.png',
@@ -800,15 +864,17 @@ const posts = [
     likedUsers: [],
     comments: [
       {
-        userid: 2,
+        userId: 2,
         nickname: 'User2',
+        commentId: 1,
         comment: '고맙습니당!',
         createAt: '2021-01-10',
         avatarUrl: '/images/defaultAvatar.png',
       },
       {
-        userid: 1,
+        userId: 1,
         nickname: 'User2',
+        commentId: 2,
         comment: '굳굳 !!',
         createAt: '2021-01-21',
         avatarUrl: '/images/defaultAvatar.png',
@@ -824,15 +890,17 @@ const posts = [
     likedUsers: [],
     comments: [
       {
-        userid: 2,
+        userId: 2,
         nickname: 'User2',
+        commentId: 1,
         comment: '고맙습니당!',
         createAt: '2021-01-10',
         avatarUrl: '/images/defaultAvatar.png',
       },
       {
-        userid: 1,
+        userId: 1,
         nickname: 'User2',
+        commentId: 2,
         comment: '굳굳 !!',
         createAt: '2021-01-21',
         avatarUrl: '/images/defaultAvatar.png',
@@ -849,15 +917,17 @@ const posts = [
     likedUsers: [],
     comments: [
       {
-        userid: 2,
+        userId: 2,
         nickname: 'User2',
+        commentId: 1,
         comment: '고맙습니당!',
         createAt: '2021-01-10',
         avatarUrl: '/images/defaultAvatar.png',
       },
       {
-        userid: 1,
+        userId: 1,
         nickname: 'User2',
+        commentId: 2,
         comment: '굳굳 !!',
         createAt: '2021-01-21',
         avatarUrl: '/images/defaultAvatar.png',
@@ -874,15 +944,17 @@ const posts = [
     likedUsers: [],
     comments: [
       {
-        userid: 2,
+        userId: 2,
         nickname: 'User2',
+        commentId: 1,
         comment: '고맙습니당!',
         createAt: '2021-01-10',
         avatarUrl: '/images/defaultAvatar.png',
       },
       {
-        userid: 1,
+        userId: 1,
         nickname: 'User2',
+        commentId: 2,
         comment: '굳굳 !!',
         createAt: '2021-01-21',
         avatarUrl: '/images/defaultAvatar.png',
@@ -899,15 +971,17 @@ const posts = [
     likedUsers: [],
     comments: [
       {
-        userid: 2,
+        userId: 2,
         nickname: 'User2',
+        commentId: 1,
         comment: '고맙습니당!',
         createAt: '2021-01-10',
         avatarUrl: '/images/defaultAvatar.png',
       },
       {
-        userid: 1,
+        userId: 1,
         nickname: 'User2',
+        commentId: 2,
         comment: '굳굳 !!',
         createAt: '2021-01-21',
         avatarUrl: '/images/defaultAvatar.png',
@@ -923,15 +997,17 @@ const posts = [
     likedUsers: [],
     comments: [
       {
-        userid: 2,
+        userId: 2,
         nickname: 'User2',
+        commentId: 1,
         comment: '고맙습니당!',
         createAt: '2021-01-10',
         avatarUrl: '/images/defaultAvatar.png',
       },
       {
-        userid: 1,
+        userId: 1,
         nickname: 'User2',
+        commentId: 2,
         comment: '굳굳 !!',
         createAt: '2021-01-21',
         avatarUrl: '/images/defaultAvatar.png',
@@ -948,15 +1024,17 @@ const posts = [
     likedUsers: [],
     comments: [
       {
-        userid: 2,
+        userId: 2,
         nickname: 'User2',
+        commentId: 1,
         comment: '고맙습니당!',
         createAt: '2021-01-10',
         avatarUrl: '/images/defaultAvatar.png',
       },
       {
-        userid: 1,
+        userId: 1,
         nickname: 'User2',
+        commentId: 2,
         comment: '굳굳 !!',
         createAt: '2021-01-21',
         avatarUrl: '/images/defaultAvatar.png',
@@ -973,15 +1051,17 @@ const posts = [
     likedUsers: [],
     comments: [
       {
-        userid: 2,
+        userId: 2,
         nickname: 'User2',
+        commentId: 1,
         comment: '고맙습니당!',
         createAt: '2021-01-10',
         avatarUrl: '/images/defaultAvatar.png',
       },
       {
-        userid: 1,
+        userId: 1,
         nickname: 'User2',
+        commentId: 2,
         comment: '굳굳 !!',
         createAt: '2021-01-21',
         avatarUrl: '/images/defaultAvatar.png',
@@ -998,15 +1078,17 @@ const posts = [
     likedUsers: [],
     comments: [
       {
-        userid: 2,
+        userId: 2,
         nickname: 'User2',
+        commentId: 1,
         comment: '고맙습니당!',
         createAt: '2021-01-10',
         avatarUrl: '/images/defaultAvatar.png',
       },
       {
-        userid: 1,
+        userId: 1,
         nickname: 'User2',
+        commentId: 2,
         comment: '굳굳 !!',
         createAt: '2021-01-21',
         avatarUrl: '/images/defaultAvatar.png',
@@ -1023,15 +1105,17 @@ const posts = [
     likedUsers: [],
     comments: [
       {
-        userid: 2,
+        userId: 2,
         nickname: 'User2',
+        commentId: 1,
         comment: '고맙습니당!',
         createAt: '2021-01-10',
         avatarUrl: '/images/defaultAvatar.png',
       },
       {
-        userid: 1,
+        userId: 1,
         nickname: 'User2',
+        commentId: 2,
         comment: '굳굳 !!',
         createAt: '2021-01-21',
         avatarUrl: '/images/defaultAvatar.png',

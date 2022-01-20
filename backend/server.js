@@ -260,6 +260,13 @@ app.post('/delete/user/:userId', (req, res) => {
   }
 });
 
+// User 정보
+app.get('/users/:nickname', (req, res) => {
+  const { nickname } = req.params;
+  const { userId } = users.find(user => user.nickname === nickname);
+  res.send(`${userId}`);
+});
+
 // 포스트 정보
 app.get('/posts/:id', (req, res) => {
   const { id } = req.params;
@@ -298,8 +305,52 @@ app.patch('/posts/likedUsers/:id', (req, res) => {
   );
 });
 
-// 댓글 데이터
+// 댓글 등록
+app.post('/comment/:userId', (req, res) => {
+  const { userId: loginUserId } = req.params;
+  const { postId, userComment } = req.body;
+  const user = users.find(user => user.userId === +loginUserId);
+  const date = new Date();
+  const { userId, nickname, avatarUrl } = user;
+  posts = posts.map(post =>
+    post.postId === +postId
+      ? {
+          ...post,
+          comments: [
+            {
+              userId,
+              nickname,
+              commentId: Math.max(...post.comments.map(comment => comment.commentId)) + 1,
+              comment: userComment,
+              createAt: `${date.getFullYear()}-${(date.getMonth() + 1).toString().padStart(2, '0')}-${date
+                .getDate()
+                .toString()
+                .padStart(2, '0')}`,
+              avatarUrl,
+            },
+            ...post.comments,
+          ],
+        }
+      : post
+  );
+  const post = posts.find(post => post.postId === +postId);
+  // console.log(post.comments);
+  res.send(post.comments);
+});
 
+// 댓글 삭제
+app.delete('/posts/:id/:commentId', (req, res) => {
+  const { id: postId, commentId } = req.params;
+  console.log(postId, commentId);
+  posts = posts.map(post =>
+    post.postId === +postId
+      ? { ...post, comments: post.comments.filter(comment => comment.commentId !== +commentId) }
+      : post
+  );
+  res.send(posts.find(post => post.postId === +postId).comments);
+});
+
+// 글 삭제
 app.delete('/posts/:id', (req, res) => {
   const { id } = req.params;
   // console.log('postid: ', id);
