@@ -199,3 +199,9 @@
   z-index: 20;
   background-color: rgba($black, $alpha: 0.3);
 }
+
+.heart--icon {
+  display: inline;
+  color: $fullheart;
+  margin-right: rem(10px);
+}
