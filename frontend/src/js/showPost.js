@@ -18,6 +18,21 @@ const setPosts = posts =>
     )
     .join('');
 
+const setSearchPosts = posts =>
+  posts
+    .map(
+      post =>
+        `<li class="search-post" data-post-id="${post.postId}">
+    <div class="user-info" data-user-id="${post.userId}">
+      <button class="avatar-button avatar-button--search" style="background-image:url('${post.userProfile}')"></button>
+      <a class="user-nickname">${post.nickname}</a>
+    </div>
+    <span class="search-post__title">${post.title}</span
+    ><span class="search-post__desc">${post.content}</span>
+  </li>`
+    )
+    .join('');
+
 const getPosts = async () => {
   try {
     const { data } = await axios.get(`/posts/${mainIndex}/split`);
@@ -95,11 +110,16 @@ const develogPageInitialRender = async ($populaPpostsContainer, $allPostContaine
   await getUserPosts($allPostContainer, userId, $postNum);
 };
 
-const showSearchedPosts = async (searchTitle, $postsContainer) => {
+const showSearchedPosts = async (searchTitle, $postsContainer, $span) => {
   try {
-    const { data } = await axios.get(`/search?title=${searchTitle}`);
-    const addedHtml = setPosts(data);
-    $postsContainer.innerHTML = addedHtml;
+    const { data } = await axios.get(`/search/${searchTitle}`);
+    if (data.length === 0) {
+      $span.textContent = '포스트가 없습니다.';
+    } else {
+      const addedHtml = setSearchPosts(data);
+      console.log(addedHtml);
+      $postsContainer.innerHTML = addedHtml;
+    }
   } catch (e) {
     console.error(e);
   }
