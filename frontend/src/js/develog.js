@@ -10,17 +10,18 @@ const develogNode = () => {
 
   const $allPostContainer = node.querySelector('.all-posts');
 
-  postFunc.develogPageInitialRender(node.querySelector('.popular-posts'), $allPostContainer, userId);
-  console.log('app', node.querySelector('.all-posts'));
-  console.log('button', node.querySelector('.see-more'));
+  postFunc.develogPageInitialRender(
+    node.querySelector('.popular-posts'),
+    $allPostContainer,
+    userId,
+    node.querySelector('.post-num')
+  );
   node.querySelector('.develog-container').addEventListener('click', e => {
     if (e.target.className.split('__')[0] === 'post') {
       window.history.pushState(null, null, `/detail/${e.target.closest('li').dataset.postId}`);
-    } else if (e.target.classList.contains('see-more')) {
-      console.log(e.target);
-      postFunc.getUserPosts($allPostContainer, userId);
+    } else if (e.target.classList.contains('see-more--develog')) {
+      postFunc.getUserPosts($allPostContainer, userId, document.querySelector('.post-num'));
     }
-    console.log('button', document.querySelector('.see-more'));
   });
 
   return node.children;
