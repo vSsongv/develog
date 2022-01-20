@@ -80,13 +80,8 @@ const redirectURI = encodeURI('http://localhost:8080/callback');
 
 const checkCode = async (req, res, next) => {
   try {
-<<<<<<< HEAD
     const { code } = req.query;
     const { state } = req.query;
-=======
-    const code = req.query.code;
-    const state = req.query.state;
->>>>>>> c90a76c0700dd6b12e76e37ad4d544c6a6644a34
     const api_url = 'https://nid.naver.com/oauth2.0/token';
 
     const {
@@ -96,13 +91,8 @@ const checkCode = async (req, res, next) => {
         client_id,
         client_secret,
         grant_type: 'authorization_code',
-<<<<<<< HEAD
         state,
         code,
-=======
-        state: state,
-        code: code,
->>>>>>> c90a76c0700dd6b12e76e37ad4d544c6a6644a34
       },
     });
 
@@ -279,8 +269,7 @@ app.get('/develog/:userId/popularposts', (req, res) => {
 });
 
 app.get('/develog/:userId/posts/:develogIndex', (req, res) => {
-  let { userId } = req.params;
-  let { develogIndex } = req.params;
+  let { userId, develogIndex } = req.params;
 
   userId = Number(userId);
   develogIndex = Number(develogIndex);
@@ -377,10 +366,7 @@ app.delete('/posts/:id', (req, res) => {
 // 포스트작성
 app.post('/post/write', (req, res) => {
   const newPostId = Math.max(...posts.map(post => +post.postId)) + 1;
-<<<<<<< HEAD
-=======
   const date = new Date();
->>>>>>> c90a76c0700dd6b12e76e37ad4d544c6a6644a34
   posts = [
     {
       ...req.body,

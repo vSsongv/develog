@@ -17,7 +17,7 @@ const develogNode = () => {
     if (e.target.className.split('__')[0] === 'post') {
       window.history.pushState(null, null, `/detail/${e.target.closest('li').dataset.postId}`);
     } else if (e.target.classList.contains('see-more')) {
-      console.log('ssssss');
+      console.log(e.target);
       postFunc.getUserPosts($allPostContainer, userId);
     }
     console.log('button', document.querySelector('.see-more'));

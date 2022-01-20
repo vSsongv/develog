@@ -82,8 +82,9 @@ const getUserPosts = async ($allPostContainer, userId) => {
     develogIndex += 1;
     console.log(develogIndex);
     if (data.length < 8) {
+      console.log('data', data);
       console.log('sgdags');
-      console.log('here', document.querySelector('.see-more'));
+      console.log('here', document.querySelector('.see-more--develog'));
       document.querySelector('.see-more').classList.add('hidden');
       // console.log(document.querySelector('.see-more'));
     }
