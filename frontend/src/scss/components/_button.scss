@@ -91,7 +91,7 @@ button.double-check {
   width: rem(90%);
   height: rem(30%);
   text-align: center;
-  background: $blue;
+  background: $gray;
   color: $white;
   bottom: 0;
   left: 50%;
@@ -99,9 +99,8 @@ button.double-check {
 }
 
 .see-more:hover {
-  background: $white;
-  color: $blue;
-  border: 1px solid $blue;
+  background: $black;
+  color: $white;
 }
 
 .see-more--develog {
