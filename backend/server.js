@@ -32,7 +32,7 @@ app.use('/images', express.static('public/assets'));
 
 const storage = multer.diskStorage({
   destination(req, file, cb) {
-    cb(null, 'src/assets/');
+    cb(null, 'public/assets/');
   },
   filename(req, file, cb) {
     cb(null, file.originalname);
@@ -68,7 +68,7 @@ const createToken = (userId, expirePeriod) =>
 const client_id = '9P02ghMjMhgetbYuaf91';
 const client_secret = 'iFNUotrjCS';
 const state = secureRandom(10, {
-  type: 'Buffer'
+  type: 'Buffer',
 }).join('');
 const redirectURI = encodeURI('http://localhost:8080/callback');
 
@@ -290,6 +290,7 @@ app.post('/uploadImage', upload.single('selectImage'), (req, res) => {
 
 app.patch('/editUser/:userId', (req, res) => {
   const { userId } = req.params;
+  console.log(req.body);
   users = users.map(user =>
     user.userId === +userId
       ? {
@@ -381,6 +382,7 @@ app.post('/comment/:userId', (req, res) => {
       ? {
           ...post,
           comments: [
+            ...post.comments,
             {
               userId,
               nickname,
@@ -392,7 +394,6 @@ app.post('/comment/:userId', (req, res) => {
                 .padStart(2, '0')}`,
               avatarUrl,
             },
-            ...post.comments,
           ],
         }
       : post
@@ -429,7 +430,10 @@ app.post('/post/write', (req, res) => {
     {
       ...req.body,
       postId: newPostId,
-      createAt: `${date.getFullYear()}-${(date.getMonth() + 1).toString().padStart(2, '0')}-${date.getDate()}`,
+      createAt: `${date.getFullYear()}-${(date.getMonth() + 1).toString().padStart(2, '0')}-${date
+        .getDate()
+        .toString()
+        .padStart(2, '0')}`,
       likedUsers: [],
       comments: [],
     },
