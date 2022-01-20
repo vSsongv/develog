@@ -8,7 +8,16 @@ const mypageEditNode = () => {
 
   const userProfileSet = async avatar => {
     try {
-      const { data: user } = await axios.get('/checkAuth');
+      const {
+        data: user
+      } = await axios.get('/checkAuth');
+      if (user.social) {
+        node.querySelector('.complete.passwordVal').classList.remove('hidden');
+        node.querySelector('.complete.passwordConfirmVal').classList.remove('hidden');
+
+        node.querySelector('.input--password').classList.add('hidden');
+        node.querySelector('.input--confirmPassword').classList.add('hidden');
+      }
       node.querySelector('#nickname').value = user.nickname;
       node.querySelector('#name').value = user.name;
       node.querySelector('#email').value = user.email;
@@ -57,13 +66,17 @@ const mypageEditNode = () => {
   };
 
   $doubleCheckBtn.onclick = async () => {
-    const { data: user } = await axios.get('/checkAuth');
+    const {
+      data: user
+    } = await axios.get('/checkAuth');
     if (user.nickname === $nickName.value) {
       $checkMsg.classList.add('hidden');
       $doubleCheckBtn.classList.add('checking');
       validate.activeSubmitButton();
     } else {
-      const { data: isDuplicate } = await axios.get('/check/nickname/' + $nickName.value);
+      const {
+        data: isDuplicate
+      } = await axios.get('/check/nickname/' + $nickName.value);
       validate.isNicknameDuplicate(isDuplicate.isDuplicate);
     }
     showDoubleCheckMsg();
@@ -86,11 +99,15 @@ const mypageEditNode = () => {
     e.preventDefault();
 
     const config = {
-      header: { 'content-type': 'multipart/form-data' },
+      header: {
+        'content-type': 'multipart/form-data'
+      },
     };
 
     try {
-      const { data: user } = await axios.get('/checkAuth');
+      const {
+        data: user
+      } = await axios.get('/checkAuth');
 
       console.log(user.avatarUrl);
 
@@ -108,7 +125,11 @@ const mypageEditNode = () => {
 
         await axios.post('/uploadImage', formData, config).then(response => {
           if (response.status === 200) {
-            axios.patch(`/editUser/${user.userId}`, {
+            axios.patch(`/editUser/${user.userId}`, user.social ? {
+              nickname: document.querySelector('#nickname').value,
+              phone: document.querySelector('#phone').value,
+              avatarUrl: $fileImage.files[0] ? `images/${$fileImage.files[0].name}` : user.avatarUrl,
+            } : {
               password: document.querySelector('#password').value,
               nickname: document.querySelector('#nickname').value,
               phone: document.querySelector('#phone').value,
@@ -119,7 +140,11 @@ const mypageEditNode = () => {
         // avatar를 수정하지 않았을때
       } else {
         console.log('else');
-        axios.patch(`/editUser/${user.userId}`, {
+        axios.patch(`/editUser/${user.userId}`, user.social ? {
+          nickname: document.querySelector('#nickname').value,
+          phone: document.querySelector('#phone').value,
+          avatarUrl: $fileImage.files[0] ? `images/${$fileImage.files[0].name}` : user.avatarUrl,
+        } : {
           password: document.querySelector('#password').value,
           nickname: document.querySelector('#nickname').value,
           phone: document.querySelector('#phone').value,
