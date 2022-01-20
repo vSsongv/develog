@@ -1,5 +1,7 @@
 import axios from 'axios';
 
+let index = 1;
+
 const setPosts = posts =>
   posts
     .map(
@@ -15,13 +17,11 @@ const setPosts = posts =>
     )
     .join('');
 
-const getMorePostsForMain = async () => {
+const getPosts = async () => {
   try {
-    const { data } = await axios.get('/posts');
-    if (data.length === 0) {
-      return;
-    }
-    if (data.length < 10) {
+    const { data } = await axios.get(`/posts/${index}/split`);
+    index += 1;
+    if (data.length < 12) {
       document.querySelector('.see-more').classList.add('hidden');
       document.querySelector('.is-last-post').classList.remove('hidden');
     }
@@ -107,7 +107,7 @@ const showSearchedPosts = async (searchTitle, $postsContainer) => {
 
 export default {
   mainPageInitialRender,
-  getMorePostsForMain,
+  getPosts,
   develogPageInitialRender,
   setUserPosts,
   showSearchedPosts,
