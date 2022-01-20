@@ -64,7 +64,6 @@ button.double-check {
   height: 40px;
   border-radius: rem(20px);
   font-size: rem(14px);
-  // background-color: rgb(199, 199, 199);
   &.checking {
     background-color: green;
   }
@@ -97,17 +96,10 @@ button.double-check {
   left: 50%;
   margin-top: rem(40px);
   transform: translateX(-50%);
+  position: relative;
 }
 
 .see-more:hover {
   background: $black;
   color: $white;
-}
-
-.see-more--develog {
-  position: absolute;
-}
-
-.see-more--main {
-  position: relative;
 }

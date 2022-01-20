@@ -75,29 +75,24 @@ const addUserPosts = posts =>
     )
     .join('');
 
-const getUserPosts = async ($allPostContainer, userId) => {
+const getUserPosts = async ($allPostContainer, userId, $postNum) => {
   try {
-    console.log('hhhh', $allPostContainer);
     const { data } = await axios.get(`/develog/${userId}/posts/${develogIndex}`);
     develogIndex += 1;
-    console.log(develogIndex);
-    if (data.length < 8) {
-      console.log('data', data);
-      console.log('sgdags');
-      console.log('here', document.querySelector('.see-more--develog'));
-      document.querySelector('.see-more').classList.add('hidden');
-      // console.log(document.querySelector('.see-more'));
+    $postNum.textContent = `  ${data[1]}`;
+    if (data[0].length < 8) {
+      document.querySelector('.see-more--develog').classList.add('hidden');
     }
-    const userPosts = addUserPosts(data);
+    const userPosts = addUserPosts(data[0]);
     $allPostContainer.innerHTML += userPosts;
   } catch (e) {
     console.error(e);
   }
 };
 
-const develogPageInitialRender = ($populaPpostsContainer, $allPostContainer, userId) => {
-  setPopularPosts($populaPpostsContainer, userId);
-  getUserPosts($allPostContainer, userId);
+const develogPageInitialRender = async ($populaPpostsContainer, $allPostContainer, userId, $postNum) => {
+  await setPopularPosts($populaPpostsContainer, userId);
+  await getUserPosts($allPostContainer, userId, $postNum);
 };
 
 const showSearchedPosts = async (searchTitle, $postsContainer) => {
