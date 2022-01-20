@@ -7,6 +7,7 @@ import Develog from './develog';
 import Search from './search';
 import Detail from './detail';
 import Write from './write';
+import NotFound from './notFound';
 // import writeUrlEvents from './js/write';
 // import { reduceRight } from '../../backend/data/posts';
 
@@ -50,15 +51,14 @@ const routes = [{
   {
     path: '/signup',
     component: Signup,
-  },
-
-  // { path: '**', component: NotFound },
+  }
 ];
 
 const router = () => {
   const path = window.location.pathname.split('/');
   const targetPath = '/' + path[1];
-  return routes.find(route => route.path === targetPath).component();
+  const route = routes.find(route => route.path === targetPath);
+  return route ? route.component() : NotFound();
 };
 
 export default router;
