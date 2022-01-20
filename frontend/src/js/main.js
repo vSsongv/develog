@@ -4,7 +4,7 @@ import main from '../html/main.html';
 const mainNode = () => {
   const node = document.createElement('div');
   node.innerHTML = main;
-  window.history.pushState(null, null, '/');
+  if (window.location.pathname !== '/') window.history.pushState(null, null, '/');
   console.log('test');
   // Event
 
