@@ -8,50 +8,18 @@ import Search from './search';
 import Detail from './detail';
 import Write from './write';
 import NotFound from './notFound';
-// import writeUrlEvents from './js/write';
-// import { reduceRight } from '../../backend/data/posts';
 
-const routes = [{
-    path: '/',
-    component: Main,
-  },
-  {
-    path: '/callback',
-    component: Main,
-  },
-  {
-    path: '/search',
-    component: Search,
-  },
-  {
-    path: '/develog',
-    component: Develog,
-  },
-  {
-    path: '/detail',
-    component: Detail
-  },
-  {
-    path: '/write',
-    component: Write
-  },
-  {
-    path: '/mypage',
-    component: Mypage
-  },
-  {
-    path: '/mypageEdit',
-    component: MypageEdit
-  },
-
-  {
-    path: '/signin',
-    component: Signin,
-  },
-  {
-    path: '/signup',
-    component: Signup,
-  }
+const routes = [
+  { path: '/', component: Main },
+  { path: '/callback', component: Main },
+  { path: '/search', component: Search },
+  { path: '/develog', component: Develog },
+  { path: '/detail', component: Detail },
+  { path: '/write', component: Write },
+  { path: '/mypage', component: Mypage },
+  { path: '/mypageEdit', component: MypageEdit },
+  { path: '/signin', component: Signin },
+  { path: '/signup', component: Signup },
 ];
 
 const router = () => {
