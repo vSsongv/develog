@@ -9,22 +9,29 @@ const mypageNode = () => {
   const $likePostCnt = node.querySelector('.postNum span:nth-child(2)');
   const $likePosts = node.querySelector('.likePostList');
 
+  let isSocial = false;
+
   (async () => {
     try {
-      const { data: user } = await axios.get('/checkAuth');
+      const {
+        data: user
+      } = await axios.get('/checkAuth');
       node.querySelector('.nickname span').textContent = user.nickname;
       node.querySelector('#name').value = user.name;
       node.querySelector('#email').value = user.email;
       node.querySelector('#phone').value = user.phone;
       node.querySelector('.user-profile-avatar').style.backgroundImage = `url('${user.avatarUrl}')`;
+      isSocial = user.social;
 
-      const { data: likePosts } = await axios.get(`/likePostCnt/${user.userId}`);
+      const {
+        data: likePosts
+      } = await axios.get(`/likePostCnt/${user.userId}`);
       $likePostCnt.textContent = likePosts.length;
 
       $likePosts.innerHTML = likePosts
         .map(
           post =>
-            `<li data-postid=${post.postId}><div class="heart--icon"><i class="fas fa-heart"></div></i> ${post.title}</li>`
+          `<li data-postid=${post.postId}><div class="heart--icon"><i class="fas fa-heart"></div></i> ${post.title}</li>`
         )
         .join(' ');
 
@@ -40,13 +47,24 @@ const mypageNode = () => {
   let checkPasswordCnt = 0;
 
   const withdrawalToggle = () => {
+    if (isSocial) {
+      document.querySelector('.withdrawal--info').classList.add('hidden');
+      document.querySelector('.withdrawal--social').classList.remove('hidden');
+      document.querySelector('.withdrawal--password').classList.add('hidden');
+
+    }
     document.querySelector('.cover').classList.toggle('hidden');
     document.querySelector('.withdrawal').classList.toggle('hidden');
   };
 
   const editToggle = () => {
-    document.querySelector('.cover').classList.toggle('hidden');
-    document.querySelector('.profileEdit').classList.toggle('hidden');
+    if (isSocial) window.history.pushState({
+      data: 'user'
+    }, '', '/mypageEdit');
+    else {
+      document.querySelector('.cover').classList.toggle('hidden');
+      document.querySelector('.profileEdit').classList.toggle('hidden');
+    }
   };
 
   node.querySelector('.button--withdrawal').onclick = withdrawalToggle;
@@ -60,11 +78,15 @@ const mypageNode = () => {
     e.preventDefault();
 
     try {
-      const { data: user } = await axios.get('/checkAuth');
+      const {
+        data: user
+      } = await axios.get('/checkAuth');
       const data = await axios.post(`/checkPassword/${user.userId}`, {
         password: document.querySelector('.profileEdit--password').value,
       });
-      if (data.status === 204) window.history.pushState({ data: 'user' }, '', '/mypageEdit');
+      if (data.status === 204) window.history.pushState({
+        data: 'user'
+      }, '', '/mypageEdit');
       else if (data.data === 'failed') {
         checkPasswordCnt += 1;
         if (checkPasswordCnt < 4) {
@@ -73,8 +95,8 @@ const mypageNode = () => {
           const check = await axios.get('/logout');
           if (check.status === 204) window.history.pushState({}, '', '/');
         }
+        $error[1].classList.remove('hidden');
       }
-      $error[1].classList.remove('hidden');
     } catch (e) {
       console.log(e);
     }
@@ -84,7 +106,9 @@ const mypageNode = () => {
     e.preventDefault();
 
     try {
-      const { data: user } = await axios.get('/checkAuth');
+      const {
+        data: user
+      } = await axios.get('/checkAuth');
       const data = await axios.post(`/delete/user/${user.userId}`, {
         password: document.querySelector('.withdrawal--password').value,
       });
@@ -98,8 +122,8 @@ const mypageNode = () => {
           const check = await axios.get('/logout');
           if (check.status === 204) window.history.pushState({}, '', '/');
         }
+        $error[0].classList.remove('hidden');
       }
-      $error[0].classList.remove('hidden');
     } catch (e) {
       console.log(e);
     }

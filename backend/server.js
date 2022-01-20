@@ -7,16 +7,20 @@ const cookieParser = require('cookie-parser');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const multer = require('multer');
+const secureRandom = require('secure-random');
 let users = require('./data/users');
 let posts = require('./data/posts');
-const secureRandom = require('secure-random');
 
 const makeSplitedPosts = (posts, startIdx, endIdx) => {
   const splitedPosts = posts
     .filter((post, i) => i >= startIdx && i < endIdx)
     .map(post => {
       const user = users.filter(user => user.userId === post.userId)[0];
-      return { ...post, userProfile: user.avatarUrl, nickname: user.nickname };
+      return {
+        ...post,
+        userProfile: user.avatarUrl,
+        nickname: user.nickname,
+      };
     });
 
   return splitedPosts;
@@ -74,7 +78,7 @@ const redirectURI = encodeURI('http://localhost:8080/callback');
 
 console.log(state);
 // login button
-app.get('/naverlogin', function (req, res) {
+app.get('/naverlogin', (req, res) => {
   res.send(state);
   // const api_url = 'https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=' + client_id + '&redirect_uri=' + redirectURI + '&state=' + state;
   // res.writeHead(200, {
@@ -137,6 +141,7 @@ const checkCode = async (req, res, next) => {
         name,
         nickname,
         phone: mobile,
+        social: true,
         avatarUrl: profile_image,
       };
       users = [...users, user];
@@ -210,11 +215,22 @@ app.post('/signup', (req, res) => {
     ...users,
     {
       ...req.body,
+      social: false,
       password: bcrypt.hashSync(req.body.password, 10),
     },
   ];
 
   res.send(users);
+});
+
+app.get('/check/social/:id', (req, res) => {
+  const { id } = req.params;
+  const user = users.find(user => user.id === id);
+  const isSocial = user.social;
+
+  res.send({
+    isSocial,
+  });
 });
 
 // 중복확인(이메일, 닉네임)
@@ -281,8 +297,10 @@ app.get('/develog/:userId/posts/:develogIndex', (req, res) => {
   userId = Number(userId);
   develogIndex = Number(develogIndex);
   const userPost = posts.filter(post => post.userId === userId);
-  res.send(makeSplitedPosts(userPost, develogIndex * 8, develogIndex * 8 + 8));
+  res.send([makeSplitedPosts(userPost, develogIndex * 8, develogIndex * 8 + 8), userPost.length]);
 });
+
+app.get('/develog/userPostsNum', (req, res) => {});
 
 app.post('/uploadImage', upload.single('selectImage'), (req, res) => {
   res.send(req.files);
@@ -290,7 +308,6 @@ app.post('/uploadImage', upload.single('selectImage'), (req, res) => {
 
 app.patch('/editUser/:userId', (req, res) => {
   const { userId } = req.params;
-  console.log(req.body);
   users = users.map(user =>
     user.userId === +userId
       ? {
@@ -316,7 +333,8 @@ app.post('/delete/user/:userId', (req, res) => {
   const { userId } = req.params;
   const user = users.find(user => user.userId === +userId);
 
-  if (bcrypt.compareSync(req.body.password, user.password)) {
+  if (user.social) res.clearCookie('accessToken').sendStatus(204);
+  else if (bcrypt.compareSync(req.body.password, user.password)) {
     users = users.filter(user => user.userId !== +userId);
     posts = posts.filter(post => post.userId !== +userId);
     res.clearCookie('accessToken').sendStatus(204);
@@ -382,7 +400,6 @@ app.post('/comment/:userId', (req, res) => {
       ? {
           ...post,
           comments: [
-            ...post.comments,
             {
               userId,
               nickname,
@@ -394,6 +411,7 @@ app.post('/comment/:userId', (req, res) => {
                 .padStart(2, '0')}`,
               avatarUrl,
             },
+            ...post.comments,
           ],
         }
       : post
@@ -409,7 +427,10 @@ app.delete('/posts/:id/:commentId', (req, res) => {
   console.log(postId, commentId);
   posts = posts.map(post =>
     post.postId === +postId
-      ? { ...post, comments: post.comments.filter(comment => comment.commentId !== +commentId) }
+      ? {
+          ...post,
+          comments: post.comments.filter(comment => comment.commentId !== +commentId),
+        }
       : post
   );
   res.send(posts.find(post => post.postId === +postId).comments);
