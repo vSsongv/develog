@@ -248,10 +248,10 @@ app.get('/users/createId', (req, res) => {
 });
 
 // 검색
-app.get('/search?title=:searchInput', (req, res) => {
-  const { searchInput } = req.params;
-  const filterPosts = posts.filter(post => post.title.includes(searchInput));
-  res.send(splitedPosts(filterPosts, 0, filterPosts.length));
+app.get('/search/:searchTitle', (req, res) => {
+  const { searchTitle } = req.params;
+  const filterPosts = posts.filter(post => post.title.includes(searchTitle) || post.content.includes(searchTitle));
+  res.send(makeSplitedPosts(filterPosts, 0, filterPosts.length));
 });
 
 // 메인화면 초기 렌더링
