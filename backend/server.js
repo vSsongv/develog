@@ -253,44 +253,28 @@ app.get('/posts/init', (req, res) => {
 });
 
 // 메인화면
-app.get('/posts/:index/split', (req, res) => {
-  let { index } = req.params;
-  index = Number(index);
+app.get('/posts/:mainIndex/split', (req, res) => {
+  let { mainIndex } = req.params;
+  mainIndex = Number(mainIndex);
 
-  res.send(makeSplitedPosts(posts, index * 12, index * 12 + 12));
+  res.send(makeSplitedPosts(posts, mainIndex * 12, mainIndex * 12 + 12));
 });
 
 app.get('/develog/:userId/popularposts', (req, res) => {
   let { userId } = req.params;
   userId = Number(userId);
   const userPost = posts.filter(post => post.userId === userId);
-  leftUserPostNum = 0;
-  userPostIndex = 0;
   userPost.sort((a, b) => b.likedUsers.length - a.likedUsers.length);
-  let popularUserPost = [];
-  for (let i = 0; i < 3; i++) {
-    popularUserPost = [...popularUserPost, userPost[i]];
-  }
-  res.send(popularUserPost);
+  res.send(userPost.filter((post, i) => i < 3));
 });
 
-app.get('/develog/:userId/posts', (req, res) => {
+app.get('/develog/:userId/posts/:develogIndex', (req, res) => {
   let { userId } = req.params;
+  let { develogIndex } = req.params;
   userId = Number(userId);
+  develogIndex = Number(develogIndex);
   const userPost = posts.filter(post => post.userId === userId);
-  const userPostLen = userPost.length;
-  if (leftUserPostNum === 0) {
-    res.send(makeSplitedPosts(userPost, userPostIndex, userPostLen > 8 ? 8 : userPostLen));
-    leftUserPostNum = userPostLen > 8 ? userPost.length - 8 : 0;
-    userPostIndex += 7;
-  } else if (leftUserPostNum > 8) {
-    res.send(makeSplitedPosts(userPost, userPostIndex, 8 + userPostIndex));
-    leftUserPostNum -= 8;
-    userPostIndex += 7;
-  } else {
-    res.send(makeSplitedPosts(userPost, userPostIndex, leftUserPostNum + userPostIndex));
-    leftUserPostNum = 0;
-  }
+  res.send(makeSplitedPosts(userPost, develogIndex * 8, develogIndex * 8 + 8));
 });
 
 app.post('/uploadImage', upload.single('selectImage'), (req, res) => {
