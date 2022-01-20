@@ -95,8 +95,9 @@ button.double-check {
   color: $white;
   bottom: 0;
   left: 50%;
-  margin-top: rem(40px);
+  // margin-top: rem(40px);
   transform: translateX(-50%);
+  margin: rem(40px) 0;
 }
 
 .see-more:hover {
