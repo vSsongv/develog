@@ -9,6 +9,7 @@ const bcrypt = require('bcrypt');
 const multer = require('multer');
 let users = require('./data/users');
 let posts = require('./data/posts');
+const secureRandom = require('secure-random');
 
 let leftPostNum = posts.length - 12;
 let postIndex = 9;
@@ -78,17 +79,23 @@ const createToken = (userId, expirePeriod) =>
 // social login
 const client_id = '9P02ghMjMhgetbYuaf91';
 const client_secret = 'iFNUotrjCS';
-const state = 1234;
+const state = secureRandom(10, {
+  type: 'Buffer'
+}).join('');
 const redirectURI = encodeURI('http://localhost:8080/callback');
 
+console.log(state);
 // login button
-// app.get('/naverlogin', function (req, res) {
-//   const api_url = 'https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=' + client_id + '&redirect_uri=' + redirectURI + '&state=' + state;
-//   res.writeHead(200, {
-//     'Content-Type': 'text/html;charset=utf-8'
-//   });
-//   res.end("<a href='" + api_url + "'><img height='50' src='http://static.nid.naver.com/oauth/small_g_in.PNG'/></a>");
-// });
+app.get('/naverlogin', function (req, res) {
+  res.send(state);
+  // const api_url = 'https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=' + client_id + '&redirect_uri=' + redirectURI + '&state=' + state;
+  // res.writeHead(200, {
+  //   'Content-Type': 'text/html;charset=utf-8'
+  // });
+  // console.log(api_url);
+  // res.end(`<a href="` + api_url + `" class="naver--link"><img class="naver--button" height="50" src="../assets/naverBtn.png"/></a>`);
+  // res.end("<a href='" + api_url + "'><img height='50' src='http://static.nid.naver.com/oauth/small_g_in.PNG'/></a>");
+});
 
 const checkCode = async (req, res, next) => {
   try {
