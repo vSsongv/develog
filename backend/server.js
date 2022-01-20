@@ -39,6 +39,7 @@ const PORT = 9000;
 app.use(express.static('public'));
 app.use(express.json());
 app.use(cookieParser());
+app.use('/images', express.static('public/assets'));
 
 const storage = multer.diskStorage({
   destination(req, file, cb) {
@@ -54,7 +55,7 @@ const upload = multer({
 });
 
 app.get('/checkAuth', (req, res) => {
-  const accessToken = req.headers.authorization || req.cookies.accessToken || req.cookies.naverToken;
+  const accessToken = req.headers.authorization || req.cookies.accessToken; // || req.cookies.naverToken;
   try {
     const decoded = jwt.verify(accessToken, process.env.JWT_SECRET_KEY);
     res.send(users.find(user => user.userId === decoded.userId));
@@ -79,13 +80,13 @@ const state = 1234;
 const redirectURI = encodeURI('http://localhost:8080/callback');
 
 // login button
-app.get('/naverlogin', function (req, res) {
-  const api_url = 'https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=' + client_id + '&redirect_uri=' + redirectURI + '&state=' + state;
-  res.writeHead(200, {
-    'Content-Type': 'text/html;charset=utf-8'
-  });
-  res.end("<a href='" + api_url + "'><img height='50' src='http://static.nid.naver.com/oauth/small_g_in.PNG'/></a>");
-});
+// app.get('/naverlogin', function (req, res) {
+//   const api_url = 'https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=' + client_id + '&redirect_uri=' + redirectURI + '&state=' + state;
+//   res.writeHead(200, {
+//     'Content-Type': 'text/html;charset=utf-8'
+//   });
+//   res.end("<a href='" + api_url + "'><img height='50' src='http://static.nid.naver.com/oauth/small_g_in.PNG'/></a>");
+// });
 
 const checkCode = async (req, res, next) => {
   try {
@@ -145,18 +146,18 @@ const checkCode = async (req, res, next) => {
       // =====================
       // social account로 signup
       user = {
-        userId: Math.max(...users.map(user => user.userId), 0) + 1,
+        userId: Math.max(...users.map(user => +user.userId), 0) + 1,
         email: email,
         password: bcrypt.hashSync(id, 10),
         name: name,
         nickname: nickname,
         phone: mobile,
-        avartarUrl: profile_image,
+        avatarUrl: profile_image,
       };
       users = [...users, user];
     }
 
-    res.cookie('naverToken', createToken(user.userId, '7d'), {
+    res.cookie('accessToken', createToken(user.userId, '7d'), {
       maxAge: 1000 * 60 * 60 * 24 * 7,
       httpOnly: true,
     });
