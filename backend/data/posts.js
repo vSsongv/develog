@@ -3,9 +3,9 @@ const posts = [
     postId: 1,
     userId: 1,
     title: '진영이의글1',
-    content: `주며, 풍부하게 인생을 새 뜨거운지라, 봄날의 가슴이 찾아다녀도, 우리 철환하였는가? 길지 무엇을 인생에 보이는 얼음에 과실이 힘차게 말이다. 두기 많이 웅대한 찾아다녀도, 있으랴? 이상 창공에 힘차게 인도하겠다는 물방아 끓는 속에서 길을 봄바람이다. 그들은 눈에 가치를 반짝이는 것이다. 꽃이 청춘 가는 무한한 피가 듣는다. 자신과 같은 투명하되 것이다. 인도하겠다는 청춘은 든 열매를 황금시대의 품고 그들은 용기가 끓는다. 열락의 살았으며, 않는 같이, 실현에 있는 그들에게 말이다. 것은 우리의 얼마나 넣는 두기 인간에 것이다.
-그것은 살 꾸며 찬미를 생의 청춘이 것이다. 방황하여도, 끓는 이상은 피고, 가치를 풍부하게 천하를 그리하였는가? 영원히 같은 청춘에서만 약동하다. 그들의 커다란 청춘이 청춘 아니다. 꾸며 자신과 때까지 열매를 그들은 넣는 피어나기 열락의 바이며, 칼이다. 두기 속에서 너의 바로 이는 있는 뿐이다. 우는 뜨고, 창공에 이것이다. 과실이 눈이 속에 너의 그것을 황금시대다. 있을 귀는 크고 것은 품에 뛰노는 인생에 보는 말이다. 풀이 관현악이며, 가슴이 운다.
-하였으며, 사라지지 얼마나 피고, 끝에 위하여서 소금이라 듣는다. 반짝이는 할지라도 심장의 있는가? 뭇 발휘하기 그들에게 그림자는 부패를 크고 거선의 능히 것이다. 가슴이 우리의 불어 두기 보배를 우리 것은 심장의 생명을 사막이다. 일월과 못할 이것이야말로 뜨거운지라, 불어 사라지지 꽃이 위하여서 있다. 이상은 피에 사는가 이성은 못하다 청춘은 황금시대의 아니다. 실로 거친 따뜻한 것은 낙원을 쓸쓸하랴? 위하여서, 있으며, 설산에서 피어나는 이상 살았으며, 우리의 이 피고, 황금시대다. 일월과 피고, 새 봄날의 그리하였는가? 따뜻한 못할 가슴에 얼음에 그들에게 운다.`,
+    content: `어둠만이 나의 전부였던 동안 숨이 벅차도록 달려왔잖아 Never say "time's up" 경계의 끝자락 내 끝은 아니니까 울타리 밖에 일렁이는 무언가
+    그 아무도 모르는 별일지 몰라 I wanna, wanna be there I'm gonna, gonna be there 벅찬 맘으로 이 궤도를 벗어나 Let's go!
+    새로운 길의 탐험가 Beyond the road 껍질을 깨뜨려버리자 두려움은 이제 거둬 오로지 나를 믿어지금이 바로 time to fly 두 눈 앞의 끝, 사뿐 넘어가 한계 밖의 trip, 짜릿하잖아 녹이 슨 심장에 쉼 없이 피는 꿈 무모하대도 믿어 난`,
     createAt: '2021-01-01',
     likedUsers: [1],
     comments: [
@@ -29,8 +29,7 @@ const posts = [
     postId: 2,
     userId: 2,
     title: '민성쓰',
-    content:
-      "When the sharpest words wanna cut me down I'm gonna send a flood, gonna drown em out I am brave, I am bruised I am who I'm meant to be, this is me Look out cause here I come And I'm marching on to the beat I drum I'm not scared to be seen I make no apologies, this is me",
+    content: `Never question it, got no doubts 절대 후회하지 않게 it's my time-ime 다 쏟아내, shout it out Bomb, bomb, 터뜨려 'bout to turn it up 목소리를 높여, get louder now, 찔러 찔러 I'm 'bout to show this stage 위에 killer, killer I always stay strong so bring it all down 좀 더 높은 곳을 원해, I desire-sire Wait, 빈틈을 노려 I'm ruling this game Blade, 날을 세워 slice it all I'm carving my name 불을 붙인 dynamite, throw it high 시작되는 countdown 자신 있게 꺼내봐 No-oh-oh`,
     createAt: '2021-01-02',
     likedUsers: [2, 3, 1],
     comments: [
@@ -54,7 +53,7 @@ const posts = [
     postId: 3,
     userId: 1,
     title: '진영이는노래를좋아해',
-    content: 'Aliqua nulla do ea laboris velit nisi reprehenderit elit occaecat.',
+    content: `Umm 내가 슬플 때마다 이 노래가 찾아와 세상이 둥근 것처럼 우린 동글동글 인생은 회전목마 우린 매일 달려가 언제쯤 끝나 난 잘 몰라 (huh, huh, huh) 어머 (어머), 벌써 (벌써) 정신없이 달려왔어 (왔어) Speed up (speed up) 어제로 돌아가는 시곌 보다가 어려워 (어려워) 어른이 되어가는 과정이 uh huh On the road, 24 시간이 아까워 uh huh Big noise, everything brand new 어렸을 때처럼 바뀌지 않는 걸 찾아 나섰단 말야 왜냐면 그때가 더 좋았어 난 So let me go back 타임머신 타고 I'll go back 승호가 좋았을 때처럼만`,
     createAt: '2021-01-03',
     likedUsers: [2, 1],
     comments: [
@@ -78,8 +77,7 @@ const posts = [
     postId: 4,
     userId: 1,
     title: '글글글',
-    content:
-      'Enim consequat Lorem ipsum ut laborum officia cillum qui id fugiat duis. Sit incididunt fugiat reprehenderit aute mollit et nostrud laboris do aliqua sint. Magna laboris incididunt voluptate sunt ullamco nostrud exercitation reprehenderit excepteur sunt enim. Velit sunt excepteur tempor id ut. Laborum Lorem duis dolor dolor magna non deserunt quis.',
+    content: `기분이 들떠 Like a star, like a star 걸음에 시선이 쏟아져 (쏟아져) 아닌척해도 살짝살짝 너 역시 나를 보잖아요 힐끔힐끔 여전히 난 어려워 어디로 향하는지 숨길 수 없어진 나의 맘을 따라와 줘 glassy`,
     createAt: '2021-01-04',
     likedUsers: [],
     comments: [
@@ -399,8 +397,7 @@ const posts = [
     postId: 18,
     userId: 2,
     title: '민소프트',
-    content:
-      'Enim consequat Lorem ipsum ut laborum officia cillum qui id fugiat duis. Sit incididunt fugiat reprehenderit aute mollit et nostrud laboris do aliqua sint. Magna laboris incididunt voluptate sunt ullamco nostrud exercitation reprehenderit excepteur sunt enim. Velit sunt excepteur tempor id ut. Laborum Lorem duis dolor dolor magna non deserunt quis.',
+    content: `말했잖아 언젠가 이런 날이 온다면 난 널 혼자 내버려두지 않을 거라고 죄다 낭떠러지야, 봐 예상했던 것보다 더 아플지도 모르지만 내 손을 잡으면 하늘을 나는 정도 그 이상도 느낄 수 있을 거야`,
     createAt: '2021-01-01',
     likedUsers: [1, 2],
     comments: [
@@ -547,8 +544,7 @@ const posts = [
     postId: 24,
     userId: 3,
     title: '현서는술을좋아해',
-    content:
-      'Enim consequat Lorem ipsum ut laborum officia cillum qui id fugiat duis. Sit incididunt fugiat reprehenderit aute mollit et nostrud laboris do aliqua sint. Magna laboris incididunt voluptate sunt ullamco nostrud exercitation reprehenderit excepteur sunt enim. Velit sunt excepteur tempor id ut. Laborum Lorem duis dolor dolor magna non deserunt quis.',
+    content: `Yeah, 반복된 빌딩 속에서 (속에서) 나는 오래전에 (yeah) 지쳐있는 네게 느껴 (느껴) 나는 알아버렸어 Yeah, baby, over and over 우리 끝내자 졸업 니 불안이 보여 Don't worry, baby, 날 보고 웃어줘 니가 나로 인해 벗어날 수 있게 니 영혼이 살아나는 니 굽 밑에 (yuh) 이 노랜 우릴 받치고 너는 춤췄지 이건 너와 나를 위해 내가 너로 인해 벗어날 수 있게 내 영혼이 살아나네 니 몸짓에 이 노래 너와 나를 감싸고 마주쳤어`,
     createAt: '2021-01-03',
     likedUsers: [],
     comments: [
