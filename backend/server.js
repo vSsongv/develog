@@ -10,25 +10,13 @@ const multer = require('multer');
 let users = require('./data/users');
 let posts = require('./data/posts');
 
-let leftPostNum = posts.length - 12;
-let postIndex = 9;
-let leftUserPostNum = 0;
-let userPostIndex = 0;
-
-posts.sort((a, b) => new Date(a.createAt) - new Date(b.createAt));
-
 const makeSplitedPosts = (posts, startIdx, endIdx) => {
-  let splitedPosts = [];
-
-  for (let i = startIdx; i < endIdx; i++) {
-    const user = users.filter(user => user.userId === posts[i].userId)[0];
-    posts[i] = {
-      ...posts[i],
-      userProfile: user.avatarUrl,
-      nickname: user.nickname,
-    };
-    splitedPosts = [...splitedPosts, posts[i]];
-  }
+  const splitedPosts = posts
+    .filter((post, i) => i >= startIdx && i < endIdx)
+    .map(post => {
+      const user = users.filter(user => user.userId === post.userId)[0];
+      return { ...post, userProfile: user.avatarUrl, nickname: user.nickname };
+    });
 
   return splitedPosts;
 };
@@ -51,7 +39,7 @@ const storage = multer.diskStorage({
 });
 
 const upload = multer({
-  storage
+  storage,
 });
 
 app.get('/checkAuth', (req, res) => {
@@ -65,10 +53,12 @@ app.get('/checkAuth', (req, res) => {
 });
 
 const createToken = (userId, expirePeriod) =>
-  jwt.sign({
+  jwt.sign(
+    {
       userId,
     },
-    process.env.JWT_SECRET_KEY, {
+    process.env.JWT_SECRET_KEY,
+    {
       expiresIn: expirePeriod,
     }
   );
@@ -90,39 +80,27 @@ const redirectURI = encodeURI('http://localhost:8080/callback');
 
 const checkCode = async (req, res, next) => {
   try {
-    const code = req.query.code;
-    const state = req.query.state;
-    const api_url = 'https://nid.naver.com/oauth2.0/token'
+    const { code } = req.query;
+    const { state } = req.query;
+    const api_url = 'https://nid.naver.com/oauth2.0/token';
 
     const {
-      data: {
-        access_token,
-        refresh_token,
-        token_type,
-        expires_in
-      }
+      data: { access_token, refresh_token, token_type, expires_in },
     } = await axios.post(api_url, null, {
       params: {
-        client_id: client_id,
-        client_secret: client_secret,
+        client_id,
+        client_secret,
         grant_type: 'authorization_code',
-        state: state,
-        code: code
-      }
+        state,
+        code,
+      },
     });
 
     console.log('access_token:', access_token, expires_in);
 
     const {
       data: {
-        response: {
-          email,
-          nickname,
-          profile_image,
-          id,
-          name,
-          mobile
-        },
+        response: { email, nickname, profile_image, id, name, mobile },
       },
     } = await axios.post('https://openapi.naver.com/v1/nid/me', null, {
       headers: {
@@ -147,10 +125,10 @@ const checkCode = async (req, res, next) => {
       // social account로 signup
       user = {
         userId: Math.max(...users.map(user => +user.userId), 0) + 1,
-        email: email,
+        email,
         password: bcrypt.hashSync(id, 10),
-        name: name,
-        nickname: nickname,
+        name,
+        nickname,
         phone: mobile,
         avatarUrl: profile_image,
       };
@@ -175,21 +153,17 @@ const checkCode = async (req, res, next) => {
       message: '로그인이 되지 않았습니다.\n로그인을 다시 시도해주세요.',
     });
   }
-}
+};
 
-app.get('/callback', checkCode, function (req, res) {
+app.get('/callback', checkCode, (req, res) => {
   res.sendFile(path.join(__dirname, './public/index.html'));
 
   // res.send();
-
 });
 
 // 로그인
 app.post('/signin', (req, res) => {
-  const {
-    email,
-    password
-  } = req.body;
+  const { email, password } = req.body;
   if (!email || !password) {
     return res.status(401).send({
       error: '사용자 아이디 또는 패스워드가 전달되지 않았습니다.',
@@ -218,7 +192,9 @@ app.post('/signin', (req, res) => {
 
 // 로그아웃
 app.get('/logout', (req, res) => {
-  req.cookies.accessToken ? res.clearCookie('accessToken').sendStatus(204) : res.clearCookie('naverToken').sendStatus(204);
+  req.cookies.accessToken
+    ? res.clearCookie('accessToken').sendStatus(204)
+    : res.clearCookie('naverToken').sendStatus(204);
 });
 
 // 회원가입
@@ -236,9 +212,7 @@ app.post('/signup', (req, res) => {
 
 // 중복확인(이메일, 닉네임)
 app.get('/check/email/:email', (req, res) => {
-  const {
-    email
-  } = req.params;
+  const { email } = req.params;
   const user = users.find(user => user.email === email);
   const isDuplicate = !!user;
 
@@ -248,9 +222,7 @@ app.get('/check/email/:email', (req, res) => {
 });
 
 app.get('/check/nickname/:nickname', (req, res) => {
-  const {
-    nickname
-  } = req.params;
+  const { nickname } = req.params;
   const user = users.find(user => user.nickname === nickname);
   const isDuplicate = !!user;
 
@@ -264,73 +236,45 @@ app.get('/users/createId', (req, res) => {
   const maxId = Math.max(...users.map(user => +user.userId), 0) + 1;
 
   res.send({
-    maxId
+    maxId,
   });
 });
 
 // 검색
 app.get('/search?title=:searchInput', (req, res) => {
-  const {
-    searchInput
-  } = req.params;
+  const { searchInput } = req.params;
   const filterPosts = posts.filter(post => post.title.includes(searchInput));
-  res.send(makeSplitedPosts(filterPosts, 0, filterPosts.length));
+  res.send(splitedPosts(filterPosts, 0, filterPosts.length));
 });
 
 // 메인화면 초기 렌더링
 app.get('/posts/init', (req, res) => {
-  leftPostNum = posts.length - 12;
-  postIndex = 11;
   res.send(makeSplitedPosts(posts, 0, 12));
 });
 
-// 메인화면 더보기 버튼 클릭
-app.get('/posts', (req, res) => {
-  if (leftPostNum >= 12) {
-    leftPostNum -= 12;
-    res.send(makeSplitedPosts(posts, postIndex, 12 + postIndex));
-    postIndex += 12;
-  } else {
-    res.send(makeSplitedPosts(posts, postIndex, leftPostNum + postIndex));
-    leftPostNum = 0;
-  }
+// 메인화면
+app.get('/posts/:mainIndex/split', (req, res) => {
+  let { mainIndex } = req.params;
+  mainIndex = Number(mainIndex);
+
+  res.send(makeSplitedPosts(posts, mainIndex * 12, mainIndex * 12 + 12));
 });
 
 app.get('/develog/:userId/popularposts', (req, res) => {
-  let {
-    userId
-  } = req.params;
+  let { userId } = req.params;
   userId = Number(userId);
   const userPost = posts.filter(post => post.userId === userId);
-  leftUserPostNum = 0;
-  userPostIndex = 0;
   userPost.sort((a, b) => b.likedUsers.length - a.likedUsers.length);
-  let popularUserPost = [];
-  for (let i = 0; i < 3; i++) {
-    popularUserPost = [...popularUserPost, userPost[i]];
-  }
-  res.send(popularUserPost);
+  res.send(userPost.filter((post, i) => i < 3));
 });
 
-app.get('/develog/:userId/posts', (req, res) => {
-  let {
-    userId
-  } = req.params;
+app.get('/develog/:userId/posts/:develogIndex', (req, res) => {
+  let { userId, develogIndex } = req.params;
+
   userId = Number(userId);
+  develogIndex = Number(develogIndex);
   const userPost = posts.filter(post => post.userId === userId);
-  const userPostLen = userPost.length;
-  if (leftUserPostNum === 0) {
-    res.send(makeSplitedPosts(userPost, userPostIndex, userPostLen > 8 ? 8 : userPostLen));
-    leftUserPostNum = userPostLen > 8 ? userPost.length - 8 : 0;
-    userPostIndex += 7;
-  } else if (leftUserPostNum > 8) {
-    res.send(makeSplitedPosts(userPost, userPostIndex, 8 + userPostIndex));
-    leftUserPostNum -= 8;
-    userPostIndex += 7;
-  } else {
-    res.send(makeSplitedPosts(userPost, userPostIndex, leftUserPostNum + userPostIndex));
-    leftUserPostNum = 0;
-  }
+  res.send(makeSplitedPosts(userPost, develogIndex * 8, develogIndex * 8 + 8));
 });
 
 app.post('/uploadImage', upload.single('selectImage'), (req, res) => {
@@ -338,24 +282,21 @@ app.post('/uploadImage', upload.single('selectImage'), (req, res) => {
 });
 
 app.patch('/editUser/:userId', (req, res) => {
-  const {
-    userId
-  } = req.params;
+  const { userId } = req.params;
   users = users.map(user =>
-    user.userId === +userId ? {
-      ...user,
-      ...req.body,
-      password: bcrypt.hashSync(req.body.password, 10),
-    } :
-    user
+    user.userId === +userId
+      ? {
+          ...user,
+          ...req.body,
+          password: bcrypt.hashSync(req.body.password, 10),
+        }
+      : user
   );
   res.sendStatus(204);
 });
 
 app.post('/checkPassword/:userId', (req, res) => {
-  const {
-    userId
-  } = req.params;
+  const { userId } = req.params;
   const user = users.find(user => user.userId === +userId);
 
   if (bcrypt.compareSync(req.body.password, user.password)) res.sendStatus(204);
@@ -364,9 +305,7 @@ app.post('/checkPassword/:userId', (req, res) => {
 
 // 유저 탈퇴
 app.post('/delete/user/:userId', (req, res) => {
-  const {
-    userId
-  } = req.params;
+  const { userId } = req.params;
   const user = users.find(user => user.userId === +userId);
 
   if (bcrypt.compareSync(req.body.password, user.password)) {
@@ -380,9 +319,7 @@ app.post('/delete/user/:userId', (req, res) => {
 
 // 포스트 정보
 app.get('/posts/:id', (req, res) => {
-  const {
-    id
-  } = req.params;
+  const { id } = req.params;
   const post = posts.find(post => post.postId === +id);
   const user = users.find(user => user.userId === post.userId);
   // console.log('post : ', post, 'user :', user);
@@ -394,9 +331,7 @@ app.get('/posts/:id', (req, res) => {
 
 // 좋아요 배열
 app.get('/posts/likedUsers/:id', (req, res) => {
-  const {
-    id
-  } = req.params;
+  const { id } = req.params;
   const findPostLikedUsers = posts.find(post => post.postId === +id);
   // console.log(findPostLikedUsers);
   res.send(findPostLikedUsers);
@@ -405,29 +340,25 @@ app.get('/posts/likedUsers/:id', (req, res) => {
 // 좋아요 배열 수정
 app.patch('/posts/likedUsers/:id', (req, res) => {
   // 로그인된 userId
-  const {
-    id
-  } = req.params;
-  const {
-    loginUserId,
-    isFullHeart
-  } = req.body;
+  const { id } = req.params;
+  const { loginUserId, isFullHeart } = req.body;
   // console.log('id:', id, 'loginUserId:', loginUserId, 'isFullHeart:', isFullHeart);
   posts = posts.map(post =>
-    post.postId === +id ? {
-      ...post,
-      likedUsers: isFullHeart ? [...post.likedUsers, loginUserId] : post.likedUsers.filter(elem => elem !== loginUserId),
-    } :
-    post
+    post.postId === +id
+      ? {
+          ...post,
+          likedUsers: isFullHeart
+            ? [...post.likedUsers, loginUserId]
+            : post.likedUsers.filter(elem => elem !== loginUserId),
+        }
+      : post
   );
 });
 
 // 댓글 데이터
 
 app.delete('/posts/:id', (req, res) => {
-  const {
-    id
-  } = req.params;
+  const { id } = req.params;
   // console.log('postid: ', id);
   posts = posts.filter(post => post.postId !== +id);
 });
@@ -435,24 +366,25 @@ app.delete('/posts/:id', (req, res) => {
 // 포스트작성
 app.post('/post/write', (req, res) => {
   const newPostId = Math.max(...posts.map(post => +post.postId)) + 1;
-  posts = [{
+  const date = new Date();
+  posts = [
+    {
       ...req.body,
       postId: newPostId,
-      createAt: new Date(),
+      createAt: `${date.getFullYear()}-${(date.getMonth() + 1).toString().padStart(2, '0')}-${date.getDate()}`,
       likedUsers: [],
       comments: [],
     },
     ...posts,
   ];
+  // console.log(posts)
   res.send({
-    newPostId
+    newPostId,
   });
 });
 
 app.post('/checkPost/:postId', (req, res) => {
-  const {
-    postId
-  } = req.params;
+  const { postId } = req.params;
   console.log(postId);
   const post = posts.find(post => post.postId === +postId);
   console.log(post);
@@ -463,17 +395,22 @@ app.post('/checkPost/:postId', (req, res) => {
 
 // 포스트 수정
 app.patch('/post/write/:postId', (req, res) => {
-  const {
-    postId
-  } = req.params;
+  const { postId } = req.params;
   posts = posts.map(post =>
-    post.postId === +postId ? {
-      ...post,
-      ...req.body,
-    } :
-    post
+    post.postId === +postId
+      ? {
+          ...post,
+          ...req.body,
+        }
+      : post
   );
   res.send(204);
+});
+
+app.get('/likePostCnt/:userId', (req, res) => {
+  const { userId } = req.params;
+  const likePost = posts.filter(post => post.likedUsers.includes(+userId));
+  res.send(likePost);
 });
 
 app.get('*', (req, res) => {
