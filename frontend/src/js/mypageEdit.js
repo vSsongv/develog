@@ -8,9 +8,7 @@ const mypageEditNode = () => {
 
   const userProfileSet = async avatar => {
     try {
-      const {
-        data: user
-      } = await axios.get('/checkAuth');
+      const { data: user } = await axios.get('/checkAuth');
       if (user.social) {
         node.querySelector('.complete.passwordVal').classList.remove('hidden');
         node.querySelector('.complete.passwordConfirmVal').classList.remove('hidden');
@@ -66,17 +64,13 @@ const mypageEditNode = () => {
   };
 
   $doubleCheckBtn.onclick = async () => {
-    const {
-      data: user
-    } = await axios.get('/checkAuth');
+    const { data: user } = await axios.get('/checkAuth');
     if (user.nickname === $nickName.value) {
       $checkMsg.classList.add('hidden');
       $doubleCheckBtn.classList.add('checking');
       validate.activeSubmitButton();
     } else {
-      const {
-        data: isDuplicate
-      } = await axios.get('/check/nickname/' + $nickName.value);
+      const { data: isDuplicate } = await axios.get('/check/nickname/' + $nickName.value);
       validate.isNicknameDuplicate(isDuplicate.isDuplicate);
     }
     showDoubleCheckMsg();
@@ -100,14 +94,12 @@ const mypageEditNode = () => {
 
     const config = {
       header: {
-        'content-type': 'multipart/form-data'
+        'content-type': 'multipart/form-data',
       },
     };
 
     try {
-      const {
-        data: user
-      } = await axios.get('/checkAuth');
+      const { data: user } = await axios.get('/checkAuth');
 
       console.log(user.avatarUrl);
 
@@ -125,31 +117,45 @@ const mypageEditNode = () => {
 
         await axios.post('/uploadImage', formData, config).then(response => {
           if (response.status === 200) {
-            axios.patch(`/editUser/${user.userId}`, user.social ? {
-              nickname: document.querySelector('#nickname').value,
-              phone: document.querySelector('#phone').value,
-              avatarUrl: $fileImage.files[0] ? `images/${$fileImage.files[0].name}` : user.avatarUrl,
-            } : {
-              password: document.querySelector('#password').value,
-              nickname: document.querySelector('#nickname').value,
-              phone: document.querySelector('#phone').value,
-              avatarUrl: $fileImage.files[0] ? `images/${$fileImage.files[0].name}` : user.avatarUrl,
-            });
+            axios.patch(
+              `/editUser/${user.userId}`,
+              user.social
+                ? {
+                    nickname: document.querySelector('#nickname').value,
+                    name: document.querySelector('#name').value,
+                    phone: document.querySelector('#phone').value,
+                    avatarUrl: $fileImage.files[0] ? `/images/${$fileImage.files[0].name}` : user.avatarUrl,
+                  }
+                : {
+                    password: document.querySelector('#password').value,
+                    nickname: document.querySelector('#nickname').value,
+                    name: document.querySelector('#name').value,
+                    phone: document.querySelector('#phone').value,
+                    avatarUrl: $fileImage.files[0] ? `/images/${$fileImage.files[0].name}` : user.avatarUrl,
+                  }
+            );
           }
         });
         // avatar를 수정하지 않았을때
       } else {
         console.log('else');
-        axios.patch(`/editUser/${user.userId}`, user.social ? {
-          nickname: document.querySelector('#nickname').value,
-          phone: document.querySelector('#phone').value,
-          avatarUrl: $fileImage.files[0] ? `images/${$fileImage.files[0].name}` : user.avatarUrl,
-        } : {
-          password: document.querySelector('#password').value,
-          nickname: document.querySelector('#nickname').value,
-          phone: document.querySelector('#phone').value,
-          avatarUrl: $fileImage.files[0] ? `images/${$fileImage.files[0].name}` : user.avatarUrl,
-        });
+        axios.patch(
+          `/editUser/${user.userId}`,
+          user.social
+            ? {
+                nickname: document.querySelector('#nickname').value,
+                name: document.querySelector('#name').value,
+                phone: document.querySelector('#phone').value,
+                avatarUrl: $fileImage.files[0] ? `/images/${$fileImage.files[0].name}` : user.avatarUrl,
+              }
+            : {
+                password: document.querySelector('#password').value,
+                nickname: document.querySelector('#nickname').value,
+                name: document.querySelector('#name').value,
+                phone: document.querySelector('#phone').value,
+                avatarUrl: $fileImage.files[0] ? `/images/${$fileImage.files[0].name}` : user.avatarUrl,
+              }
+        );
       }
     } catch (e) {
       console.log(e);

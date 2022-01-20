@@ -287,12 +287,12 @@ app.get('/users/createId', (req, res) => {
 });
 
 // 검색
-app.get('/search?title=:searchInput', (req, res) => {
+app.get('/search/:searchTitle', (req, res) => {
   const {
-    searchInput
+    searchTitle
   } = req.params;
-  const filterPosts = posts.filter(post => post.title.includes(searchInput));
-  res.send(splitedPosts(filterPosts, 0, filterPosts.length));
+  const filterPosts = posts.filter(post => post.title.includes(searchTitle) || post.content.includes(searchTitle));
+  res.send(makeSplitedPosts(filterPosts, 0, filterPosts.length));
 });
 
 // 메인화면 초기 렌더링
@@ -347,8 +347,7 @@ app.patch('/editUser/:userId', (req, res) => {
     user.social ? {
       ...user,
       ...req.body,
-    } :
-    {
+    } : {
       ...user,
       ...req.body,
       password: bcrypt.hashSync(req.body.password, 10),
@@ -432,12 +431,9 @@ app.patch('/posts/likedUsers/:id', (req, res) => {
   } = req.body;
   // console.log('id:', id, 'loginUserId:', loginUserId, 'isFullHeart:', isFullHeart);
   posts = posts.map(post =>
-    post.postId === +id ?
-    {
+    post.postId === +id ? {
       ...post,
-      likedUsers: isFullHeart ?
-        [...post.likedUsers, loginUserId] :
-        post.likedUsers.filter(elem => elem !== loginUserId),
+      likedUsers: isFullHeart ? [...post.likedUsers, loginUserId] : post.likedUsers.filter(elem => elem !== loginUserId),
     } :
     post
   );
@@ -460,8 +456,7 @@ app.post('/comment/:userId', (req, res) => {
     avatarUrl
   } = user;
   posts = posts.map(post =>
-    post.postId === +postId ?
-    {
+    post.postId === +postId ? {
       ...post,
       comments: [{
           userId,
@@ -492,8 +487,7 @@ app.delete('/posts/:id/:commentId', (req, res) => {
   } = req.params;
   console.log(postId, commentId);
   posts = posts.map(post =>
-    post.postId === +postId ?
-    {
+    post.postId === +postId ? {
       ...post,
       comments: post.comments.filter(comment => comment.commentId !== +commentId),
     } :
@@ -551,8 +545,7 @@ app.patch('/post/write/:postId', (req, res) => {
     postId
   } = req.params;
   posts = posts.map(post =>
-    post.postId === +postId ?
-    {
+    post.postId === +postId ? {
       ...post,
       ...req.body,
     } :
