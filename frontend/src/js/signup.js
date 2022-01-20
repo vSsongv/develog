@@ -50,7 +50,7 @@ const signupNode = () => {
         name: document.querySelector('#name').value,
         nickname: document.querySelector('#nickname').value,
         phone: document.querySelector('#phone').value,
-        avartarUrl: 'images/defaultAvatar.png',
+        avatarUrl: 'images/defaultAvatar.png',
       });
       if (user) {
         window.history.pushState(null, null, '/signin');
