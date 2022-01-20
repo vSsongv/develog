@@ -11,25 +11,13 @@ let users = require('./data/users');
 let posts = require('./data/posts');
 const secureRandom = require('secure-random');
 
-let leftPostNum = posts.length - 12;
-let postIndex = 9;
-let leftUserPostNum = 0;
-let userPostIndex = 0;
-
-posts.sort((a, b) => new Date(a.createAt) - new Date(b.createAt));
-
 const makeSplitedPosts = (posts, startIdx, endIdx) => {
-  let splitedPosts = [];
-
-  for (let i = startIdx; i < endIdx; i++) {
-    const user = users.filter(user => user.userId === posts[i].userId)[0];
-    posts[i] = {
-      ...posts[i],
-      userProfile: user.avatarUrl,
-      nickname: user.nickname,
-    };
-    splitedPosts = [...splitedPosts, posts[i]];
-  }
+  const splitedPosts = posts
+    .filter((post, i) => i >= startIdx && i < endIdx)
+    .map(post => {
+      const user = users.filter(user => user.userId === post.userId)[0];
+      return { ...post, userProfile: user.avatarUrl, nickname: user.nickname };
+    });
 
   return splitedPosts;
 };
@@ -99,19 +87,19 @@ app.get('/naverlogin', function (req, res) {
 
 const checkCode = async (req, res, next) => {
   try {
-    const code = req.query.code;
-    const state = req.query.state;
+    const { code } = req.query;
+    const { state } = req.query;
     const api_url = 'https://nid.naver.com/oauth2.0/token';
 
     const {
       data: { access_token, refresh_token, token_type, expires_in },
     } = await axios.post(api_url, null, {
       params: {
-        client_id: client_id,
-        client_secret: client_secret,
+        client_id,
+        client_secret,
         grant_type: 'authorization_code',
-        state: state,
-        code: code,
+        state,
+        code,
       },
     });
 
@@ -144,10 +132,10 @@ const checkCode = async (req, res, next) => {
       // social account로 signup
       user = {
         userId: Math.max(...users.map(user => +user.userId), 0) + 1,
-        email: email,
+        email,
         password: bcrypt.hashSync(id, 10),
-        name: name,
-        nickname: nickname,
+        name,
+        nickname,
         phone: mobile,
         avatarUrl: profile_image,
       };
@@ -174,7 +162,7 @@ const checkCode = async (req, res, next) => {
   }
 };
 
-app.get('/callback', checkCode, function (req, res) {
+app.get('/callback', checkCode, (req, res) => {
   res.sendFile(path.join(__dirname, './public/index.html'));
 
   // res.send();
@@ -263,59 +251,37 @@ app.get('/users/createId', (req, res) => {
 app.get('/search?title=:searchInput', (req, res) => {
   const { searchInput } = req.params;
   const filterPosts = posts.filter(post => post.title.includes(searchInput));
-  res.send(makeSplitedPosts(filterPosts, 0, filterPosts.length));
+  res.send(splitedPosts(filterPosts, 0, filterPosts.length));
 });
 
 // 메인화면 초기 렌더링
 app.get('/posts/init', (req, res) => {
-  leftPostNum = posts.length - 12;
-  postIndex = 11;
   res.send(makeSplitedPosts(posts, 0, 12));
 });
 
-// 메인화면 더보기 버튼 클릭
-app.get('/posts', (req, res) => {
-  if (leftPostNum >= 12) {
-    leftPostNum -= 12;
-    res.send(makeSplitedPosts(posts, postIndex, 12 + postIndex));
-    postIndex += 12;
-  } else {
-    res.send(makeSplitedPosts(posts, postIndex, leftPostNum + postIndex));
-    leftPostNum = 0;
-  }
+// 메인화면
+app.get('/posts/:mainIndex/split', (req, res) => {
+  let { mainIndex } = req.params;
+  mainIndex = Number(mainIndex);
+
+  res.send(makeSplitedPosts(posts, mainIndex * 12, mainIndex * 12 + 12));
 });
 
 app.get('/develog/:userId/popularposts', (req, res) => {
   let { userId } = req.params;
   userId = Number(userId);
   const userPost = posts.filter(post => post.userId === userId);
-  leftUserPostNum = 0;
-  userPostIndex = 0;
   userPost.sort((a, b) => b.likedUsers.length - a.likedUsers.length);
-  let popularUserPost = [];
-  for (let i = 0; i < 3; i++) {
-    popularUserPost = [...popularUserPost, userPost[i]];
-  }
-  res.send(popularUserPost);
+  res.send(userPost.filter((post, i) => i < 3));
 });
 
-app.get('/develog/:userId/posts', (req, res) => {
-  let { userId } = req.params;
+app.get('/develog/:userId/posts/:develogIndex', (req, res) => {
+  let { userId, develogIndex } = req.params;
+
   userId = Number(userId);
+  develogIndex = Number(develogIndex);
   const userPost = posts.filter(post => post.userId === userId);
-  const userPostLen = userPost.length;
-  if (leftUserPostNum === 0) {
-    res.send(makeSplitedPosts(userPost, userPostIndex, userPostLen > 8 ? 8 : userPostLen));
-    leftUserPostNum = userPostLen > 8 ? userPost.length - 8 : 0;
-    userPostIndex += 7;
-  } else if (leftUserPostNum > 8) {
-    res.send(makeSplitedPosts(userPost, userPostIndex, 8 + userPostIndex));
-    leftUserPostNum -= 8;
-    userPostIndex += 7;
-  } else {
-    res.send(makeSplitedPosts(userPost, userPostIndex, leftUserPostNum + userPostIndex));
-    leftUserPostNum = 0;
-  }
+  res.send(makeSplitedPosts(userPost, develogIndex * 8, develogIndex * 8 + 8));
 });
 
 app.post('/uploadImage', upload.single('selectImage'), (req, res) => {

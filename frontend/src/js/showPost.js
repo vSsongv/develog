@@ -1,5 +1,8 @@
 import axios from 'axios';
 
+let mainIndex = 1;
+let develogIndex = 0;
+
 const setPosts = posts =>
   posts
     .map(
@@ -15,13 +18,11 @@ const setPosts = posts =>
     )
     .join('');
 
-const getMorePostsForMain = async () => {
+const getPosts = async () => {
   try {
-    const { data } = await axios.get('/posts');
-    if (data.length === 0) {
-      return;
-    }
-    if (data.length < 10) {
+    const { data } = await axios.get(`/posts/${mainIndex}/split`);
+    mainIndex += 1;
+    if (data.length < 12) {
       document.querySelector('.see-more').classList.add('hidden');
       document.querySelector('.is-last-post').classList.remove('hidden');
     }
@@ -34,6 +35,7 @@ const getMorePostsForMain = async () => {
 const mainPageInitialRender = async $postsContainer => {
   try {
     const { data } = await axios.get('/posts/init');
+    mainIndex = 1;
     const addedHtml = setPosts(data);
     $postsContainer.innerHTML = addedHtml;
   } catch (e) {
@@ -53,6 +55,7 @@ const addPopularPosts = posts =>
 
 const setPopularPosts = async ($populaPpostsContainer, userId) => {
   try {
+    develogIndex = 0;
     const { data } = await axios.get(`/develog/${userId}/popularposts`);
     const popularposts = addPopularPosts(data);
     $populaPpostsContainer.innerHTML = popularposts;
@@ -72,16 +75,18 @@ const addUserPosts = posts =>
     )
     .join('');
 
-const setUserPosts = async ($allPostContainer, userId) => {
+const getUserPosts = async ($allPostContainer, userId) => {
   try {
-    const { data } = await axios.get(`/develog/${userId}/posts`);
-
-    if (data.length === 0) {
-      document.querySelector('.see-more').classList.add('hidden');
-      return;
-    }
+    console.log('hhhh', $allPostContainer);
+    const { data } = await axios.get(`/develog/${userId}/posts/${develogIndex}`);
+    develogIndex += 1;
+    console.log(develogIndex);
     if (data.length < 8) {
+      console.log('data', data);
+      console.log('sgdags');
+      console.log('here', document.querySelector('.see-more--develog'));
       document.querySelector('.see-more').classList.add('hidden');
+      // console.log(document.querySelector('.see-more'));
     }
     const userPosts = addUserPosts(data);
     $allPostContainer.innerHTML += userPosts;
@@ -92,7 +97,7 @@ const setUserPosts = async ($allPostContainer, userId) => {
 
 const develogPageInitialRender = ($populaPpostsContainer, $allPostContainer, userId) => {
   setPopularPosts($populaPpostsContainer, userId);
-  setUserPosts($allPostContainer, userId);
+  getUserPosts($allPostContainer, userId);
 };
 
 const showSearchedPosts = async (searchTitle, $postsContainer) => {
@@ -107,8 +112,8 @@ const showSearchedPosts = async (searchTitle, $postsContainer) => {
 
 export default {
   mainPageInitialRender,
-  getMorePostsForMain,
+  getPosts,
   develogPageInitialRender,
-  setUserPosts,
+  getUserPosts,
   showSearchedPosts,
 };

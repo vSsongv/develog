@@ -5,12 +5,11 @@ const mainNode = () => {
   const node = document.createElement('div');
   node.innerHTML = main;
   if (window.location.pathname !== '/') window.history.pushState(null, null, '/');
-  console.log('test');
   // Event
 
   postFunc.mainPageInitialRender(node.querySelector('.posts-container'));
 
-  node.querySelector('.see-more').addEventListener('click', postFunc.getMorePostsForMain);
+  node.querySelector('.see-more').addEventListener('click', postFunc.getPosts);
 
   node.querySelector('.main-container').addEventListener('click', e => {
     if (e.target.classList.contains('avatar-button') || e.target.classList.contains('user-nickname')) {

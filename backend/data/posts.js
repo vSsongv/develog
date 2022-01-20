@@ -1120,4 +1120,6 @@ const posts = [
   },
 ];
 
+posts.sort((a, b) => new Date(a.createAt) - new Date(b.createAt));
+
 module.exports = posts;
