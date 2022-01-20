@@ -94,15 +94,29 @@
   box-sizing: border-box;
 
   .postNum {
-    position: absolute;
-    right: rem(10px);
-    top: rem(10px);
-    text-align: end;
+    border-bottom: 1px solid $gray;
     font-size: rem(22px);
-    padding: rem(5px) rem(15px);
-    background-color: aliceblue;
+    padding: rem(10px) rem(15px);
     span:first-child {
       margin-right: rem(20px);
+    }
+  }
+
+  .likePostList {
+    width: 100%;
+    height: calc(100% - 50px);
+    overflow: auto;
+    padding: rem(20px);
+
+    li {
+      border-radius: rem(5px);
+      padding: rem(10px);
+      text-indent: rem(10px);
+      font-size: rem(18px);
+      cursor: pointer;
+    }
+    li:hover {
+      background-color: aliceblue;
     }
   }
 }
