@@ -1,5 +1,4 @@
 import axios from 'axios';
-require('lodash.debounce');
 
 const setPostData = ({ post, user }, loginUserId, userClickedHeart) =>
   `
@@ -54,10 +53,9 @@ const setPostData = ({ post, user }, loginUserId, userClickedHeart) =>
 			<span>${comment.comment}</span>
 		</div>
 		<span class="date">${comment.createAt}</span>
-		<button class="${loginUserId === comment.userId ? '' : 'none '}edit pencil-btn btn">
-			<i class="far fa-edit"></i>
-		</button>
-		<button class="${loginUserId === comment.userId ? '' : 'none '}edit trash-btn btn">
+		<button class="${loginUserId === comment.userId ? '' : 'none '}edit trash-btn btn" data-commentid="${
+        comment.commentId
+      }">
 			<i class="far fa-trash-alt"></i>
 		</button>
 	</div>`
@@ -66,8 +64,44 @@ const setPostData = ({ post, user }, loginUserId, userClickedHeart) =>
 </section>
 `;
 
+const setCommentData = (comments, loginUserId) =>
+  comments
+    .map(
+      comment => `
+						<section class="comments">
+							<div class="comment">
+								<div class="comment__user-info">
+									<button class="avatar-button avatar-button--size btn" style="background-image:url(${comment.avatarUrl}">
+									</button>
+									<span class="user-id">${comment.nickname}</span>
+								</div>
+								<div class="comment__text">
+									<span>${comment.comment}</span>
+								</div>
+								<span class="date">${comment.createAt}</span>
+								<button class="${loginUserId === comment.userId ? '' : 'none '}edit trash-btn btn " data-commentid="${
+        comment.commentId
+      }">
+									<i class="far fa-trash-alt"></i>
+								</button>
+							</div>
+						</section>`
+    )
+    .join('');
+
+{
+  // button template
+  /* <button class="${loginUserId === comment.userId ? '' : 'none '}edit pencil-btn btn">
+<i class="far fa-edit"></i>
+</button>
+<button class="${loginUserId === comment.userId ? '' : 'none '}edit trash-btn btn">
+<i class="far fa-trash-alt"></i>
+</button> */
+}
+
 const detailEvents = async $detailNode => {
   const parseUrlPostId = window.location.pathname.split('/');
+  const postId = parseUrlPostId[parseUrlPostId.length - 1];
   let postUserId;
   let isFullHeart;
   let loginUserId;
@@ -78,16 +112,14 @@ const detailEvents = async $detailNode => {
     } = await axios.get('/checkAuth');
     loginUserId = userId;
 
-    const postData = await axios.get(`/posts/${parseUrlPostId[parseUrlPostId.length - 1]}`);
+    const postData = await axios.get(`/posts/${postId}`);
     postUserId = postData.data.post.userId;
 
-    const commentData = await axios.get(`/comments/${parseUrlPostId[parseUrlPostId.length - 1]}`);
     const {
       data: { likedUsers },
-    } = await axios.get(`/posts/likedUsers/${parseUrlPostId[parseUrlPostId.length - 1]}`);
+    } = await axios.get(`/posts/likedUsers/${postId}`);
     const userClickedHeart = likedUsers.find(elem => elem === +loginUserId) ? true : false;
 
-    console.log(commentData);
     $detailNode.innerHTML = setPostData(postData.data, loginUserId, userClickedHeart);
 
     // textarea evetns
@@ -108,19 +140,17 @@ const detailEvents = async $detailNode => {
       $textareaCancel.classList.toggle('no-display');
       $textareaCancel.style.color = 'transparent';
       $textareaCancel.style.cursor = 'unset';
-    });
-    console.log(loginUserId);
-
-    $detailNode.querySelector('.user-comment__upload').addEventListener('click', () => {
-      if (loginUserId) alert('댓글을 달려면 로그인이 필요합니다.');
+      // $textareaCancel.setAttribute('disabled', 'true');
     });
 
     $detailNode.querySelector('.detail__info').addEventListener('click', async e => {
       if (e.target.classList.contains('detail__info') || e.target.classList.contains('author')) return;
-      if (e.target.classList.contains('avatar-button')) window.history.pushState('user', '', `/develog/${postUserId}`);
+      if (e.target.classList.contains('avatar-button')) window.history.pushState({}, '', `/develog/${postUserId}`);
       if (e.target.classList.contains('fa-heart') || e.target.parentNode.classList.contains('fa-heart')) {
-        if (!loginUserId) alert('좋아요를 누르시려면 로그인이 필요합니다.');
-        else {
+        if (!loginUserId) {
+          alert('좋아요를 누르시려면 로그인이 필요합니다.');
+          window.history.pushState({}, '', '/signin');
+        } else {
           $detailNode.querySelectorAll('.heart-btn').forEach(elem => elem.classList.toggle('none'));
           isFullHeart =
             e.target.getAttribute('data-prefix') === 'far'
@@ -128,7 +158,7 @@ const detailEvents = async $detailNode => {
               : e.target.parentNode.getAttribute('data-prefix') === 'far'
               ? true
               : false;
-          axios.patch(`/posts/likedUsers/${parseUrlPostId[parseUrlPostId.length - 1]}`, { loginUserId, isFullHeart });
+          axios.patch(`/posts/likedUsers/${postId}`, { loginUserId, isFullHeart });
         }
         // await axios.patch('/posts/likedUsers', { postId: url[url.length - 1], userId: user.userId, isFullHeart });
       }
@@ -137,10 +167,66 @@ const detailEvents = async $detailNode => {
 
       // 만약 로그인 했다면 edit 버튼들 활성화시키는 로직 추가
       if (e.target.parentNode.classList.contains('pencil-btn')) {
-        window.history.pushState('edit', '', '/write');
+        window.history.pushState({}, '', `/write/${postId}`);
       } else if (e.target.parentNode.classList.contains('trash-btn')) {
-        axios.delete(`/posts/${parseUrlPostId[parseUrlPostId.length - 1]}`);
-        window.history.pushState('delete', '', '/');
+        axios.delete(`/posts/${postId}`);
+        window.history.pushState({}, '', '/');
+      }
+    });
+
+    // login user profile
+    $detailNode.querySelector('.comment__user-info .avatar-button').addEventListener('click', e => {
+      window.history.pushState({}, '', `/develog/${loginUserId}`);
+    });
+
+    // login user comment upload
+    $detailNode.querySelector('.user-comment__upload').addEventListener('click', async e => {
+      const $textarea = $detailNode.querySelector('textarea');
+      if (!loginUserId) {
+        alert('댓글 서비스는 로그인이 필요합니다.');
+        window.history.pushState({}, '', '/signin');
+      } else {
+        if ($textarea.value === '' && e.target.classList.contains('user-comment__upload')) {
+          alert('글을 입력해주세요.');
+        } else {
+          try {
+            const content = $textarea.value;
+            $textarea.value = '';
+            // await axios.post(`/comment/${loginUserId}`, { postId: postId, userComment: $textarea.value });
+            // const { data: comments } = await axios.get(`/comments/${postId}`);
+            console.log(loginUserId);
+            const { data: comments } = await axios.post(`/comment/${loginUserId}`, {
+              postId: postId,
+              userComment: content,
+            });
+            const parent = $detailNode.querySelector('.comments');
+            const child = setCommentData(comments, loginUserId);
+            parent.innerHTML = child;
+          } catch (error) {
+            console.error(error);
+            alert('댓글 등록이 되지 않았습니다. 등록버튼을 다시 눌러주세요');
+          }
+        }
+      }
+    });
+
+    $detailNode.querySelector('.comments').addEventListener('click', async e => {
+      if (!e.target.classList.contains('avatar-button')) return;
+      const nickname = e.target.nextElementSibling.textContent;
+      const { data: userId } = await axios.get(`/users/${nickname}`);
+      window.history.pushState({}, '', `/develog/${userId}`);
+    });
+
+    $detailNode.querySelector('.comments').addEventListener('click', async e => {
+      if (e.target.parentNode.classList.contains('trash-btn') || e.target.getAttribute('data-prefix') === 'far') {
+        console.log(e.target.parentNode.dataset.commentid);
+        const commentId = e.target.parentNode.dataset.commentid;
+        console.log(commentId);
+
+        const { data: comments } = await axios.delete(`/posts/${postUserId}/${commentId}`);
+        const parent = $detailNode.querySelector('.comments');
+        const child = setCommentData(comments, loginUserId);
+        parent.innerHTML = child;
       }
     });
   } catch (error) {
