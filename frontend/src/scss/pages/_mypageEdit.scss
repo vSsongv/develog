@@ -60,7 +60,8 @@
     margin-bottom: rem(50px);
   }
 }
-
-#email:disabled {
-  background-color: $lightgray;
+.mypageEdit--form {
+  #email:disabled {
+    background-color: $lightgray;
+  }
 }
