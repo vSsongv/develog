@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const setPostData = ({ post, user }, loginUserId, userClickedHeart) =>
+const setPostData = ({ post, user }, loginUserId, loginUser, userClickedHeart) =>
   `
 <section class="detail">
 	<h1 class="detail__title">${post.title}</h1>
@@ -27,8 +27,8 @@ const setPostData = ({ post, user }, loginUserId, userClickedHeart) =>
 <h2 class="comments-title">댓글</h2>
 <section class="user-comment">
 	<div class="comment__user-info">
-    <button class="avatar-button avatar-button--size" style="background-image:url('${user.avatarUrl}')"></button>
-		<span class="user-id">${loginUserId ? user.nickname : 'Guest'}</span>
+    <button class="avatar-button avatar-button--size" style="background-image:url('${loginUser.avatarUrl}')"></button>
+		<span class="user-id">${loginUserId ? loginUser.nickname : 'Guest'}</span>
 	</div>
 	<div class="textarea-container">
 		<textarea class="textarea" id="input-box" rows="3" maxlength="100" placeholder="댓글을 입력해주세요."></textarea>
@@ -105,12 +105,16 @@ const detailEvents = async $detailNode => {
   let postUserId;
   let isFullHeart;
   let loginUserId;
+  let loginUser;
 
   try {
-    const {
-      data: { userId },
-    } = await axios.get('/checkAuth');
-    loginUserId = userId;
+    // const {
+    //   data: { userId },
+    // } = await axios.get('/checkAuth');
+    // loginUserId = userId;
+    const { data: user } = await axios.get('/checkAuth');
+    loginUserId = user.userId;
+    loginUser = user;
 
     const postData = await axios.get(`/posts/${postId}`);
     postUserId = postData.data.post.userId;
@@ -120,7 +124,7 @@ const detailEvents = async $detailNode => {
     } = await axios.get(`/posts/likedUsers/${postId}`);
     const userClickedHeart = likedUsers.find(elem => elem === +loginUserId) ? true : false;
 
-    $detailNode.innerHTML = setPostData(postData.data, loginUserId, userClickedHeart);
+    $detailNode.innerHTML = setPostData(postData.data, loginUserId, loginUser, userClickedHeart);
 
     // textarea evetns
     $detailNode.querySelector('.textarea').addEventListener('focus', () => {
@@ -167,6 +171,7 @@ const detailEvents = async $detailNode => {
 
       // 만약 로그인 했다면 edit 버튼들 활성화시키는 로직 추가
       if (e.target.parentNode.classList.contains('pencil-btn')) {
+        console.log(e.target.parentNode);
         window.history.pushState({}, '', `/write/${postId}`);
       } else if (e.target.parentNode.classList.contains('trash-btn')) {
         axios.delete(`/posts/${postId}`);
