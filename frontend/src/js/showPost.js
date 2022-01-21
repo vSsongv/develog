@@ -120,7 +120,7 @@ const showSearchedPosts = async (
   $noKeyword
 ) => {
   try {
-    const { data } = await axios.get(`/search/${searchTitle}`);
+    const { data } = await axios.get(`/search?title=${searchTitle}`);
     if (data.length === 0) {
       $postsInfo.classList.add('hidden');
       console.log($noKeyword);
