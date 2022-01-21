@@ -123,7 +123,6 @@ const showSearchedPosts = async (
     const { data } = await axios.get(`/search?title=${searchTitle}`);
     if (data.length === 0) {
       $postsInfo.classList.add('hidden');
-      console.log($noKeyword);
       $noKeyword.textContent = `"${searchTitle}" `;
       $span.textContent = '키워드가 포함된 포스트가 없습니다.';
     } else {
