@@ -170,10 +170,15 @@ const detailEvents = async $detailNode => {
       // axios.patch
 
       // 만약 로그인 했다면 edit 버튼들 활성화시키는 로직 추가
-      if (e.target.parentNode.classList.contains('pencil-btn')) {
-        console.log(e.target.parentNode);
+      if (
+        e.target.parentNode.classList.contains('pencil-btn') ||
+        e.target.parentNode.parentNode.classList.contains('pencil-btn')
+      ) {
         window.history.pushState({}, '', `/write/${postId}`);
-      } else if (e.target.parentNode.classList.contains('trash-btn')) {
+      } else if (
+        e.target.parentNode.classList.contains('trash-btn') ||
+        e.target.parentNode.parentNode.classList.contains('trash-btn')
+      ) {
         axios.delete(`/posts/${postId}`);
         window.history.pushState({}, '', '/');
       }
@@ -199,7 +204,6 @@ const detailEvents = async $detailNode => {
             $textarea.value = '';
             // await axios.post(`/comment/${loginUserId}`, { postId: postId, userComment: $textarea.value });
             // const { data: comments } = await axios.get(`/comments/${postId}`);
-            console.log(loginUserId);
             const { data: comments } = await axios.post(`/comment/${loginUserId}`, {
               postId: postId,
               userComment: content,
@@ -224,9 +228,7 @@ const detailEvents = async $detailNode => {
 
     $detailNode.querySelector('.comments').addEventListener('click', async e => {
       if (e.target.parentNode.classList.contains('trash-btn') || e.target.getAttribute('data-prefix') === 'far') {
-        console.log(e.target.parentNode.dataset.commentid);
         const commentId = e.target.parentNode.dataset.commentid;
-        console.log(commentId);
 
         const { data: comments } = await axios.delete(`/posts/${postUserId}/${commentId}`);
         const parent = $detailNode.querySelector('.comments');
